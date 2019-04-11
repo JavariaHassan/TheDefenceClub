@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity} from 'react-native';
+import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
 export default class LoginScreen extends Component {
+    
     constructor(props) {
         super(props);
         this.state = { Username: '',
@@ -18,13 +19,39 @@ export default class LoginScreen extends Component {
     
     onPress = () => {
         Keyboard.dismiss();
-        if (this.state.Username == 'Javaria' && this.state.Password == 'Javaria') {
-            this.setState({invalid: 0});
-            this.props.navigation.navigate('DrawerNavigator')
+
+        const data = {
+            username : this.state.Username,
+            password : this.state.Password
+          }
+        
+        Authenticate = async (data) => {
+            response = await fetch ('http://10.130.18.47:3000/login', {
+              method : 'post', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                if (responseJSON.response == "Done"){
+                    this.setState({invalid: 0})
+                        this.props.navigation.navigate('DrawerNavigator')
+                }else{
+                    this.setState({invalid: 1})
+                }
+                })
         }
-        else {
-            this.setState({invalid: 1});
-        }
+        Authenticate(data)
+
+        // if (this.state.Username == 'Javaria' && this.state.Password == 'Javaria') {
+        //     this.setState({invalid: 0});
+        //     this.props.navigation.navigate('DrawerNavigator')
+        // }
+        // else {
+        //     this.setState({invalid: 1});
+        // }
     }
     
     render() {
