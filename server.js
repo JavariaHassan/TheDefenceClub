@@ -21,6 +21,29 @@ app.get('/login', function (req, res){
     res.send('"Hello World')
 });
 
+app.post('/add_admin', function(req, res){
+    console.log("add admin")
+    data = req.body
+    // console.log(data)
+    data.Admin = 1
+    var setDoc = db.collection('user_login').doc(data.ID).set(data);
+    new_data = {
+        response : "Done"
+    }
+    res.send(JSON.stringify(new_data))   
+})
+
+app.post('/add_member', function(req, res){
+    console.log("add member")
+    data = req.body
+    data.Admin = 0
+    var setDoc = db.collection('user_login').doc(data.ID).set(data); 
+    new_data = {
+        response : "Done"
+    }
+    res.send(JSON.stringify(new_data))     
+})
+
 app.post('/login', function(req, res){
     console.log("login request")
     email = req.body.username
@@ -36,10 +59,11 @@ app.post('/login', function(req, res){
             res.send(JSON.stringify(new_data))
 
         } else {
-            if (doc.data().password === req.body.password){
+            if (doc.data().Password === req.body.password){
                 console.log("Password matched")
                 new_data = {
-                    response : "Done"
+                    response : "Done",
+                    Admin : doc.data().Admin
                 }
                 res.send(JSON.stringify(new_data))
             }else{

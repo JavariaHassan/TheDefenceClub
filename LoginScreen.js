@@ -26,7 +26,7 @@ export default class LoginScreen extends Component {
           }
         
         Authenticate = async (data) => {
-            response = await fetch ('http://10.130.18.47:3000/login', {
+            response = await fetch ('http://192.168.1.102:3000/login', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
@@ -36,6 +36,12 @@ export default class LoginScreen extends Component {
             }).then((response) => response.json())
             .then((responseJSON) => {
                 if (responseJSON.response == "Done"){
+                    if (responseJSON.Admin == 0){
+                        Alert.alert("The user is a member")
+                    }
+                    else{
+                        Alert.alert("The user is an admin")
+                    }
                     this.setState({invalid: 0})
                         this.props.navigation.navigate('DrawerNavigator')
                 }else{

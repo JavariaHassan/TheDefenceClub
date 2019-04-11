@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity} from 'react-native';
+import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -20,6 +20,37 @@ export default class LoginScreen extends Component {
     };
     
     onPress = () => {
+
+        if (this.state.Password == this.state.ConfirmPass){
+            const data = {
+                Name : this.state.Name,
+                ID : this.state.ID,
+                Email : this.state.Email,
+                Password : this.state.Password,
+                Admin: 0
+            }
+            Authenticate = async (data) => {
+                response = await fetch ('http://192.168.1.102:3000/add_admin', {
+                  method : 'post', 
+                  headers : {
+                    Accept: 'application/json',
+                    'Content-Type' : 'application/json'
+                  }, 
+                  body : JSON.stringify(data)
+                }).then((response) => response.json())
+                .then((responseJSON) => {
+                    if (responseJSON.response == "Done"){
+                        Alert.alert("Admin added")
+                        // this.setState({invalid: 0})
+                        //     this.props.navigation.navigate('DrawerNavigator')
+                    }else{
+                        // this.setState({invalid: 1})
+                    }
+                    })
+            }
+            Authenticate(data)
+        
+        }
     }
     
     render() {
@@ -62,7 +93,7 @@ export default class LoginScreen extends Component {
                         style={styles.signinbutton}
                         onPress={this.onPress}
                     >
-                        <Text style={{color: 'white', fontSize: 0.04*width}}> SIGN IN </Text>
+                        <Text style={{color: 'white', fontSize: 0.04*width}}> Create Account </Text>
                     </TouchableOpacity>
     
                 </View>
