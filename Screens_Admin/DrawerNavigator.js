@@ -4,6 +4,7 @@ import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, creat
 import {Dimensions} from 'react-native';
 import HomeScreen from './HomeScreen.js';
 import Add_Acc_Screen from './CreateAccount/StackNavigator'
+import ChangePassword from './ChangePassword.js'
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -67,6 +68,17 @@ const Add_Acc = createStackNavigator(
 	}
 );
 
+const change_password = createStackNavigator(
+	{
+		main: {screen: ChangePassword},
+	},
+	{
+		defaultNavigationOptions: {
+			header: null
+		},
+	}
+);
+
 
 const MainNavigator = createDrawerNavigator({
 		Home: {screen: Home},
@@ -74,6 +86,7 @@ const MainNavigator = createDrawerNavigator({
 		Menu: {screen: Home},
 		'Add Account': {screen: Add_Acc},
 		Settings: {screen: Home},
+		'Change Password': {screen: change_password}
 }, {
    		contentComponent: CustomeDrawerComponent,
    		contentOptions: {
