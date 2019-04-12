@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text} from 'react-native';
-import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
+import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItemsm, Alert} from 'react-navigation';
 import {Dimensions} from 'react-native';
 import HomeScreen from './HomeScreen.js';
 
@@ -21,6 +21,9 @@ export default class Drawer extends Component {
 }
 
 const CustomeDrawerComponent = (props) => (
+
+	// Alert.alert(this.props.navigation.state.params.data);
+
 	<SafeAreaView style = {{flex: 1}}>
 		<View style={{height: 150, backgroundColor: 'white', margin: 15, marginBottom: 50}}>
 			<Image source={require('./default_profile.png')} 

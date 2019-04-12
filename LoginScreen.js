@@ -38,11 +38,11 @@ export default class LoginScreen extends Component {
                 if (responseJSON.response == "Done"){
                     if (responseJSON.Admin == 0){
                         // Alert.alert("The user is a member")
-                        this.props.navigation.navigate('DrawerNavigator_member')
+                        this.props.navigation.navigate('DrawerNavigator_member', {data: this.state.data})
                     }
                     else{
                         // Alert.alert("The user is an admin")
-                        this.props.navigation.navigate('DrawerNavigator_admin')
+                        this.props.navigation.navigate('DrawerNavigator_admin', {data: this.state.data})
                     }
                     this.setState({invalid: 0})
                 }else{
