@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "node server.js",
     "test": "jest"
   },
   "dependencies": {
@@ -26,5 +26,18 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JavariaHassan/TheDefenceClub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JavariaHassan/TheDefenceClub/issues"
+  },
+  "homepage": "https://github.com/JavariaHassan/TheDefenceClub#readme",
+  "description": ""
 }
