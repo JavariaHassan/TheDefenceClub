@@ -26,7 +26,7 @@ export default class LoginScreen extends Component {
           }
         
         Authenticate = async (data) => {
-            response = await fetch ('http://10.130.18.47:3000/login', {
+            response = await fetch ('http://10.130.4.195:3000/login', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
