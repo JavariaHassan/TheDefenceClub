@@ -26,7 +26,7 @@ const CustomeDrawerComponent = (props) => (
 			<Image source={require('./default_profile.png')} 
 			 style={{height: 100, width: 100, borderRadius: 50}}
 			 />
-			 <Text style={{marginTop: 20}}> Musa Adam Hassan</Text>
+			 <Text style={{marginTop: 20}}> Javaria </Text>
 			 <Text style={{marginTop: 20}}> Member ID: 12345</Text>
 		</View>
 		<ScrollView>
