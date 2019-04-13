@@ -22,6 +22,37 @@ app.get('/login', function (req, res){
     res.send('"Hello World')
 });
 
+app.get('/get_menu', function (req, res){
+    
+    var menuRef = db.collection('menu_item');
+    var allmenu = menuRef.get()
+    .then(snapshot => {
+        newdata = {}
+        snapshot.forEach(doc => {
+        newdata[doc.id] = {
+            Name : doc.data().Name, 
+            Price : doc.data().Price,
+            Category: doc.data().Category
+        }
+        console.log(doc.id, '=>', doc.data());
+        });
+        res.send(JSON.stringify(newdata));
+    })
+
+    .catch(err => {
+        console.log('Error getting documents', err);
+        newdata = {
+            "error": {
+                Name: "error",
+                Price : "error",
+                Category : "error"
+            }
+        }
+        res.send(JSON.stringify(newdata));
+    });  
+});
+
+
 app.post('/add_admin', function(req, res){
     console.log("add admin")
     data = req.body
@@ -54,6 +85,24 @@ app.post('/add_member', function(req, res){
         response : "Done"
     }
     res.send(JSON.stringify(new_data))     
+})
+
+app.post('/remove_menu', function(req, res){
+    console.log("removing menu item")
+    data = req.body
+    // console.log(data)
+    if(data.Name === ""){
+        new_data = {
+            response : "Nokey"
+        }
+    } else {
+        var deleteDoc = db.collection('menu_item').doc(data.Name).delete();
+        new_data = {
+            response : "Done"
+        }
+    }
+
+    res.send(JSON.stringify(new_data))   
 })
 
 app.post('/login', function(req, res){
