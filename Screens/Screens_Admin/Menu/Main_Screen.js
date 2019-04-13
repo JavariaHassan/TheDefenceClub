@@ -7,7 +7,7 @@ import Add_Screen from './Add_Menu';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-var MenuObj = {
+var MenuObj2 = {
     'Continental' : ['Chicken And Cheese Salad', 'Peppered Pasta Salad', 'Paneer Steak'],
     'Chinese' : ['Hot and Sour Soup', 'Golden Fried Prawns', 'Cho Yuen Squids'],
     'Desi' : ['Bombay Biryani', 'Nihari', 'Naan'],
@@ -15,20 +15,42 @@ var MenuObj = {
     'Drinks' : ['Coke', 'Water', 'Chai'],
 };
 
+var MenuObj = {
+    "chicken karahi" : {
+     "name": "chicken karahi",
+     "category": "desi",
+     "price": 200,
+    },
+
+    "pizza" : {
+     "name": "pizza",
+     "category": "fast food",
+     "price": 500,
+    },
+
+    "sada naan" : {
+     "name": "sada naan",
+     "category": "tandoor",
+     "price": 10,
+    }
+}
+
 export default class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {     
                         data: MenuObj,
-                        category: '',
-                        item: 0,    
+                        fooditem: 0,    
                     };
     }
 
     static navigationOptions = ({navigation}) => ({
         title: 'Menu',
         headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}> 
-                <Image source={require('../../plus.png')} style={{width:25, height:25, marginRight: 10}} />
+                <Image source={require('../../plus.png')} style={{width:17, height:17, marginRight: 20}} />
+            </TouchableOpacity>,
+        headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
+                <Image source={require('../../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
             </TouchableOpacity>,
     })
 
@@ -39,16 +61,16 @@ export default class Menu extends Component {
         else {
             var newData = {}
             for (var key in MenuObj) {
-                newData[key] = []
+                newData[key] = {}
             }
 
             for (var key in MenuObj) {
-                for (var item in MenuObj[key]) {
-                    filter = Search.toUpperCase()
-                    if (MenuObj[key][item].toUpperCase().indexOf(filter) > -1) {
-                        newData[key].push(MenuObj[key][item])
-                    }
-                }
+                filter = Search.toUpperCase()
+                if (MenuObj[key]['name'].toUpperCase().indexOf(filter) > -1) {
+                    newData[key]['name'] = MenuObj[key]['name']
+                    newData[key]['category'] = MenuObj[key]['category']
+                    newData[key]['price'] = MenuObj[key]['price']
+                } 
             }
 
             this.setState({ data: newData });  
@@ -64,28 +86,26 @@ export default class Menu extends Component {
                 text: 'Remove',
                 backgroundColor: '#FE6463',
                 onPress: () => { 
-                    Alert.alert(this.state.category, this.state.item)
+                    Alert.alert(this.state.fooditem)
                 }
             }
         ]
 
         var items = [];
         for (let key in this.state.data) {
-            for (let item in this.state.data[key])
             items.push(
                 <Swipeout style={styles.wipeout} right={swipeoutBtns}
                     autoClose={true}
                     onOpen={() => {
                         this.setState({
-                            category: key,
-                            item: item,
+                            fooditem: key,
                         })
                     }}
                 >
 
                     <View style={styles.list}>
-                        <Text style={styles.listitem1}> {this.state.data[key][item]} </Text>
-                        <Text style={styles.listitem2}> {key} </Text>
+                        <Text style={styles.listitem1}> {this.state.data[key]['name']} </Text>
+                        <Text style={styles.listitem2}> {this.state.data[key]['category']}  |  Pkr {this.state.data[key]['price']}</Text>
                     </View>
                 </Swipeout>
             )

@@ -70,6 +70,52 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Helvetica-Bold.ttf</string>
+		<string>Helvetica-BoldOblique.ttf</string>
+		<string>helvetica-compressed-5871d14b6903a.otf</string>
+		<string>helvetica-light-587ebe5a59211.ttf</string>
+		<string>Helvetica-Oblique.ttf</string>
+		<string>helvetica-rounded-bold-5871d05ead8de.otf</string>
+		<string>Helvetica.ttf</string>
+		<string>Montserrat-Black.ttf</string>
+		<string>Montserrat-BlackItalic.ttf</string>
+		<string>Montserrat-Bold.ttf</string>
+		<string>Montserrat-BoldItalic.ttf</string>
+		<string>Montserrat-ExtraBold.ttf</string>
+		<string>Montserrat-ExtraBoldItalic.ttf</string>
+		<string>Montserrat-ExtraLight.ttf</string>
+		<string>Montserrat-ExtraLightItalic.ttf</string>
+		<string>Montserrat-Italic.ttf</string>
+		<string>Montserrat-Light.ttf</string>
+		<string>Montserrat-LightItalic.ttf</string>
+		<string>Montserrat-Medium.ttf</string>
+		<string>Montserrat-MediumItalic.ttf</string>
+		<string>Montserrat-Regular.ttf</string>
+		<string>Montserrat-SemiBold.ttf</string>
+		<string>Montserrat-SemiBoldItalic.ttf</string>
+		<string>Montserrat-Thin.ttf</string>
+		<string>Montserrat-ThinItalic.ttf</string>
+		<string>Oswald-Bold.ttf</string>
+		<string>Oswald-ExtraLight.ttf</string>
+		<string>Oswald-Light.ttf</string>
+		<string>Oswald-Medium.ttf</string>
+		<string>Oswald-Regular.ttf</string>
+		<string>Oswald-SemiBold.ttf</string>
+		<string>Karla-Bold.ttf</string>
+		<string>Karla-BoldItalic.ttf</string>
+		<string>Karla-Italic.ttf</string>
+		<string>Karla-Regular.ttf</string>
+		<string>Calibri.ttf</string>
+		<string>CALIBRIB.TTF</string>
+		<string>CALIBRII.TTF</string>
+		<string>CALIBRIZ.TTF</string>
+		<string>Calibri Bold Italic.ttf</string>
+		<string>Calibri Bold.TTF</string>
+		<string>Calibri Italic.ttf</string>
+		<string>Calibri Light Italic.ttf</string>
+		<string>Calibri Light.ttf</string>
+		<string>Calibri Regular.ttf</string>
+		<string>Calibri Bold.ttf</string>
 	</array>
 </dict>
 </plist>

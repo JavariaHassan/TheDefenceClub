@@ -17,15 +17,13 @@ const MainNavigator = createStackNavigator(
         defaultNavigationOptions: {
             title: "",
             headerStyle: {
-                backgroundColor: 'white',
-                borderBottomColor:'#A9A9A9',
-                borderBottomWidth: 0.5,
+                backgroundColor: '#23186A',
             },
-            headerTintColor: "#23186A",
+            headerTintColor: "#fff",
             headerTitleStyle: {
-                fontWeight: "normal",
-                color: "#23186A",
-                fontFamily: "Calibri Bold",
+                flex: 1,
+                fontWeight: "bold",
+                textAlign: 'center',
             },
         },
     }

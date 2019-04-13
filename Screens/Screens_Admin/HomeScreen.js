@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -11,9 +11,12 @@ export default class HomeScreen extends Component {
         this.state = { name: 'Musa' };
     }
 
-    static navigationOptions = {
-        title: "Home",
-    };
+    static navigationOptions = ({navigation}) => ({
+        title: 'Home',
+        headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
+                <Image source={require('../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
+            </TouchableOpacity>,
+    })
 
     onPress = () => {
         
@@ -21,38 +24,52 @@ export default class HomeScreen extends Component {
 
     render() {
         return (
-            <ScrollView contentContainerStyle={styles.main}>
-                <View style={styles.header}>
-                    <Image source={require('../logo.png')} style={styles.logo}/>
-                    <Text style={styles.logotitle}>
-                        THE DEFENCE CLUB LAHORE {"\n"}
-                        R BLOCK
-                    </Text>
+            <ImageBackground source={require('../BG_1.png')} style={styles.container}>
+                <View style={styles.backbox}>
+                    <ScrollView contentContainerStyle={styles.main}>
+                        <View style={styles.header}>
+                            <Image source={require('../logo.png')} style={styles.logo}/>
+                            <Text style={styles.logotitle}>
+                                THE DEFENCE CLUB LAHORE {"\n"}
+                                R BLOCK
+                            </Text>
+                        </View>
+                        <Image style={styles.image} source={require('../BG_2.jpg')} />
+
+                        <Text style={styles.welcome}> WELCOME MUSA! </Text>
+
+                        <View style={{marginTop: 0.03*width}}>
+                            <Text style={styles.question}>
+                                    WHAT BOOKING WOULD YOU LIKE TO {"\n"}
+                                    MAKE TODAY?
+                            </Text>
+
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={this.onPress}
+                            >
+                                <Text style={{color: 'white', fontSize: 0.035*width}}> Make a Reservation </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </ScrollView>
                 </View>
-                <Image style={styles.image} source={require('../BG_2.jpg')} />
-
-                <Text style={styles.welcome}> WELCOME MUSA! </Text>
-
-                <View style={{marginTop: 0.03*width}}>
-                    <Text style={styles.question}>
-                            WHAT BOOKING WOULD YOU LIKE TO {"\n"}
-                            MAKE TODAY?
-                    </Text>
-
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={this.onPress}
-                    >
-                        <Text style={{color: 'white', fontSize: 0.035*width}}> Make a Reservation </Text>
-                    </TouchableOpacity>
-                </View>
-
-            </ScrollView>
+            </ImageBackground>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    backbox: {
+        flex: 1,
+        backgroundColor: 'rgba(255,255, 255,0.75)',
+
+    },
     main: {
         height: height,
         alignItems: 'center',
@@ -79,9 +96,13 @@ const styles = StyleSheet.create({
         height: 0.7*width,
     },
     welcome: {
-        backgroundColor: '#23186A',
+        fontFamily: 'Calibri Bold',
+        borderColor:'grey',
+        borderBottomWidth: 2,
+        borderRightWidth: 2,
+        backgroundColor: 'white',
         fontSize: 0.07*width,
-        color: 'white',
+        color: '#23186A',
         width: 0.9*width,
         height: 0.25*width,
         lineHeight: 0.25*width,

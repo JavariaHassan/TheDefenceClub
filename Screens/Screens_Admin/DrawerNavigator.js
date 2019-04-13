@@ -45,17 +45,19 @@ const Home = createStackNavigator(
 	},
 	{
 		defaultNavigationOptions: {
-			title: "",
-			headerStyle: {
-				backgroundColor: '#23186A',
-			},
-		  	headerTintColor: "#fff",
-		  	headerTitleStyle: {
-		  		flex: 1,
-				fontWeight: "bold",
-				textAlign: 'center',
-		  	},
-		},
+            title: "",
+            headerStyle: {
+                backgroundColor: 'white',
+                borderBottomColor:'#A9A9A9',
+                borderBottomWidth: 1,
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+                fontWeight: "normal",
+                color: "#23186A",
+                fontFamily: "Calibri Bold",
+            },
+        },
 	}
 );
 
