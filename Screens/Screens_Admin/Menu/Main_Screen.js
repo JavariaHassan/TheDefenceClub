@@ -60,13 +60,11 @@ export default class Menu extends Component {
         }
         else {
             var newData = {}
-            for (var key in MenuObj) {
-                newData[key] = {}
-            }
 
             for (var key in MenuObj) {
                 filter = Search.toUpperCase()
                 if (MenuObj[key]['name'].toUpperCase().indexOf(filter) > -1) {
+                    newData[key] = {}
                     newData[key]['name'] = MenuObj[key]['name']
                     newData[key]['category'] = MenuObj[key]['category']
                     newData[key]['price'] = MenuObj[key]['price']
