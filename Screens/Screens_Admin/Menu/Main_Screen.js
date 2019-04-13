@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import Swipeout from 'react-native-swipeout';
+import {NavigationEvents} from 'react-navigation';
 
 import Add_Screen from './Add_Menu';
 
@@ -17,21 +18,21 @@ var MenuObj2 = {
 
 var MenuObj = {
     "chicken karahi" : {
-     "name": "chicken karahi",
-     "category": "desi",
-     "price": 200,
+     "Name": "chicken karahi",
+     "Category": "desi",
+     "Price": "200",
     },
 
     "pizza" : {
-     "name": "pizza",
-     "category": "fast food",
-     "price": 500,
+     "Name": "pizza",
+     "Category": "fast food",
+     "Price": "500",
     },
 
     "sada naan" : {
-     "name": "sada naan",
-     "category": "tandoor",
-     "price": 10,
+     "Name": "sada naan",
+     "Category": "tandoor",
+     "Price": "10",
     }
 }
 
@@ -43,6 +44,25 @@ export default class Menu extends Component {
                         fooditem: 0,    
                     };
     }
+
+    componentDidMount(){
+        return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+          .then((response) => response.json())
+          .then((responseJson) => {
+           console.log(responseJson);
+
+           MenuObj = responseJson;
+
+           this.setState({
+              data : responseJson 
+           });
+           
+          })
+          .catch((error) =>{
+            console.error(error);
+            Alert.alert("No data received")
+          });
+      }
 
     static navigationOptions = ({navigation}) => ({
         title: 'Menu',
@@ -63,11 +83,11 @@ export default class Menu extends Component {
 
             for (var key in MenuObj) {
                 filter = Search.toUpperCase()
-                if (MenuObj[key]['name'].toUpperCase().indexOf(filter) > -1) {
+                if (MenuObj[key]['Name'].toUpperCase().indexOf(filter) > -1) {
                     newData[key] = {}
-                    newData[key]['name'] = MenuObj[key]['name']
-                    newData[key]['category'] = MenuObj[key]['category']
-                    newData[key]['price'] = MenuObj[key]['price']
+                    newData[key]['Name'] = MenuObj[key]['Name']
+                    newData[key]['Category'] = MenuObj[key]['Category']
+                    newData[key]['Price'] = MenuObj[key]['Price']
                 } 
             }
 
@@ -76,6 +96,68 @@ export default class Menu extends Component {
     }
     
     onPress = () => {
+        // remove api called 
+        var datatemp = {
+            Name : "",
+            Price : "",
+            Category : ""
+        }
+
+        for (let key in this.state.data) {
+            if (key === this.state.fooditem)
+            {
+                datatemp = {
+                    Name : this.state.data[key]["Name"],
+                    Price : this.state.data[key]["Price"],
+                    Category : this.state.data[key]["Category"]
+                }
+                break;
+            }
+        }
+
+        remove_menu_server = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/remove_menu', {
+              method : 'post', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+
+            .then((responseJSON) => {
+                if (responseJSON.response == "Done"){
+                    Alert.alert("Menu Item Removed Successfully")
+                    // this.setState({invalid: 0})
+                    //     this.props.navigation.navigate('DrawerNavigator')
+                    return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                    console.log(responseJson);
+
+                    MenuObj = responseJson;
+
+                    this.setState({
+                        data : responseJson 
+                    });
+                    
+                    })
+                    .catch((error) =>{
+                        console.error(error);
+                        Alert.alert("No data received")
+                    });
+                }
+
+                if (responseJSON.response == "Nokey"){
+                    Alert.alert("No item selected")
+                }
+                else{
+                    // this.setState({invalid: 1})
+                }
+                })
+
+        }
+        remove_menu_server(datatemp)
     }
     
     render() {
@@ -83,9 +165,7 @@ export default class Menu extends Component {
             {
                 text: 'Remove',
                 backgroundColor: '#FE6463',
-                onPress: () => { 
-                    Alert.alert(this.state.fooditem)
-                }
+                onPress : this.onPress
             }
         ]
 
@@ -102,16 +182,33 @@ export default class Menu extends Component {
                 >
 
                     <View style={styles.list}>
-                        <Text style={styles.listitem1}> {this.state.data[key]['name']} </Text>
-                        <Text style={styles.listitem2}> {this.state.data[key]['category']}  |  Pkr {this.state.data[key]['price']}</Text>
+                        <Text style={styles.listitem1}> {this.state.data[key]['Name']} </Text>
+                        <Text style={styles.listitem2}> {this.state.data[key]['Category']}  |  Pkr {this.state.data[key]['Price']}</Text>
                     </View>
                 </Swipeout>
             )
         }
 
         return (
+
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                 <View style={styles.backbox}>
+                    <NavigationEvents onDidFocus={(() => fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+                        .then((response) => response.json())
+                        .then((responseJson) => {
+                            console.log(responseJson);
+                            MenuObj = responseJson;
+                            this.setState({
+                                data: responseJson
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            Alert.alert("No data received");
+                        }))
+                    }
+                
+                    />
 
                     <TextInput
                         style={styles.input}
