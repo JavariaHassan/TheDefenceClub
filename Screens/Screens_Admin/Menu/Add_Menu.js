@@ -19,6 +19,36 @@ export default class AddMenu extends Component {
     };
     
     onPress = () => {
+        const data = {
+            Name : this.state.Name,
+            Price : this.state.Price,
+            Category : this.state.Category
+        }
+
+        add_menu_server = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_menu', {
+              method : 'post', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+
+            .then((responseJSON) => {
+                if (responseJSON.response == "Done"){
+                    Alert.alert("Menu Item Added Successfully")
+                    // this.setState({invalid: 0})
+                    //     this.props.navigation.navigate('DrawerNavigator')
+                }else{
+                    // this.setState({invalid: 1})
+                }
+                })
+        }
+
+
+        add_menu_server(data)
+
         this.props.navigation.navigate('Main')
     }
     
