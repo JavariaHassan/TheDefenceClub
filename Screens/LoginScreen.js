@@ -8,8 +8,8 @@ export default class LoginScreen extends Component {
     
     constructor(props) {
         super(props);
-        this.state = { Username: '',
-                       Password: '',
+        this.state = { Username: 'username',
+                       Password: 'password',
                        invalid: 0 };
     }
 
@@ -50,15 +50,7 @@ export default class LoginScreen extends Component {
                 }
                 })
         }
-        Authenticate(data)
-
-        // if (this.state.Username == 'Javaria' && this.state.Password == 'Javaria') {
-        //     this.setState({invalid: 0});
-        //     this.props.navigation.navigate('DrawerNavigator')
-        // }
-        // else {
-        //     this.setState({invalid: 1});
-        // }
+        Authenticate(data).catch(alert => {});
     }
     
     render() {

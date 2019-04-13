@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text} from 'react-native';
 import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
 import {Dimensions} from 'react-native';
-import HomeScreen from './HomeScreen.js';
-import Add_Acc_Screen from './CreateAccount/StackNavigator'
-import ChangePassword from './ChangePassword.js'
+
+import Home_Screen from './HomeScreen.js';
+import Account_Screen from './Account/StackNavigator'
+import Password_Screen from './Password.js'//wth
+import Menu_Screen from './Menu/StackNavigator'
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -39,7 +41,7 @@ const CustomeDrawerComponent = (props) => (
 
 const Home = createStackNavigator(
 	{
-		main: {screen: HomeScreen},
+		main: {screen: Home_Screen},
 	},
 	{
 		defaultNavigationOptions: {
@@ -57,9 +59,9 @@ const Home = createStackNavigator(
 	}
 );
 
-const Add_Acc = createStackNavigator(
+const Account = createStackNavigator(
 	{
-		main: {screen: Add_Acc_Screen},
+		main: {screen: Account_Screen},
 	},
 	{
 		defaultNavigationOptions: {
@@ -68,9 +70,20 @@ const Add_Acc = createStackNavigator(
 	}
 );
 
-const change_password = createStackNavigator(
+const Menu = createStackNavigator(
 	{
-		main: {screen: ChangePassword},
+		main: {screen: Menu_Screen},
+	},
+	{
+		defaultNavigationOptions: {
+			header: null
+		},
+	}
+);
+
+const Password = createStackNavigator(
+	{
+		main: {screen: Password_Screen},
 	},
 	{
 		defaultNavigationOptions: {
@@ -83,10 +96,10 @@ const change_password = createStackNavigator(
 const MainNavigator = createDrawerNavigator({
 		Home: {screen: Home},
 		Reservations: {screen: Home},
-		Menu: {screen: Home},
-		'Add Account': {screen: Add_Acc},
+		Menu: {screen: Menu},
+		'Add Account': {screen: Account},
 		Settings: {screen: Home},
-		'Change Password': {screen: change_password}
+		'Change Password': {screen: Password}
 }, {
    		contentComponent: CustomeDrawerComponent,
    		contentOptions: {
