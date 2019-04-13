@@ -34,6 +34,17 @@ app.post('/add_admin', function(req, res){
     res.send(JSON.stringify(new_data))   
 })
 
+app.post('/add_menu', function(req, res){
+    console.log("adding menu item")
+    data = req.body
+    // console.log(data)
+    var setDoc = db.collection('menu_item').doc(data.Name).set(data);
+    new_data = {
+        response : "Done"
+    }
+    res.send(JSON.stringify(new_data))   
+})
+
 app.post('/add_member', function(req, res){
     console.log("add member")
     data = req.body
