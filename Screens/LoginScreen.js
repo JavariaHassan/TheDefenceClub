@@ -40,10 +40,9 @@ export default class LoginScreen extends Component {
                         Name : responseJSON.Name
                     }, function (){
                         if (responseJSON.Admin == 0){
-                            this.props.navigation.navigate('DrawerNavigator_member', {Name: this.state.Name, Username: this.state.Username})
+                            this.props.navigation.navigate('DrawerNavigator_member')
                         }
                         else{
-                            // Alert.alert("The user is an admin")
                             this.props.navigation.navigate('DrawerNavigator_admin', {Name: this.state.Name, Username: this.state.Username})
                         }
                     });
