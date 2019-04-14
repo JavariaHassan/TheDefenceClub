@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SafeAreaView, ScrollView, Image, View, Text} from 'react-native';
+import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
 import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
 import {Dimensions} from 'react-native';
 
@@ -11,15 +11,29 @@ import Menu_Screen from './Menu/StackNavigator'
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
+const values = {
+	name : "",
+	user : ""
+}
+
 export default class Drawer extends Component {
+	constructor(props) {
+		super(props)
+
+		Nametosave = this.props.navigation.state.params.Name
+		Usernametosave = this.props.navigation.state.params.Username
+		
+		values.name = Nametosave
+	}
 
     static navigationOptions = {
         header: null
     }
     
     render() {
+		const App = createAppContainer(MainNavigator);
         return (
-           <App />
+           <App/>
         );
     }
 }
@@ -30,8 +44,8 @@ const CustomeDrawerComponent = (props) => (
 			<Image source={require('./default_profile.png')} 
 			 style={{height: 100, width: 100, borderRadius: 50}}
 			 />
-			 <Text style={{marginTop: 20}}> Musa Adam Hassan</Text>
-			 <Text style={{marginTop: 20}}> Member ID: 12345</Text>
+			 <Text style={{marginTop: 20}}> {values.name} </Text>
+			 <Text style={{marginTop: 20}}> Member ID: {values.user} </Text>
 		</View>
 		<ScrollView>
 		<DrawerItems {...props} />

@@ -26,7 +26,7 @@ export default class LoginScreen extends Component {
           }
         
         Authenticate = async (data) => {
-            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/login', {
+            response = await fetch ('http://192.168.1.102:3000/login', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
@@ -36,14 +36,17 @@ export default class LoginScreen extends Component {
             }).then((response) => response.json())
             .then((responseJSON) => {
                 if (responseJSON.response == "Done"){
-                    if (responseJSON.Admin == 0){
-                        // Alert.alert("The user is a member")
-                        this.props.navigation.navigate('DrawerNavigator_member', {data: this.state.data})
-                    }
-                    else{
-                        // Alert.alert("The user is an admin")
-                        this.props.navigation.navigate('DrawerNavigator_admin', {data: this.state.data})
-                    }
+                    this.setState({
+                        Name : responseJSON.Name
+                    }, function (){
+                        if (responseJSON.Admin == 0){
+                            this.props.navigation.navigate('DrawerNavigator_member', {Name: this.state.Name, Username: this.state.Username})
+                        }
+                        else{
+                            // Alert.alert("The user is an admin")
+                            this.props.navigation.navigate('DrawerNavigator_admin', {Name: this.state.Name, Username: this.state.Username})
+                        }
+                    });
                     this.setState({invalid: 0})
                 }else{
                     this.setState({invalid: 1})

@@ -18,7 +18,8 @@
     "react-native-swipeout": "^2.3.6",
     "react-native-vector-icons": "^6.4.2",
     "react-navigation": "^3.6.1",
-    "react-navigation-transitions": "^1.0.10"
+    "react-navigation-transitions": "^1.0.10",
+    "rn-nodeify": "^10.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.4.3",

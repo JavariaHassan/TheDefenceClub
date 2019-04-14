@@ -128,7 +128,8 @@ app.post('/login', function(req, res){
                 console.log("Password matched")
                 new_data = {
                     response : "Done",
-                    Admin : doc.data().Admin
+                    Admin : doc.data().Admin,
+                    Name : doc.data().Name
                 }
                 res.send(JSON.stringify(new_data))
             }else{
