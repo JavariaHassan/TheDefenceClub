@@ -22,8 +22,9 @@ export default class Drawer extends Component {
 
 		Nametosave = this.props.navigation.state.params.Name
 		Usernametosave = this.props.navigation.state.params.Username
-		
+
 		values.name = Nametosave
+		values.user = Usernametosave
 	}
 
     static navigationOptions = {
