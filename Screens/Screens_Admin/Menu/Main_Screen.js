@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import Swipeout from 'react-native-swipeout';
+import {NavigationEvents} from 'react-navigation';
 
 import Add_Screen from './Add_Menu';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-var MenuObj = {
+var MenuObj2 = {
     'Continental' : ['Chicken And Cheese Salad', 'Peppered Pasta Salad', 'Paneer Steak'],
     'Chinese' : ['Hot and Sour Soup', 'Golden Fried Prawns', 'Cho Yuen Squids'],
     'Desi' : ['Bombay Biryani', 'Nihari', 'Naan'],
@@ -15,20 +16,61 @@ var MenuObj = {
     'Drinks' : ['Coke', 'Water', 'Chai'],
 };
 
+var MenuObj = {
+    "chicken karahi" : {
+     "Name": "chicken karahi",
+     "Category": "desi",
+     "Price": "200",
+    },
+
+    "pizza" : {
+     "Name": "pizza",
+     "Category": "fast food",
+     "Price": "500",
+    },
+
+    "sada naan" : {
+     "Name": "sada naan",
+     "Category": "tandoor",
+     "Price": "10",
+    }
+}
+
 export default class Menu extends Component {
     constructor(props) {
         super(props);
         this.state = {     
                         data: MenuObj,
-                        category: '',
-                        item: 0,    
+                        fooditem: 0,    
                     };
     }
+
+    componentDidMount(){
+        return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+          .then((response) => response.json())
+          .then((responseJson) => {
+           console.log(responseJson);
+
+           MenuObj = responseJson;
+
+           this.setState({
+              data : responseJson 
+           });
+           
+          })
+          .catch((error) =>{
+            console.error(error);
+            Alert.alert("No data received")
+          });
+      }
 
     static navigationOptions = ({navigation}) => ({
         title: 'Menu',
         headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}> 
-                <Image source={require('../../plus.png')} style={{width:25, height:25, marginRight: 10}} />
+                <Image source={require('../../plus.png')} style={{width:17, height:17, marginRight: 20}} />
+            </TouchableOpacity>,
+        headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
+                <Image source={require('../../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
             </TouchableOpacity>,
     })
 
@@ -38,17 +80,15 @@ export default class Menu extends Component {
         }
         else {
             var newData = {}
-            for (var key in MenuObj) {
-                newData[key] = []
-            }
 
             for (var key in MenuObj) {
-                for (var item in MenuObj[key]) {
-                    filter = Search.toUpperCase()
-                    if (MenuObj[key][item].toUpperCase().indexOf(filter) > -1) {
-                        newData[key].push(MenuObj[key][item])
-                    }
-                }
+                filter = Search.toUpperCase()
+                if (MenuObj[key]['Name'].toUpperCase().indexOf(filter) > -1) {
+                    newData[key] = {}
+                    newData[key]['Name'] = MenuObj[key]['Name']
+                    newData[key]['Category'] = MenuObj[key]['Category']
+                    newData[key]['Price'] = MenuObj[key]['Price']
+                } 
             }
 
             this.setState({ data: newData });  
@@ -56,6 +96,68 @@ export default class Menu extends Component {
     }
     
     onPress = () => {
+        // remove api called 
+        var datatemp = {
+            Name : "",
+            Price : "",
+            Category : ""
+        }
+
+        for (let key in this.state.data) {
+            if (key === this.state.fooditem)
+            {
+                datatemp = {
+                    Name : this.state.data[key]["Name"],
+                    Price : this.state.data[key]["Price"],
+                    Category : this.state.data[key]["Category"]
+                }
+                break;
+            }
+        }
+
+        remove_menu_server = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/remove_menu', {
+              method : 'post', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+
+            .then((responseJSON) => {
+                if (responseJSON.response == "Done"){
+                    Alert.alert("Menu Item Removed Successfully")
+                    // this.setState({invalid: 0})
+                    //     this.props.navigation.navigate('DrawerNavigator')
+                    return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                    console.log(responseJson);
+
+                    MenuObj = responseJson;
+
+                    this.setState({
+                        data : responseJson 
+                    });
+                    
+                    })
+                    .catch((error) =>{
+                        console.error(error);
+                        Alert.alert("No data received")
+                    });
+                }
+
+                if (responseJSON.response == "Nokey"){
+                    Alert.alert("No item selected")
+                }
+                else{
+                    // this.setState({invalid: 1})
+                }
+                })
+
+        }
+        remove_menu_server(datatemp)
     }
     
     render() {
@@ -63,37 +165,50 @@ export default class Menu extends Component {
             {
                 text: 'Remove',
                 backgroundColor: '#FE6463',
-                onPress: () => { 
-                    Alert.alert(this.state.category, this.state.item)
-                }
+                onPress : this.onPress
             }
         ]
 
         var items = [];
         for (let key in this.state.data) {
-            for (let item in this.state.data[key])
             items.push(
                 <Swipeout style={styles.wipeout} right={swipeoutBtns}
                     autoClose={true}
                     onOpen={() => {
                         this.setState({
-                            category: key,
-                            item: item,
+                            fooditem: key,
                         })
                     }}
                 >
 
                     <View style={styles.list}>
-                        <Text style={styles.listitem1}> {this.state.data[key][item]} </Text>
-                        <Text style={styles.listitem2}> {key} </Text>
+                        <Text style={styles.listitem1}> {this.state.data[key]['Name']} </Text>
+                        <Text style={styles.listitem2}> {this.state.data[key]['Category']}  |  Pkr {this.state.data[key]['Price']}</Text>
                     </View>
                 </Swipeout>
             )
         }
 
         return (
+
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                 <View style={styles.backbox}>
+                    <NavigationEvents onDidFocus={(() => fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+                        .then((response) => response.json())
+                        .then((responseJson) => {
+                            console.log(responseJson);
+                            MenuObj = responseJson;
+                            this.setState({
+                                data: responseJson
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            Alert.alert("No data received");
+                        }))
+                    }
+                
+                    />
 
                     <TextInput
                         style={styles.input}
