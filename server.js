@@ -52,6 +52,10 @@ app.get('/get_menu', function (req, res){
     });  
 });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 44cdc3e3bb84096dccc99e36838337a72d46e157
 app.post('/add_admin', function(req, res){
     console.log("add admin")
     data = req.body
@@ -75,8 +79,11 @@ app.post('/add_menu', function(req, res){
     res.send(JSON.stringify(new_data))   
 })
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 44cdc3e3bb84096dccc99e36838337a72d46e157
 app.post('/add_member', function(req, res){
     console.log("add member")
     data = req.body
@@ -88,8 +95,11 @@ app.post('/add_member', function(req, res){
     res.send(JSON.stringify(new_data))     
 })
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 44cdc3e3bb84096dccc99e36838337a72d46e157
 app.post('/remove_menu', function(req, res){
     console.log("removing menu item")
     data = req.body
@@ -108,7 +118,10 @@ app.post('/remove_menu', function(req, res){
     res.send(JSON.stringify(new_data))   
 })
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 44cdc3e3bb84096dccc99e36838337a72d46e157
 app.post('/login', function(req, res){
     console.log("login request")
     email = req.body.username
