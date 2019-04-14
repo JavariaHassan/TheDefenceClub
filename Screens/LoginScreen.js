@@ -26,7 +26,7 @@ export default class LoginScreen extends Component {
           }
         
         Authenticate = async (data) => {
-            response = await fetch ('http://192.168.1.102:3000/login', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/login', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
