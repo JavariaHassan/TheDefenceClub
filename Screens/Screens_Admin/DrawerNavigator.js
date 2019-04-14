@@ -104,8 +104,19 @@ const Password = createStackNavigator(
 	},
 	{
 		defaultNavigationOptions: {
-			header: null
-		},
+            title: "",
+            headerStyle: {
+                backgroundColor: 'white',
+                borderBottomColor:'#A9A9A9',
+                borderBottomWidth: 1,
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+                fontWeight: "normal",
+                color: "#23186A",
+                fontFamily: "Calibri Bold",
+            },
+        },
 	}
 );
 

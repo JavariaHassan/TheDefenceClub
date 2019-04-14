@@ -1,5 +1,8 @@
+
 import React, {Component} from 'react';
-import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
+import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert, ScrollView} from 'react-native';
+import Swipeout from 'react-native-swipeout';
+import {NavigationEvents} from 'react-navigation';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -14,13 +17,16 @@ export default class LoginScreen extends Component {
                        newPassword: '', };
     }
 
-    static navigationOptions = {
-        title: "Change Password",
-    };
+     static navigationOptions = ({navigation}) => ({
+        title: 'Change Password',
+        headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
+                <Image source={require('../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
+            </TouchableOpacity>,
+    })
     
     onPress = () => {
-
-    //     if (this.state.Password == this.state.ConfirmPass){
+    
+   // if (this.state.Password == this.state.ConfirmPass){
     //         const data = {
     //             Name : this.state.Name,
     //             ID : this.state.ID,
@@ -54,38 +60,41 @@ export default class LoginScreen extends Component {
     
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.backbox}>
+            <ImageBackground source={require('../BG_1.png')} style={styles.container}>
+               <View style={styles.backbox}>
+                     <Image style={styles.image} source={require('../key.png')} />
+                            
+                        <TextInput 
+                            style={styles.input}
+                            placeholder = "Old Password"
+                            placeholderTextColor = 'black'
+                            onChangeText={(ID) => this.setState({ID})}
+                        />
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder = "Enter ID"
-                        onChangeText={(ID) => this.setState({ID})}
-                    />
+                        <TextInput
+                            style={styles.input}
+                            placeholder = "New Password"
+                            placeholderTextColor = 'black'
+                            onChangeText={(Password) => this.setState({Password})}
+                        />
+
+                        <TextInput
+                            style={styles.input}
+                            placeholder = "Confirm New Password"
+                            placeholderTextColor = 'black'
+                            onChangeText={(newPassword) => this.setState({newPassword})}
+                        />
+
+                        <TouchableOpacity
+                            style={styles.signinbutton}
+                            onPress={this.onPress}
+                        >
+                            <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> SUBMIT </Text>
+                        </TouchableOpacity>
 
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder = "Enter Password"
-                        onChangeText={(Password) => this.setState({Password})}
-                    />
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder = "Enter new Password"
-                        onChangeText={(newPassword) => this.setState({newPassword})}
-                    />
-
-                    <TouchableOpacity
-                        style={styles.signinbutton}
-                        onPress={this.onPress}
-                    >
-                        <Text style={{color: 'white', fontSize: 0.04*width}}> Change Password </Text>
-                    </TouchableOpacity>
-                     
-    
-                </View>
-            </View>
+               </View>
+            </ImageBackground>
         );
     }
 }
@@ -93,39 +102,61 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'rgba(255, 255, 255, 0.75)',
         justifyContent: 'center',
         alignItems: 'center',
     },
     backbox: {
-        height: 0.75*height,
-        width: 0.80*width,
-        backgroundColor: 'rgba(255,255, 255,0.75)',
-        justifyContent: 'flex-start',
+        width: width*0.8,
+        height: height*0.75,
+        justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 0.07*width,
-        padding: 30,
+        backgroundColor: 'white',
+    },
+    image: {
+        width: 0.25*width,
+        height: 0.25*width,
+        alignItems: 'center',
+        marginBottom: 0.1*width,
+    },
+    welcome: {
+        fontSize: 0.07*width,
+        color: 'black',
+        width: 0.9*width,
+        height: 0.25*width,
+        lineHeight: 0.25*width,
+        textAlign: 'center',
+        borderRadius: 15,
+        alignItems: 'center',
     },
     input: {
-        backgroundColor: "white",
-        color: '#23186A',
-        width: 0.60*width,
-        height: 0.1*width,
-        fontSize: 0.035*width,
+        fontFamily: "Calibri",
+        backgroundColor: "#EEEEEE",
+        color: 'black',
+        width: 0.65*width,
+        height: 0.11*width,
+        fontSize: 0.04*width,
         paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
-        marginBottom: 0.03*width,
+        marginBottom: 0.06*width,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
     },
     signinbutton: {
-        backgroundColor: '#23186A',
-        marginTop: 0.05*height,
-        width: 0.35*width,
-        height: 0.07*height,
-        justifyContent: 'center',
+        backgroundColor: "#23186A",
+        color: 'white',
+        width: 0.65*width,
+        height: 0.11*width,
+        fontSize: 0.04*width,
+        paddingVertical: 0.01*height,
+        paddingHorizontal: 0.02*height,
+        borderRadius: 10,
         alignItems: 'center',
-        borderRadius: width,
-        position: 'absolute',
-        bottom: 0.1*height,
+        justifyContent: 'center'
     },
 });
+
+
+
 

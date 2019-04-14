@@ -61,32 +61,37 @@ class Member_Comp extends Component {
         return (
             <View style={styles.backbox_Admin}>
 
-                <Text style={styles.header}> Name </Text>
                 <TextInput
+                    placeholder="Name"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(Name) => this.setState({Name})}
                 />
 
-                <Text style={styles.header}> Member ID </Text>
                 <TextInput
+                    placeholder="Member ID"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(ID) => this.setState({ID})}
                 />
 
-                <Text style={styles.header}> Email </Text>
                 <TextInput
+                    placeholder="Email"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(Email) => this.setState({Email})}
                 />
 
-                <Text style={styles.header}> Password </Text>
                 <TextInput
+                    placeholder="Password"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(Password) => this.setState({Password})}
                 />
 
-                <Text style={styles.header}> Confirm Password </Text>
                 <TextInput
+                    placeholder="Confirm Password"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(ConfirmPass) => this.setState({ConfirmPass})}
                 />
@@ -96,7 +101,7 @@ class Member_Comp extends Component {
                     style={styles.signinbutton}
                     onPress={this.onPress}
                 >
-                    <Text style={{color: 'white', fontSize: 0.04*width}}> Create Account </Text>
+                    <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> CONFIRM </Text>
                 </TouchableOpacity>
 
             </View>
@@ -153,32 +158,37 @@ class Admin_Comp extends Component {
         return (
             <View style={styles.backbox_Admin}>
 
-                <Text style={styles.header}> Name </Text>
                 <TextInput
+                    placeholder="Name"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(Name) => this.setState({Name})}
                 />
 
-                <Text style={styles.header}> Admin ID </Text>
                 <TextInput
+                    placeholder="Admin ID"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(ID) => this.setState({ID})}
                 />
 
-                <Text style={styles.header}> Email </Text>
                 <TextInput
+                    placeholder="Email"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(Email) => this.setState({Email})}
                 />
 
-                <Text style={styles.header}> Password </Text>
                 <TextInput
+                    placeholder="Password"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(Password) => this.setState({Password})}
                 />
 
-                <Text style={styles.header}> Confirm Password </Text>
                 <TextInput
+                    placeholder="Confirm Password"
+                    placeholderTextColor="black"
                     style={styles.input}
                     onChangeText={(ConfirmPass) => this.setState({ConfirmPass})}
                 />
@@ -188,7 +198,7 @@ class Admin_Comp extends Component {
                     style={styles.signinbutton}
                     onPress={this.onPress}
                 >
-                    <Text style={{color: 'white', fontSize: 0.04*width}}> Create Account </Text>
+                    <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> CONFIRM </Text>
                 </TouchableOpacity>
 
             </View>
@@ -229,8 +239,6 @@ export default class Main extends Component {
     render() {
         return (
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
-                <ScrollView contentContainerStyle={{alignItems: 'center'}}
-                            style={styles.backbox}>
                     <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
                             onPress={this.onPress1}
@@ -247,12 +255,15 @@ export default class Main extends Component {
                             <Text style={styles.buttons}> MEMBER </Text>
                         </View>
                         </TouchableOpacity>
-
                     </View>
-                    {this.state.option ?
-                        <Admin_Comp/>
-                        : <Member_Comp/>}
-                </ScrollView>
+
+                    <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                        <View style={{width: 0.85*width, height: 0.7*height, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+                            {this.state.option ?
+                            <Admin_Comp/>
+                            : <Member_Comp/>}
+                        </View>
+                    </ScrollView>
             </ImageBackground>
         );
     }
@@ -287,28 +298,23 @@ const styles = StyleSheet.create({
     secondbar: {
         width: width/2,
         height: 0.06*height,
-        backgroundColor: 'white',
-        borderColor:'lightgrey',
-        borderBottomWidth: 0.5,
-        borderTopWidth: 0.5,
-        borderRightWidth: 1,
+        backgroundColor: '#23186A',
         justifyContent: 'center',
         alignItems: 'center',
     }, 
     secondbarselected: {
         width: width/2,
         height: 0.06*height,
-        backgroundColor: 'white',
+        backgroundColor: '#23186A',
         borderColor:'lightgrey',
-        borderBottomColor: '#23186A',
-        borderBottomWidth: 2,
-        borderTopWidth: 0.5,
-        borderRightWidth: 1,
+        borderBottomColor: 'white',
+        borderBottomWidth: 4,
         justifyContent: 'center',
         alignItems: 'center',
     }, 
     buttons: {
-        fontSize: 15,
+        color: 'white',
+        fontSize: 17,
         fontFamily: "Calibri Bold",
     },
     header: {
@@ -318,23 +324,29 @@ const styles = StyleSheet.create({
         marginBottom: 3,
     },
     input: {
-        backgroundColor: "white",
-        color: '#23186A',
-        width: 0.60*width,
-        height: 0.1*width,
-        fontSize: 0.035*width,
+        fontFamily: "Calibri",
+        backgroundColor: "#EEEEEE",
+        color: 'black',
+        width: 0.65*width,
+        height: 0.11*width,
+        fontSize: 0.04*width,
         paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
-        marginBottom: 0.03*width,
+        marginBottom: 0.06*width,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
     },
     signinbutton: {
-        backgroundColor: '#59B957',
-        marginTop: 0.05*height,
-        width: 0.35*width,
-        height: 0.07*height,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: "#23186A",
+        color: 'white',
+        width: 0.65*width,
+        height: 0.11*width,
+        fontSize: 0.04*width,
+        paddingVertical: 0.01*height,
+        paddingHorizontal: 0.02*height,
         borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });

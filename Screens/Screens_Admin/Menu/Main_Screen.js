@@ -210,12 +210,17 @@ export default class Menu extends Component {
                 
                     />
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Search"
-                        placeholderTextColor="#23186A"
-                        onChangeText={(Search) => this.onChange(Search)}
-                    />
+                    <View style={{width: width*0.9, marginBottom: 10, flexDirection: 'row'}}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Search"
+                            placeholderTextColor="#23186A"
+                            onChangeText={(Search) => this.onChange(Search)}
+                        />
+                        <View style={{width: width*0.15, height: 0.07*height, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
+                            <Image source={require('../../search.png')} style={{width: width*0.05, height:0.03*height}}/>
+                        </View>
+                    </View>
 
                     <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
                                 style={styles.scrollview}>
@@ -238,34 +243,34 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 0.05*width,
         width: width,
-        backgroundColor: 'rgba(255,255, 255,0.50)',
         alignItems: 'center',
     },
     input: {
-        width: width*0.9,
+        height: 0.07*height,
+        width: width*0.75,
+        fontFamily: "Calibri",
+        paddingLeft: 20,
         padding: 10,
         backgroundColor: 'white',
         color: "#23186A",
-        marginBottom: 10,
-        fontSize: 18,
-        borderColor:'#D6D6D6',
-        borderWidth: 0.5,
-        borderRadius: 10,
+        fontSize: 20,
+        borderColor: "#D6D6D6",
+        borderWidth: 1,
     },
     scrollview: {
         width: width*0.90,
         backgroundColor: 'white',
-        borderRadius: 10,
         marginBottom: width*0.05,
         padding: 6,
         paddingVertical: 20,
+        borderColor: "#D6D6D6",
+        borderWidth: 1,
     },
     wipeout: {
         width: width*0.80,
         backgroundColor: 'transparent',
         borderBottomColor:'#D6D6D6',
         borderBottomWidth: 1,
-        borderRadius: 5,
     },
     list: {
         backgroundColor: 'white',
@@ -273,25 +278,13 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
     },
     listitem1: {
-        fontSize: 18,
+        fontFamily: "Calibri",
+        fontSize: 20,
         color: '#424242',
     },
     listitem2: {
-        fontSize: 14,
+        fontFamily: "Calibri",
+        fontSize: 16,
         paddingLeft: 2,
-    },
-    signinbutton: {
-        backgroundColor: '#23186A',
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: width,
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-    },
-    bar: {
-        width: 0.9*width,
     },
 });

@@ -57,25 +57,27 @@ export default class AddMenu extends Component {
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                 <View style={styles.backbox}>
 
-                    <Text style={styles.header}> Category </Text>
                     <View style={styles.input2}>
-                        <Picker style={styles.picker}
+                        <Picker
                                 selectedValue={this.state.Category}
                                 onValueChange={(itemValue, itemIndex) => this.setState({Category: itemValue})}
                         >
+                            <Picker.Item label='Category' value='' />
                             <Picker.Item label="Chinese" value="Chinese" />
                             <Picker.Item label="Thai" value="Thai" />
                         </Picker>
                     </View>
 
-                    <Text style={styles.header}> Name </Text>
                     <TextInput
+                        placeholder="Name"
+                        placeholderTextColor="black"
                         style={styles.input}
                         onChangeText={(Name) => this.setState({Name})}
                     />
 
-                    <Text style={styles.header}> Price </Text>
                     <TextInput
+                        placeholder="Price"
+                        placeholderTextColor="black"
                         style={styles.input}
                         onChangeText={(Price) => this.setState({Price})}
                     />
@@ -85,7 +87,7 @@ export default class AddMenu extends Component {
                         style={styles.signinbutton}
                         onPress={this.onPress}
                     >
-                        <Text style={{color: 'white', fontSize: 0.04*width}}> Add Item </Text>
+                        <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> CONFIRM </Text>
                     </TouchableOpacity>
     
                 </View>
@@ -103,30 +105,38 @@ const styles = StyleSheet.create({
     backbox: {
         height: 0.60*height,
         width: 0.8*width,
-        borderRadius: 0.1*width,
-        backgroundColor: 'rgba(255,255, 255,0.75)',
+        backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'center'
+        paddingVertical: 0.08*width,
     },
     input: {
-        backgroundColor: "white",
-        color: '#23186A',
-        width: 0.60*width,
-        height: 0.1*width,
-        fontSize: 0.035*width,
+        fontFamily: "Calibri",
+        backgroundColor: "#EEEEEE",
+        color: 'black',
+        width: 0.65*width,
+        height: 0.11*width,
+        fontSize: 0.04*width,
         paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
-        marginBottom: 0.03*width,
+        marginBottom: 0.06*width,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
     },
     input2: {
-        backgroundColor: "white",
-        color: '#23186A',
-        width: 0.60*width,
-        height: 0.1*width,
-        fontSize: 0.035*width,
+        fontFamily: "Calibri",
+        backgroundColor: "#EEEEEE",
+        color: 'black',
+        width: 0.65*width,
+        height: 0.11*width,
+        fontSize: 0.04*width,
+        paddingVertical: 0.01*height,
+        paddingHorizontal: 0.01*height,
         borderRadius: 10,
-        marginBottom: 0.03*width,
+        marginBottom: 0.06*width,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
+        justifyContent: 'center',
     },
     header: {
         width: 0.60*width,
@@ -135,12 +145,18 @@ const styles = StyleSheet.create({
         marginBottom: 3,
     }, 
     signinbutton: {
-        backgroundColor: '#59B957',
-        marginTop: 0.05*height,
-        width: 0.35*width,
-        height: 0.07*height,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: "#23186A",
+        color: 'black',
+        width: 0.65*width,
+        height: 0.11*width,
+        paddingVertical: 0.01*height,
+        paddingHorizontal: 0.02*height,
         borderRadius: 10,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 0.08*width,
     },
 });
