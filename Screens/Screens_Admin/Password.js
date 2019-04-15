@@ -35,7 +35,7 @@ export default class LoginScreen extends Component {
         
         
         Authenticate = async (data) => {
-            response = await fetch('https://whispering-savannah-21440.herokuapp.com/login', {
+            response = await fetch('https://whispering-savannah-21440.herokuapp.com/change_password', {
                 method : 'post',
                 headers : {
                     Accept : 'application/json',
