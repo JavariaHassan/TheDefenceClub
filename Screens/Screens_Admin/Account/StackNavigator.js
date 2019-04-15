@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Alert} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import { fromRight } from 'react-navigation-transitions';
 import Create from './Account';

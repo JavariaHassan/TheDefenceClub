@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity} from 'react-native';
+import {ScrollView, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import { fromRight } from 'react-navigation-transitions';
 import Create from './Account';
