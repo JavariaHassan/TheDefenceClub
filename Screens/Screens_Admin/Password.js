@@ -4,6 +4,7 @@ import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image
 import Swipeout from 'react-native-swipeout';
 import {NavigationEvents} from 'react-navigation';
 
+
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
@@ -25,37 +26,33 @@ export default class LoginScreen extends Component {
     })
     
     onPress = () => {
-    
-   // if (this.state.Password == this.state.ConfirmPass){
-    //         const data = {
-    //             Name : this.state.Name,
-    //             ID : this.state.ID,
-    //             Email : this.state.Email,
-    //             Password : this.state.Password,
-    //             Admin: 0
-    //         }
-    //         Authenticate = async (data) => {
-    //             response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_admin', {
-    //               method : 'post', 
-    //               headers : {
-    //                 Accept: 'application/json',
-    //                 'Content-Type' : 'application/json'
-    //               }, 
-    //               body : JSON.stringify(data)
-    //             }).then((response) => response.json())
-    //             .then((responseJSON) => {
-    //                 if (responseJSON.response == "Done"){
-    //                     Alert.alert("Admin added")
-    //                     // this.setState({invalid: 0})
-    //                     //     this.props.navigation.navigate('DrawerNavigator')
-    //                 }else{
-    //                     // this.setState({invalid: 1})
-    //                 }
-    //                 })
-    //         }
-    //         Authenticate(data)
+        const data =
+        {
+            ID: this.state.ID,
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
+        }
         
-    //     }
+        
+        Authenticate = async (data) => {
+            response = await fetch('https://whispering-savannah-21440.herokuapp.com/login', {
+                method : 'post',
+                headers : {
+                    Accept : 'application/json',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                Alert.alert(responseJSON.response)
+                if (responseJSON.response == "done") {
+                    Alert.alert("Password Changed")
+                } else if (responseJSON.response == "OldIdPass_invalid") {
+                    Alert.alert("Old Password Invalid")
+                }
+            })
+        }
+        Authenticate(data)
     }
     
     render() {
@@ -66,16 +63,16 @@ export default class LoginScreen extends Component {
                             
                         <TextInput 
                             style={styles.input}
-                            placeholder = "Old Password"
+                            placeholder = "Id"
                             placeholderTextColor = 'black'
                             onChangeText={(ID) => this.setState({ID})}
                         />
 
                         <TextInput
                             style={styles.input}
-                            placeholder = "New Password"
+                            placeholder= "Old Password"
                             placeholderTextColor = 'black'
-                            onChangeText={(Password) => this.setState({Password})}
+                            onChangeText={(oldPassword) => this.setState({oldPassword})}
                         />
 
                         <TextInput

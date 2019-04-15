@@ -22,6 +22,47 @@ app.get('/login', function (req, res){
     res.send('"Hello World')
 });
 
+app.post('/change_password', function (req, res) {
+    console.log("change password")
+
+    ID = req.body.ID
+    oldpassword = req.body.oldPassword
+    newPassword = req.body.newPassword
+
+    var login = db.collection('user_login').doc(ID);
+    var getDoc = login.get()
+        .then(doc => {
+            if (doc.data().Password == oldpassword) {
+                const new_credentials =
+                {
+                    Name: doc.data().Name,
+                    ID: doc.data().ID,
+                    Admin : doc.data().Admin,
+                    Password: newPassword,
+                    Email: doc.data().Email, 
+
+                }
+
+                var setDoc = db.collection('user_login').doc(new_credentials.ID).set(new_credentials);
+                new_data =
+                    {
+                        response: "done"
+                    }
+                res.send(JSON.stringify(new_data))
+            }
+            else {
+                new_data =
+                    {
+                        response: "OldIdPass_invalid"
+                    }
+                res.send(JSON.stringify(new_data))
+            }
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
+        });
+})
+
 app.get('/get_menu', function (req, res){
     
     var menuRef = db.collection('menu_item');
