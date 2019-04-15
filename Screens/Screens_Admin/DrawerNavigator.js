@@ -11,7 +11,7 @@ import Menu_Screen from './Menu/StackNavigator'
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-const values = {
+global.values = {
 	name : "",
 	user : ""
 }
@@ -25,6 +25,8 @@ export default class Drawer extends Component {
 
 		values.name = Nametosave
 		values.user = Usernametosave
+
+		// this.props.navigation.navigate('Home', {Name: values.name, Username: values.user})
 	}
 
     static navigationOptions = {
@@ -122,7 +124,8 @@ const Password = createStackNavigator(
 
 
 const MainNavigator = createDrawerNavigator({
-		Home: {screen: Home},
+		// Home: {screen: ({Home}) => <Mystack screenProps = {drawerNavigation: navigation}/>},
+		Home : {screen: Home},
 		Reservations: {screen: Home},
 		Menu: {screen: Menu},
 		'Add Account': {screen: Account},

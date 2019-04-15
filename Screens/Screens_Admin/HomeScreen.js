@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground} from 'react-native';
+import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -8,7 +8,6 @@ export default class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { name: 'Musa' };
     }
 
     static navigationOptions = ({navigation}) => ({
@@ -19,7 +18,7 @@ export default class HomeScreen extends Component {
     })
 
     onPress = () => {
-        
+        Alert.alert(typeof this.props.navigation.state.params)
     }
 
     render() {
@@ -36,7 +35,7 @@ export default class HomeScreen extends Component {
                         </View>
                         <Image style={styles.image} source={require('../BG_2.jpg')} />
 
-                        <Text style={styles.welcome}> WELCOME MUSA! </Text>
+                        <Text style={styles.welcome}> WELCOME {values.name}! </Text>
 
                         <View style={{marginTop: 0.03*width}}>
                             <Text style={styles.question}>

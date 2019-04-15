@@ -13,9 +13,9 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                       ID: '',
                        oldPassword: '',
-                       newPassword: '', };
+                       newPassword: '',
+                       ConfirmNewPass: '', };
     }
 
      static navigationOptions = ({navigation}) => ({
@@ -26,33 +26,38 @@ export default class LoginScreen extends Component {
     })
     
     onPress = () => {
-        const data =
-        {
-            ID: this.state.ID,
-            oldPassword: this.state.oldPassword,
-            newPassword: this.state.newPassword
+        
+        if (this.state.newPassword == this.state.ConfirmNewPass){
+            const data =
+            {
+                ID: values.user,
+                oldPassword: this.state.oldPassword,
+                newPassword: this.state.newPassword,
+            }
+            
+            ChangePassword = async (data) => {
+                response = await fetch('https://whispering-savannah-21440.herokuapp.com/change_password', {
+                    method : 'post',
+                    headers : {
+                        Accept : 'application/json',
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then((response) => response.json())
+                .then((responseJSON) => {
+                    Alert.alert(responseJSON.response)
+                    if (responseJSON.response == "done") {
+                        Alert.alert("Password Changed")
+                    } else if (responseJSON.response == "OldIdPass_invalid") {
+                        Alert.alert("Old Password Invalid")
+                    }
+                })
+            }
+            ChangePassword(data)
+        }else{
+            Alert.alert("You have entered different password in both New password and confirm new password")
         }
         
-        
-        Authenticate = async (data) => {
-            response = await fetch('https://whispering-savannah-21440.herokuapp.com/change_password', {
-                method : 'post',
-                headers : {
-                    Accept : 'application/json',
-                    'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then((response) => response.json())
-            .then((responseJSON) => {
-                Alert.alert(responseJSON.response)
-                if (responseJSON.response == "done") {
-                    Alert.alert("Password Changed")
-                } else if (responseJSON.response == "OldIdPass_invalid") {
-                    Alert.alert("Old Password Invalid")
-                }
-            })
-        }
-        Authenticate(data)
     }
     
     render() {
@@ -63,23 +68,23 @@ export default class LoginScreen extends Component {
                             
                         <TextInput 
                             style={styles.input}
-                            placeholder = "Id"
-                            placeholderTextColor = 'black'
-                            onChangeText={(ID) => this.setState({ID})}
-                        />
-
-                        <TextInput
-                            style={styles.input}
-                            placeholder= "Old Password"
+                            placeholder = "Old password"
                             placeholderTextColor = 'black'
                             onChangeText={(oldPassword) => this.setState({oldPassword})}
                         />
 
                         <TextInput
                             style={styles.input}
-                            placeholder = "Confirm New Password"
+                            placeholder= "New Password"
                             placeholderTextColor = 'black'
                             onChangeText={(newPassword) => this.setState({newPassword})}
+                        />
+
+                        <TextInput
+                            style={styles.input}
+                            placeholder = "Confirm New Password"
+                            placeholderTextColor = 'black'
+                            onChangeText={(ConfirmNewPass) => this.setState({ConfirmNewPass})}
                         />
 
                         <TouchableOpacity
