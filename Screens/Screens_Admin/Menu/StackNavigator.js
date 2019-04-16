@@ -29,7 +29,8 @@ const MainNavigator = createStackNavigator(
             headerTitleStyle: {
                 fontWeight: "normal",
                 color: "#23186A",
-                fontFamily: "Calibri Bold",
+                fontFamily: "Calibri",
+                fontWeight: "bold",
             },
         },
     }

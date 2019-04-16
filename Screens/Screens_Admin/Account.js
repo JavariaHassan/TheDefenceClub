@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import {ScrollView, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import { fromRight } from 'react-navigation-transitions';
-import Create from './Account';
-import Member from './Add_Member';
-import Admin from './Add_Admin';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -101,7 +98,7 @@ class Member_Comp extends Component {
                     style={styles.signinbutton}
                     onPress={this.onPress}
                 >
-                    <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> CONFIRM </Text>
+                    <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> CONFIRM </Text>
                 </TouchableOpacity>
 
             </View>
@@ -198,7 +195,7 @@ class Admin_Comp extends Component {
                     style={styles.signinbutton}
                     onPress={this.onPress}
                 >
-                    <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> CONFIRM </Text>
+                    <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> CONFIRM </Text>
                 </TouchableOpacity>
 
             </View>
@@ -218,7 +215,7 @@ export default class Main extends Component {
     static navigationOptions = ({navigation}) => ({
         title: 'Add Account',
         headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
-                <Image source={require('../../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
+                <Image source={require('../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
             </TouchableOpacity>,
     });
     
@@ -238,7 +235,7 @@ export default class Main extends Component {
     
     render() {
         return (
-            <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
+            <ImageBackground source={require('../BG_3.png')} style={styles.container}>
                     <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
                             onPress={this.onPress1}
@@ -268,15 +265,6 @@ export default class Main extends Component {
         );
     }
 }
-
-const MainNavigator = createStackNavigator(
-    {
-        Admin:  {screen: Admin},
-        Member: {screen: Member},
-    },
-);
-
-const App = createAppContainer(MainNavigator);
 
 const styles = StyleSheet.create({
     container: {
@@ -315,7 +303,8 @@ const styles = StyleSheet.create({
     buttons: {
         color: 'white',
         fontSize: 17,
-        fontFamily: "Calibri Bold",
+        fontFamily: "Calibri",
+        fontWeight: "bold",
     },
     header: {
         width: 0.60*width,

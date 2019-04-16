@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
         height: 0.7*width,
     },
     welcome: {
-        fontFamily: 'Calibri Bold',
+        fontFamily: 'Calibri',
+        fontWeight: 'bold',
         borderColor:'grey',
         borderBottomWidth: 2,
         borderRightWidth: 2,

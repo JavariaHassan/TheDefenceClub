@@ -4,7 +4,7 @@ import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, creat
 import {Dimensions} from 'react-native';
 
 import Home_Screen from './HomeScreen.js';
-import Account_Screen from './Account/StackNavigator'
+import Account_Screen from './Account.js'
 import Password_Screen from './Password.js'//wth
 import Menu_Screen from './Menu/StackNavigator'
 
@@ -72,7 +72,8 @@ const Home = createStackNavigator(
             headerTitleStyle: {
                 fontWeight: "normal",
                 color: "#23186A",
-                fontFamily: "Calibri Bold",
+                fontFamily: "Calibri",
+                fontWeight: "bold",
             },
         },
 	}
@@ -84,8 +85,20 @@ const Account = createStackNavigator(
 	},
 	{
 		defaultNavigationOptions: {
-			header: null
-		},
+            title: "",
+            headerStyle: {
+                backgroundColor: 'white',
+                borderBottomColor:'#A9A9A9',
+                borderBottomWidth: 1,
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+                fontWeight: "normal",
+                color: "#23186A",
+                fontFamily: "Calibri",
+                fontWeight: "bold",
+            },
+        },
 	}
 );
 
@@ -116,7 +129,8 @@ const Password = createStackNavigator(
             headerTitleStyle: {
                 fontWeight: "normal",
                 color: "#23186A",
-                fontFamily: "Calibri Bold",
+                fontFamily: "Calibri",
+                fontWeight: "bold",
             },
         },
 	}

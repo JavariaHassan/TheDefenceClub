@@ -91,7 +91,7 @@ export default class LoginScreen extends Component {
                             style={styles.signinbutton}
                             onPress={this.onPress}
                         >
-                            <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> SUBMIT </Text>
+                            <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> SUBMIT </Text>
                         </TouchableOpacity>
 
 

@@ -87,7 +87,7 @@ export default class AddMenu extends Component {
                         style={styles.signinbutton}
                         onPress={this.onPress}
                     >
-                        <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri Bold"}}> CONFIRM </Text>
+                        <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> CONFIRM </Text>
                     </TouchableOpacity>
     
                 </View>
