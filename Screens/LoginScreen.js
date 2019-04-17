@@ -180,8 +180,9 @@ const styles = StyleSheet.create({
         marginBottom: 0.08*width,
     },
     welcome: {
-        fontFamily: 'Cookie',
-        fontSize: 0.095*width,
+        fontFamily: 'Calibri',
+        fontWeight: 'bold',
+        fontSize: 0.06*width,
         color: '#23186A',
         marginBottom: 0.07*width,
     },
