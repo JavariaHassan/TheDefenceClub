@@ -8,32 +8,8 @@ import Add_Screen from './Add_Menu';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-var MenuObj2 = {
-    'Continental' : ['Chicken And Cheese Salad', 'Peppered Pasta Salad', 'Paneer Steak'],
-    'Chinese' : ['Hot and Sour Soup', 'Golden Fried Prawns', 'Cho Yuen Squids'],
-    'Desi' : ['Bombay Biryani', 'Nihari', 'Naan'],
-    'Thai' : ['Tom Yum Goong', 'Som Tum', 'Pad Thai'],
-    'Drinks' : ['Coke', 'Water', 'Chai'],
-};
-
 var MenuObj = {
-    "chicken karahi" : {
-     "Name": "chicken karahi",
-     "Category": "desi",
-     "Price": "200",
-    },
-
-    "pizza" : {
-     "Name": "pizza",
-     "Category": "fast food",
-     "Price": "500",
-    },
-
-    "sada naan" : {
-     "Name": "sada naan",
-     "Category": "tandoor",
-     "Price": "10",
-    }
+    
 }
 
 export default class Menu extends Component {
@@ -165,6 +141,7 @@ export default class Menu extends Component {
             {
                 text: 'Remove',
                 backgroundColor: '#FE6463',
+                fontFamily: "Calibri",
                 onPress : this.onPress
             }
         ]
@@ -210,15 +187,15 @@ export default class Menu extends Component {
                 
                     />
 
-                    <View style={{width: width*0.9, marginBottom: 10, flexDirection: 'row'}}>
+                    <View style={{width: width*0.9, height: width*0.16, marginBottom: 5, flexDirection: 'row', backgroundColor: 'white', borderColor: "#D9D8D9", borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
                         <TextInput
                             style={styles.input}
                             placeholder="Search"
                             placeholderTextColor="#23186A"
                             onChangeText={(Search) => this.onChange(Search)}
                         />
-                        <View style={{width: width*0.15, height: 0.07*height, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
-                            <Image source={require('../../search.png')} style={{width: width*0.05, height:0.03*height}}/>
+                        <View style={{borderTopRightRadius: 10, borderBottomRightRadius: 10, width: width*0.17, height: width*0.16, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
+                            <Image source={require('../../search.png')} style={{width: width*0.05, height: width*0.05}}/>
                         </View>
                     </View>
 
@@ -246,45 +223,43 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     input: {
-        height: 0.07*height,
+        height: width*0.12,
         width: width*0.75,
         fontFamily: "Calibri",
-        paddingLeft: 20,
+        fontWeight: "bold",
         padding: 10,
-        backgroundColor: 'white',
+        paddingLeft: 16,
         color: "#23186A",
-        fontSize: 20,
-        borderColor: "#D6D6D6",
-        borderWidth: 1,
+        fontSize: 17,
     },
     scrollview: {
         width: width*0.90,
-        backgroundColor: 'white',
-        marginBottom: width*0.05,
-        padding: 6,
-        paddingVertical: 20,
-        borderColor: "#D6D6D6",
-        borderWidth: 1,
+        paddingBottom: 20,
     },
     wipeout: {
-        width: width*0.80,
+        width: width*0.90,
         backgroundColor: 'transparent',
-        borderBottomColor:'#D6D6D6',
-        borderBottomWidth: 1,
+        marginBottom: 5,
+        backgroundColor: '#FE6463',
+        borderRadius: 10,
     },
     list: {
+        height: width*0.16,
         backgroundColor: 'white',
-        padding: 5,
-        paddingBottom: 8,
+        padding: 10,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
+        borderRightWidth: 0,
+        borderRadius: 10,
     },
     listitem1: {
         fontFamily: "Calibri",
-        fontSize: 20,
-        color: '#424242',
+        fontSize: 17,
+        color: 'black',
     },
     listitem2: {
         fontFamily: "Calibri",
-        fontSize: 16,
-        paddingLeft: 2,
+        fontSize: 15,
+        color: '#424242',
     },
 });

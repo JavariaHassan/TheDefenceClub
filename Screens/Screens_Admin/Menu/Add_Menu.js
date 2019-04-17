@@ -63,8 +63,11 @@ export default class AddMenu extends Component {
                                 onValueChange={(itemValue, itemIndex) => this.setState({Category: itemValue})}
                         >
                             <Picker.Item label='Category' value='' />
+                            <Picker.Item label="Continental" value="Continental" />
                             <Picker.Item label="Chinese" value="Chinese" />
+                            <Picker.Item label="Desi" value="Desi" />
                             <Picker.Item label="Thai" value="Thai" />
+                            <Picker.Item label="Drinks" value="Drinks" />
                         </Picker>
                     </View>
 
