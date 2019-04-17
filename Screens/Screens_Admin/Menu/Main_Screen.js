@@ -139,8 +139,10 @@ export default class Menu extends Component {
     render() {
         var swipeoutBtns = [
             {
-                text: 'Remove',
-                backgroundColor: '#FE6463',
+                component: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{fontFamily: 'FontAwesome', fontSize: width*0.065, color: 'white'}}>  </Text>
+                            </View>,
+                backgroundColor: '#FC2632',
                 fontFamily: "Calibri",
                 onPress : this.onPress
             }
@@ -194,7 +196,7 @@ export default class Menu extends Component {
                             placeholderTextColor="#23186A"
                             onChangeText={(Search) => this.onChange(Search)}
                         />
-                        <View style={{borderTopRightRadius: 10, borderBottomRightRadius: 10, width: width*0.17, height: width*0.16, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{borderTopRightRadius: 10, borderBottomRightRadius: 10, width: width*0.19, height: width*0.16, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
                             <Image source={require('../../search.png')} style={{width: width*0.05, height: width*0.05}}/>
                         </View>
                     </View>
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: width*0.12,
-        width: width*0.75,
+        width: (width*0.9) - (width*0.19),
         fontFamily: "Calibri",
         fontWeight: "bold",
         padding: 10,
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
         width: width*0.90,
         backgroundColor: 'transparent',
         marginBottom: 5,
-        backgroundColor: '#FE6463',
+        backgroundColor: '#FC2632',
         borderRadius: 10,
     },
     list: {

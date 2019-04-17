@@ -254,8 +254,8 @@ export default class Main extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <View style={{width: 0.85*width, height: 0.7*height, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
+                    <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', paddingTop: 0.09*width}}>
+                        <View style={{width: 0.85*width, height: 1.2*width, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: 20}}>
                             {this.state.option ?
                             <Admin_Comp/>
                             : <Member_Comp/>}
@@ -285,14 +285,14 @@ const styles = StyleSheet.create({
     },
     secondbar: {
         width: width/2,
-        height: 0.06*height,
+        height: 0.11*width,
         backgroundColor: '#23186A',
         justifyContent: 'center',
         alignItems: 'center',
     }, 
     secondbarselected: {
         width: width/2,
-        height: 0.06*height,
+        height: 0.11*width,
         backgroundColor: '#23186A',
         borderColor:'lightgrey',
         borderBottomColor: 'white',
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     }, 
     buttons: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 15,
         fontFamily: "Calibri",
         fontWeight: "bold",
     },
@@ -319,7 +319,6 @@ const styles = StyleSheet.create({
         width: 0.65*width,
         height: 0.11*width,
         fontSize: 0.04*width,
-        paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
         marginBottom: 0.06*width,
@@ -332,7 +331,6 @@ const styles = StyleSheet.create({
         width: 0.65*width,
         height: 0.11*width,
         fontSize: 0.04*width,
-        paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
         alignItems: 'center',

@@ -64,8 +64,7 @@ export default class LoginScreen extends Component {
         return (
             <ImageBackground source={require('../BG_1.png')} style={styles.container}>
                <View style={styles.backbox}>
-                     <Image style={styles.image} source={require('../key.png')} />
-                            
+                    
                         <TextInput 
                             style={styles.input}
                             placeholder = "Old password"
@@ -105,21 +104,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgba(255, 255, 255, 0.75)',
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     backbox: {
         width: width*0.8,
-        height: height*0.75,
+        height: width*0.9,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-    },
-    image: {
-        width: 0.25*width,
-        height: 0.25*width,
-        alignItems: 'center',
-        marginBottom: 0.1*width,
+        borderRadius: 20,
     },
     welcome: {
         fontSize: 0.07*width,
