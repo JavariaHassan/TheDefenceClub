@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert, Picker} from 'react-native';
+import {Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ActionSheetIOS, Picker} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+
+const options = ['Cancel', "Continental", "Chinese", "Desi", "Thai", "Drinks"]
 
 export default class AddMenu extends Component {
 
@@ -10,7 +12,7 @@ export default class AddMenu extends Component {
         super(props);
         this.state = { Name: '',
                        Price: '',
-                       Category: '',
+                       Category: 'Category',
                      };
     }
 
@@ -51,25 +53,53 @@ export default class AddMenu extends Component {
 
         this.props.navigation.navigate('Main')
     }
+
+    onClick() {
+        ActionSheetIOS.showActionSheetWithOptions(
+            {
+                options: options,
+                cancelButtonIndex: 0,
+            },
+            (buttonIndex) => {
+                if (buttonIndex != 0) {
+                  this.setState({Category: options[buttonIndex]})
+                }
+            },
+        );
+    }
     
     render() {
+        var items = []
+        for (let item in options) {
+            if (item != 0)
+                items.push(
+                    <Picker.Item label={options[item]} value={options[item]}/>
+                )
+        }
+
         return (
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                 <View style={styles.backbox}>
 
-                    <View style={styles.input2}>
-                        <Picker
-                                selectedValue={this.state.Category}
-                                onValueChange={(itemValue, itemIndex) => this.setState({Category: itemValue})}
-                        >
-                            <Picker.Item label='Category' value='' />
-                            <Picker.Item label="Continental" value="Continental" />
-                            <Picker.Item label="Chinese" value="Chinese" />
-                            <Picker.Item label="Desi" value="Desi" />
-                            <Picker.Item label="Thai" value="Thai" />
-                            <Picker.Item label="Drinks" value="Drinks" />
-                        </Picker>
-                    </View>
+                    {
+                        Platform.OS == 'ios' ?
+                            <View style={styles.input}>
+                                <Text
+                                    onPress={() => this.onClick()}>
+                                    {this.state.Category}
+                                </Text>
+                            </View>
+                        
+                        :  
+                            <View style={styles.input2}>
+                                <Picker
+                                        selectedValue={this.state.Category}
+                                        onValueChange={(itemValue, itemIndex) => this.setState({Category: itemValue})}
+                                >
+                                    {items}
+                                </Picker>
+                            </View>
+                    }
 
                     <TextInput
                         placeholder="Name"
@@ -84,7 +114,6 @@ export default class AddMenu extends Component {
                         style={styles.input}
                         onChangeText={(Price) => this.setState({Price})}
                     />
-                
                     
                     <TouchableOpacity
                         style={styles.signinbutton}
@@ -106,7 +135,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     backbox: {
-        height: 0.60*height,
+        borderRadius: 20,
         width: 0.8*width,
         backgroundColor: 'white',
         alignItems: 'center',
@@ -125,6 +154,7 @@ const styles = StyleSheet.create({
         marginBottom: 0.06*width,
         borderColor: "#D9D8D9",
         borderWidth: 1,
+        justifyContent: 'center',
     },
     input2: {
         fontFamily: "Calibri",
@@ -141,12 +171,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         justifyContent: 'center',
     },
-    header: {
-        width: 0.60*width,
-        color: '#23186A',
-        fontSize: 0.035*width,
-        marginBottom: 3,
-    }, 
     signinbutton: {
         backgroundColor: "#23186A",
         color: 'black',
@@ -159,7 +183,5 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'absolute',
-        bottom: 0.08*width,
     },
 });
