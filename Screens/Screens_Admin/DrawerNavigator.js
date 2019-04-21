@@ -7,6 +7,7 @@ import Home_Screen from './HomeScreen.js';
 import Account_Screen from './Account.js'
 import Password_Screen from './Password.js'//wth
 import Menu_Screen from './Menu/StackNavigator'
+import Reservations_Screen from './Reservations/StackNavigator'
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -113,6 +114,17 @@ const Menu = createStackNavigator(
 	}
 );
 
+const Reservations = createStackNavigator(
+	{
+		main: {screen: Reservations_Screen},
+	},
+	{
+		defaultNavigationOptions: {
+			header: null
+		},
+	}
+);
+
 const Password = createStackNavigator(
 	{
 		main: {screen: Password_Screen},
@@ -140,7 +152,7 @@ const Password = createStackNavigator(
 const MainNavigator = createDrawerNavigator({
 		// Home: {screen: ({Home}) => <Mystack screenProps = {drawerNavigation: navigation}/>},
 		Home : {screen: Home},
-		Reservations: {screen: Home},
+		Reservations: {screen: Reservations},
 		Menu: {screen: Menu},
 		'Add Account': {screen: Account},
 		Settings: {screen: Home},
