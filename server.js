@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-// const port = 3000
-var port = process.env.PORT || 3000;
+const port = 3000
+// var port = process.env.PORT || 3000;
 bodyParser = require('body-parser');
 app.use(bodyParser.json())
 
@@ -185,4 +185,47 @@ app.post('/login', function(req, res){
         console.log('Error getting document', err);
     });
 });
+
+
+app.get('/temp', function (req, res){
+    console.log("temp called")
+    // data = req.body
+    // data.Admin = 0
+
+    data = {
+        date : 1,
+        month : 5,
+        year : 2019,
+        banquet: 
+        {
+            breakfast: 'n',
+            lunch : 'n',
+            dinner : 'n'
+        },
+        lawn_1: 
+        {
+            breakfast: 'a',
+            lunch : 'a',
+            dinner : 'a'
+        },
+        lawn_2: 
+        {
+            breakfast: 'a',
+            lunch : 'a',
+            dinner : 'a'
+        },
+        tv_room: 
+        {
+            breakfast: 'a',
+            lunch : 'a',
+            dinner : 'a'
+        }
+    } 
+    key =  data.date.toString() + '-' + data.month.toString() + '-' + data.year.toString()
+    var setDoc = db.collection('reservation_availability').doc(key).set(data); 
+    
+    res.send(JSON.stringify(data))     
+
+});
+
 app.listen(port, () => console.log(`example app listening on port ${port}!`))
