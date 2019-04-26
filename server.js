@@ -186,3 +186,107 @@ app.post('/login', function(req, res){
     });
 });
 app.listen(port, () => console.log(`example app listening on port ${port}!`))
+
+
+app.get('/get_confirmed_reservations', function (req, res) {
+
+    console.log("in function")
+
+    var reservationRef = db.collection('reservation_details').where('status', '==', "confirmed");
+    var AllReservations = reservationRef.get()
+        .then(snapshot => {
+            new_data = {}
+            snapshot.forEach(doc => {
+                new_data[doc.id] =
+                    {
+                        member_id: doc.data().member_id,
+                        reservation_id: doc.data().reservation_id,
+                        timestamp: doc.data().timestamp,
+                        date: doc.data().date,
+                        start_time: doc.data().start_time,
+                        end_time: doc.data().end_time,
+                        instructions: doc.data().instructions,
+                        status: "confirmed",
+                        menu: doc.data().menu,
+                        venue: doc.data().venue
+
+                    }
+                // console.log(doc.id, '=>', doc.data());
+                console.log(new_data[doc.id])
+            });
+            res.send(JSON.stringify(new_data));
+        })
+
+        .catch(err => {
+            console.log('Error getting documents', err);
+            new_data = {
+            "error" :
+            {
+                member_id: "error",
+                reservation_id: "error",
+                timestamp: "error",
+                date: "error",
+                start_time: "error",
+                end_time: "error",
+                instructions: "error",
+                status: "error",
+                menu: "error",
+                venue: "error"
+            }
+        }
+
+            // res.send(JSON.stringify(newdata));
+        });
+});
+
+
+app.get('/get_unconfirmed_reservations', function (req, res) {
+
+    console.log("in function")
+
+    var reservationRef = db.collection('reservation_details').where('status', '==', "unconfirmed");
+    var AllReservations = reservationRef.get()
+        .then(snapshot => {
+            new_data = {}
+            snapshot.forEach(doc => {
+                new_data[doc.id] =
+                    {
+                        member_id: doc.data().member_id,
+                        reservation_id: doc.data().reservation_id,
+                        timestamp: doc.data().timestamp,
+                        date: doc.data().date,
+                        start_time: doc.data().start_time,
+                        end_time: doc.data().end_time,
+                        instructions: doc.data().instructions,
+                        status: "unconfirmed",
+                        menu: doc.data().menu,
+                        venue: doc.data().venue
+
+                    }
+                // console.log(doc.id, '=>', doc.data());
+                console.log(new_data[doc.id])
+            });
+            res.send(JSON.stringify(new_data));
+        })
+
+        .catch(err => {
+            console.log('Error getting documents', err);
+            new_data = {
+                "error":
+                {
+                    member_id: "error",
+                    reservation_id: "error",
+                    timestamp: "error",
+                    date: "error",
+                    start_time: "error",
+                    end_time: "error",
+                    instructions: "error",
+                    status: "error",
+                    menu: "error",
+                    venue: "error"
+                }
+            }
+
+            res.send(JSON.stringify(new_data));
+        });
+});
