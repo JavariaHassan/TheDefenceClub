@@ -8,7 +8,13 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-const options = ['Cancel', "Banquet", "Cafe", "Lawn 1", "Lawn 2", "Lawn 3"]
+const options = ['Cancel', "Banquet", "TV Room", "Lawn 1", "Lawn 2"]
+const options_banquet = ["Cancel","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]  // 15-40 banquet limit 
+const options_lawn = ["Cancel","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"] // 10-25 lawns limit
+const options_tv = ["Cancel","5","6","7","8","9","10","11","12","13","14","15"] // 5-15 tv room limit
+// const options_banquet = ["Cancel","5","6","7","8","9","10","11","12","13","14","15"] // 5-15 tv room limit
+// const options_lawn = ["Cancel","5","6","7","8","9","10","11","12","13","14","15"] // 5-15 tv room limit
+
 var timings = [{index: 0, key: 'Breakfast', time: '09:00 - 11:00'},
                {index: 1, key: 'Lunch', time: '12:30 - 15:00'},
                {index: 2, key: 'Dinner', time: '19:30 - 22:00'},
@@ -47,6 +53,7 @@ class Page_VenueTimePeople extends Component {
     constructor(props) {
         super(props);
         this.state = { venue: 'Banquet',
+                       guests : 5,
                        styles: [{backgroundColor: '#D2D2E1', borderColor: '#211965'}, {}, {}]
                      };
     };
@@ -66,6 +73,33 @@ class Page_VenueTimePeople extends Component {
         );
     }
 
+    onClick2() {
+        var array_2 = []
+        if(this.state.venue == 'Banquet'){
+            array_2 = options_banquet
+        }
+        if(this.state.venue == 'TV Room'){
+            array_2 = options_tv
+        }
+        if(this.state.venue == 'Lawn 1' || this.state.venue == 'Lawn 2'){
+            array_2 = options_lawn
+        }
+
+        ActionSheetIOS.showActionSheetWithOptions(
+            {
+                options: array_2,
+                cancelButtonIndex: 0,
+            },
+            (buttonIndex) => {
+                if (buttonIndex != 0) {
+                    guestnumber = options[buttonIndex]
+                    this.setState({guests: options[buttonIndex]})
+                }
+            },
+        );
+    }
+
+
     timingClick(index) {
         timing = index
         timing_styles = [{}, {}, {}]
@@ -74,11 +108,32 @@ class Page_VenueTimePeople extends Component {
     }
     
     render() {
+
         var items = []
         for (let item in options) {
             if (item != 0)
                 items.push(
                     <Picker.Item label={options[item]} value={options[item]}/>
+                )
+        }
+
+        var items_2 = []
+        var array_1 = []
+        if(this.state.venue == 'Banquet'){
+            array_1 = options_banquet
+        }
+        if(this.state.venue == 'TV Room'){
+            array_1 = options_tv
+        }
+        if(this.state.venue == 'Lawn 1' || this.state.venue == 'Lawn 2'){
+            array_1 = options_lawn
+        }
+     
+
+        for (let item in array_1) {
+            if (item != 0)
+                items_2.push(
+                    <Picker.Item label={array_1[item]} value={array_1[item]}/>
                 )
         }
 
@@ -119,13 +174,35 @@ class Page_VenueTimePeople extends Component {
                     }
 
                     <Text style={styles.title}> Number of Guests </Text>
+                    {
+                        Platform.OS == 'ios' ?
+                            <View style={styles.input}>
+                                <Text style={{fontFamily: "Calibri", color: 'black', fontSize: 0.04*width}}
+                                    onPress={() => this.onClick2()}>
+                                    {this.state.guests}
+                                </Text>
+                            </View>
+                        
+                        :  
+                            <View style={styles.input2}>
+                                <Picker
+                                        style={{fontFamily: "Calibri", color: 'black', fontSize: 0.04*width}}
+                                        selectedValue={this.state.guests}
+                                        onValueChange={(itemValue, itemIndex) => {guestnumber = itemValue; this.setState({guests: itemValue})}}
+                                >
+                                    {items_2}
+                                </Picker>
+                            </View>
+                    }
+
+                    {/* <Text style={styles.title}> Number of Guests </Text>
                     <TextInput
-                        placeholder="1"
+                        placeholder=""
                         placeholderTextColor="black"
                         keyboardType="numeric"
                         style={styles.input}
                         onChangeText={(guests) => guestnumber = guests}
-                    />
+                    /> */}
                         
                     <Text style={styles.title}> Timing </Text>
                     {items_timings}

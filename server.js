@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const port = 3000
-// var port = process.env.PORT || 3000;
+// const port = 3000
+var port = process.env.PORT || 3000;
 bodyParser = require('body-parser');
 app.use(bodyParser.json())
 
@@ -92,6 +92,42 @@ app.get('/get_menu', function (req, res){
         res.send(JSON.stringify(newdata));
     });  
 });
+
+
+app.get('/get_dates', function (req, res){ // return the available dates for a given month,year.. venue and time
+    // assuming i get month, year, venue, time(breakfast, lunch, dinner)
+    month = 4
+    year = 2019
+    time = "dinner"
+    venue = 'banquet' // lawn_1, lawn_2, tv_room
+    unavailable_dates = {}
+    var resRef = db.collection('reservation_availability').
+    where('year', '==', year);
+    var allres = resRef.get()
+    .then(snapshot => {
+        snapshot.forEach(doc => {
+        // newdata[doc.id] = doc.data()
+        var x = doc.data()
+        if(x["month"] == month && x[venue][time] == "n"){
+            unavailable_dates[x["date"]] = "n"
+        }
+        });
+        res.send(JSON.stringify(unavailable_dates));
+    })
+
+    .catch(err => {
+        console.log('Error getting documents', err);
+        newdata = {
+            "error": {
+                Name: "error",
+                Price : "error",
+                Category : "error"
+            }
+        }
+        res.send(JSON.stringify(newdata));
+    });  
+});
+
 
 app.post('/add_admin', function(req, res){
     console.log("add admin")
@@ -187,45 +223,17 @@ app.post('/login', function(req, res){
 });
 
 
-app.get('/temp', function (req, res){
-    console.log("temp called")
-    // data = req.body
-    // data.Admin = 0
+// app.get('/temp', function (req, res){
+//     console.log("temp called")
+//     // data = req.body
+//     // data.Admin = 0
 
-    data = {
-        date : 1,
-        month : 5,
-        year : 2019,
-        banquet: 
-        {
-            breakfast: 'n',
-            lunch : 'n',
-            dinner : 'n'
-        },
-        lawn_1: 
-        {
-            breakfast: 'a',
-            lunch : 'a',
-            dinner : 'a'
-        },
-        lawn_2: 
-        {
-            breakfast: 'a',
-            lunch : 'a',
-            dinner : 'a'
-        },
-        tv_room: 
-        {
-            breakfast: 'a',
-            lunch : 'a',
-            dinner : 'a'
-        }
-    } 
-    key =  data.date.toString() + '-' + data.month.toString() + '-' + data.year.toString()
-    var setDoc = db.collection('reservation_availability').doc(key).set(data); 
+//     data = {} 
+//     // key =  data.date.toString() + '-' + data.month.toString() + '-' + data.year.toString()
+//     var setDoc = db.collection('reservation_availability').doc(key).set(data); 
     
-    res.send(JSON.stringify(data))     
+//     res.send(JSON.stringify(data))     
 
-});
+// });
 
 app.listen(port, () => console.log(`example app listening on port ${port}!`))
