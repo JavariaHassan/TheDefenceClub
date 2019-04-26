@@ -1,11 +1,206 @@
 import React, {Component} from 'react';
-import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert} from 'react-native';
-import {NavigationEvents} from 'react-navigation';
-
-import Add_Screen from './Add_Reservation';
+import {Keyboard, Dimensions, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, ScrollView} from 'react-native';
+import { fromBottom } from 'react-navigation-transitions';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+
+reservations = {
+                    "20100180_10" :
+                    {   member_id: "20100180",
+                        reservation_id: 10,
+                        timestamp : '12:24',
+                        date : '04 July 2019',
+                        start_time : '12:00',
+                        end_time: '02:00',
+                        instructions: "",
+                        status: "unconfirmed",
+                        menu : {
+                            0 :  
+                                {
+                                    name: "Karahi",
+                                    price: 800,
+                                    category: 'Desi',
+                                },
+                            1 :  
+                                {
+                                    name: "Naan",
+                                    price: 20,
+                                    category: 'Desi',
+                                }
+                        },
+                        venue: 
+                        {
+                            name: "Banquet Hall",
+                            price: 10000,
+                            per_hour_surcharge: 2000,
+                        }
+                    },
+                    "20100058_10" :
+                    {   member_id: "20100058",
+                        reservation_id: 10,
+                        timestamp : '02:30',
+                        date : '11 July 2019',
+                        start_time : '13:00',
+                        end_time: '15:00',
+                        instructions: "Birthday Decorations",
+                        status: "unconfirmed",
+                        menu : {
+                            0 :  
+                                {
+                                    name: "Karahi",
+                                    price: 800,
+                                    category: 'Desi',
+                                },
+                            1 :  
+                                {
+                                    name: "Biryani",
+                                    price: 850,
+                                    category: 'Desi',
+                                },
+                            2 :  
+                                {
+                                    name: "Naan",
+                                    price: 20,
+                                    category: 'Desi',
+                                }
+                        },
+                        venue: 
+                        {
+                            name: "Lawn",
+                            price: 10000,
+                            per_hour_surcharge: 2000,
+                        }
+                    },
+                    "20100125_10" :
+                    {   member_id: "20100125",
+                        reservation_id: 10,
+                        timestamp : '13:30',
+                        date : '20 September 2019',
+                        start_time : '13:00',
+                        end_time: '15:00',
+                        instructions: "",
+                        status: "confirmed",
+                        menu : {
+                            0 :  
+                                {
+                                    name: "Coffee",
+                                    price: 320,
+                                    category: 'Drinks',
+                                },
+                            1 :  
+                                {
+                                    name: "More Coffee",
+                                    price: 320,
+                                    category: 'Drinks',
+                                },
+                            2 :  
+                                {
+                                    name: "Diet Coke",
+                                    price: 50,
+                                    category: 'Drinks',
+                                }
+                        },
+                        venue: 
+                        {
+                            name: "Lawn",
+                            price: 10000,
+                            per_hour_surcharge: 2000,
+                        }
+                    },
+                }
+
+class Pending extends Component {
+    constructor(props) {
+        super(props);
+    };
+
+    render() {
+        var r_pending = [];
+        for (const i in reservations) {
+            if (reservations[i].status == "unconfirmed") {
+                r_pending.push(
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('View', {pending: 1, info: reservations[i]})} style={{padding: 10, borderRadius: 10, backgroundColor: 'white', marginBottom: 0.04*width}}>
+                        <View style={[styles.reservation_bar, {borderBottomWidth: StyleSheet.hairlineWidth, borderColor: 'grey', paddingBottom: 0.015*width, marginBottom: 0.03*width}]}>
+                            <Text style={{paddingRight: 0.01*width, fontSize: 0.035*width, fontFamily: "simple-line-icons"}}></Text>
+                            <Text style={{color: 'black', fontSize: 0.035*width}}> {reservations[i].member_id} </Text>
+                        </View>
+                        <View style={[styles.reservation_bar, {justifyContent: 'center',}]}>
+                            <Text style={{paddingRight: 0.01*width, fontSize: 0.04*width, fontFamily: "Font Awesome 5 Free"}}></Text>
+                            <Text style={{fontWeight: 'bold', color: 'black', fontSize: 0.04*width}}> {reservations[i].date} </Text>
+                        </View>
+                        <View style={[styles.reservation_bar, {paddingBottom: 5}]}>
+                            <Text style={{color: 'black', flex: 1, textAlign: 'center', fontSize: 0.035*width}}> {reservations[i].venue.name} </Text>
+                        </View>
+                        <View style={{alignContent: 'center'}}>
+                            <View style={styles.reservation_bar}>
+                                <Text style={{color: 'grey', flex: 1, paddingLeft: 0.1*width, fontSize: 0.03*width}}> FROM </Text>
+                                <Text style={{color: 'grey', flex: 1, paddingLeft: 0.18*width, fontSize: 0.03*width}}> TO </Text>
+                            </View>
+                            <View style={styles.reservation_bar}>
+                                <Text style={{color: 'black', flex: 1, paddingLeft: 0.1*width, fontSize: 0.05*width, fontWeight: 'bold'}}> {reservations[i].start_time} </Text>
+                                <Text style={{fontFamily: 'Entypo', fontSize: 0.06*width, color: 'black'}}>  </Text>
+                                <Text style={{color: 'black', flex: 1, paddingRight: 0.1*width, fontSize: 0.05*width, textAlign: 'right', fontWeight: 'bold'}}> {reservations[i].end_time} </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
+        } 
+        return (
+            <ScrollView contentContainerStyle = {{width: width, alignItems: 'center', paddingVertical: 0.09*width,}}>
+                {r_pending}
+            </ScrollView>
+            
+        );
+    }
+}
+
+class Confirmed extends Component {
+    constructor(props) {
+        super(props);
+    };
+
+    render() {
+        var r_confirmed = [];
+        for (const i in reservations) {
+            if (reservations[i].status == "confirmed") {
+                r_confirmed.push(
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('View', {pending: 0, info: reservations[i]})} style={{padding: 10, borderRadius: 10, backgroundColor: 'white', marginBottom: 0.04*width}}>
+                        <View style={[styles.reservation_bar, {borderBottomWidth: StyleSheet.hairlineWidth, borderColor: 'grey', paddingBottom: 0.015*width, marginBottom: 0.03*width}]}>
+                            <Text style={{paddingRight: 0.01*width, fontSize: 0.035*width, fontFamily: "simple-line-icons"}}></Text>
+                            <Text style={{color: 'black', fontSize: 0.035*width}}> {reservations[i].member_id} </Text>
+                        </View>
+                        <View style={[styles.reservation_bar, {justifyContent: 'center',}]}>
+                            <Text style={{paddingRight: 0.01*width, fontSize: 0.04*width, fontFamily: "Font Awesome 5 Free"}}></Text>
+                            <Text style={{fontWeight: 'bold', color: 'black', fontSize: 0.04*width}}> {reservations[i].date} </Text>
+                        </View>
+                        <View style={[styles.reservation_bar, {paddingBottom: 5}]}>
+                            <Text style={{color: 'black', flex: 1, textAlign: 'center', fontSize: 0.035*width}}> {reservations[i].venue.name} </Text>
+                        </View>
+                        <View style={{alignContent: 'center'}}>
+                            <View style={styles.reservation_bar}>
+                                <Text style={{color: 'grey', flex: 1, paddingLeft: 0.1*width, fontSize: 0.03*width}}> FROM </Text>
+                                <Text style={{color: 'grey', flex: 1, paddingLeft: 0.18*width, fontSize: 0.03*width}}> TO </Text>
+                            </View>
+                            <View style={styles.reservation_bar}>
+                                <Text style={{color: 'black', flex: 1, paddingLeft: 0.1*width, fontSize: 0.05*width, fontWeight: 'bold'}}> {reservations[i].start_time} </Text>
+                                <Text style={{fontFamily: 'Entypo', fontSize: 0.06*width, color: 'black'}}>  </Text>
+                                <Text style={{color: 'black', flex: 1, paddingRight: 0.1*width, fontSize: 0.05*width, textAlign: 'right', fontWeight: 'bold'}}> {reservations[i].end_time} </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                )
+            }
+        } 
+        return (
+            <ScrollView contentContainerStyle = {{width: width, alignItems: 'center', paddingVertical: 0.09*width,}}>
+                {r_confirmed}
+            </ScrollView>
+            
+        );
+    }
+}
 
 export default class Menu extends Component {
     constructor(props) {
@@ -38,11 +233,10 @@ export default class Menu extends Component {
                        adminstyle: styles.secondbar,
                        memberstyle: styles.secondbarselected})
     };
-    
+  
     render() {
 
         return (
-
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                     <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
@@ -62,13 +256,11 @@ export default class Menu extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <ScrollView contentContainerStyle={{flex: 1, alignItems: 'center', paddingTop: 0.09*width}}>
-                        <View style={{width: 0.85*width, height: 1.2*width, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: 20}}>
-                                
-                        </View>
-                    </ScrollView>
+                    {this.state.option ?
+                    <Pending navigation={this.props.navigation}/>
+                    : <Confirmed navigation={this.props.navigation}/>}
+
             </ImageBackground>
-            
         );
     }
 }
@@ -76,13 +268,13 @@ export default class Menu extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
     },
-    backbox: {
-        flex: 1,
-        width: width,
-        backgroundColor: 'rgba(255,255, 255,0.50)',
+    reservation_bar: {
+        flexDirection: 'row', 
+        width: 0.8*width, 
+        paddingHorizontal: 0.01*width,
+        paddingTop: 0.005*width,
     },
     secondbar: {
         width: width/2,
@@ -102,35 +294,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }, 
     buttons: {
-        height: 0.11*width,
-        lineHeight: 0.12*width,
         color: 'white',
         fontSize: 15,
         fontFamily: "Calibri",
         fontWeight: "bold",
-    },
-    input: {
-        fontFamily: "Calibri",
-        backgroundColor: "#EEEEEE",
-        color: 'black',
-        width: 0.65*width,
-        height: 0.11*width,
-        fontSize: 0.04*width,
-        paddingHorizontal: 0.02*height,
-        borderRadius: 10,
-        marginBottom: 0.06*width,
-        borderColor: "#D9D8D9",
-        borderWidth: 1,
-    },
-    signinbutton: {
-        backgroundColor: "#23186A",
-        color: 'white',
-        width: 0.65*width,
-        height: 0.11*width,
-        fontSize: 0.04*width,
-        paddingHorizontal: 0.02*height,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
 });

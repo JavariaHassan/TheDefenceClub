@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {ScrollView, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
-import { fromRight } from 'react-navigation-transitions';
+import {ScrollView, Keyboard, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
