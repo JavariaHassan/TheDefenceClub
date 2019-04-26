@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {ActivityIndicator, Animated, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -21,6 +22,26 @@ export default class LoginScreen extends Component {
 
     static navigationOptions = {
         header: null
+    }
+
+    componentDidMount(){
+        // Alert.alert("hello")
+        getData = async () => {
+            try {
+              const value = await AsyncStorage.getItem('@login')
+              if(value !== null) {
+                // value previously stored
+                Alert.alert("login credential found")
+              }
+              else{
+                Alert.alert("login credentials not found")
+              }
+            } catch(e) {
+              // error reading value
+            }
+          }
+         
+          getData()
     }
 
     signinAnimation = () => {
@@ -91,6 +112,18 @@ export default class LoginScreen extends Component {
                         }
                     });
                     this.setState({invalid: 0})
+
+                    storeData = async () => {
+                        try {
+                          await AsyncStorage.setItem('@login', 'temp')
+                          Alert.alert("login credentials saved in local storage")
+                        } catch (e) {
+                          // saving error
+                        }
+                      }
+
+                      storeData()
+
                 }else{
                     this.setState({invalid: 1})
                     this.signoutAnimation()

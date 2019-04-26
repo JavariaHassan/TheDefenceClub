@@ -221,7 +221,6 @@ app.post('/login', function(req, res){
         console.log('Error getting document', err);
     });
 });
-<<<<<<< HEAD
 
 
 // app.get('/temp', function (req, res){
@@ -237,8 +236,7 @@ app.post('/login', function(req, res){
 
 // });
 
-app.listen(port, () => console.log(`example app listening on port ${port}!`))
-=======
+
 app.listen(port, () => console.log(`example app listening on port ${port}!`))
 
 
@@ -344,4 +342,3 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
             res.send(JSON.stringify(new_data));
         });
 });
->>>>>>> ed918910fa55e2838e77119c5d66caa5c837debc
