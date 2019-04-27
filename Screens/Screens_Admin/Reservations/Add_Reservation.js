@@ -50,20 +50,23 @@ class Page_Menu extends Component {
         super(props);
     };
 
+    removeMenuItem = (key) => {
+        delete menu[key]
+        this.forceUpdate()
+    }
+
     render() {
-        // var { navigation } = this.props;
-        // console.log('navnav', navigation)
-        // if (navigation !== undefined) {
-        //     const menuItem = navigation.getParam('menuItem');
-        //     console.log('adil', menuItem);
-        // }
-        // console.log('adildumbo');
         var items = []
-        for (i in menu) {
+        for (const i in menu) {
             items.push(
-                <View style={styles.list}>
-                    <Text style={styles.listitem1}> {menu[i].name} </Text>
-                    <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                <View style={[styles.list, {flexDirection: 'row'}]}>
+                    <View style={{flex: 8.5}}>
+                        <Text style={styles.listitem1}> {menu[i].name} </Text>
+                        <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                    </View>
+                    <TouchableOpacity onPress={() => this.removeMenuItem(i)}>
+                        <Text style={{fontFamily: 'EvilIcons', paddingTop: 0.03*width, fontSize: 0.05*width, flex: 1.5, textAlign: 'right', color: '#424242'}}>  </Text>
+                    </TouchableOpacity>
                 </View>
             )
         }
@@ -73,13 +76,13 @@ class Page_Menu extends Component {
                     <Text style={styles.title}> Select Your Menu </Text>
 
                     <View style={{width: 0.9*width}}>
-                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', marginBottom: 0.2*width}}>
+                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', marginBottom: 0.2*width, marginTop: 0.02*width}}>
                             {items}
                         </ScrollView>
                     </View>
 
-                    <TouchableOpacity style={{width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu', {nav})}>
-                        <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0.05*width, bottom: 0.05*width, backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
+                    <TouchableOpacity style={{position: 'absolute', right: 0.05*width, bottom: 0.05*width, width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu', {nav})}>
+                        <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
                             <Text style={{flex: 1, color: 'white', fontSize: 0.09*width}}> + </Text>
                         </View>
                     </TouchableOpacity>
@@ -492,12 +495,9 @@ const styles = StyleSheet.create({
     },
     list: {
         width: 0.7*width,
-        height: width*0.14,
         backgroundColor: 'white',
-        padding: 10,
         borderColor: "#D9D8D9",
-        borderWidth: 1,
-        borderRadius: 10,
+        borderBottomWidth: 1,
         marginTop: 0.03*width,
     },
     listitem1: {
