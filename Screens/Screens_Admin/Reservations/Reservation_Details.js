@@ -16,37 +16,84 @@ export default class Menu extends Component {
         },
     })
 
-    confirm = () => {
+    confirm = (member_id, reservation_id) => {
+
+        const data = {
+            id : String(member_id),
+            reservation_id : String(reservation_id)
+        }
+
+        Alert.alert(String(data.id), String(data.reservation_id))
+
+        ConfirmReservation = async (data) => {
+            response = await fetch ('http://192.168.1.100:3000/confirmReservation', {
+              method : 'post', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                Alert.alert("Reservation has been confirmed")
+            })
+        }
+        ConfirmReservation(data)
+
         //write confirm code here
-        Alert.alert(
-            'Reservation has been confirmed',
-            '',
-            [
-              {
-                text: 'OK',
-                style: 'cancel',
-                onPress: () => {this.props.navigation.navigate}
-              },
-            ],
-          );
+        // Alert.alert(
+        //     'Reservation has been confirmed',
+        //     '',
+        //     [
+        //       {
+        //         text: 'OK',
+        //         style: 'cancel',
+        //         onPress: () => {this.props.navigation.navigate}
+        //       },
+        //     ],
+        //   );
     }
 
-    delete = () => {
+    delete = (member_id, reservation_id) => {
         //write remove code here
-        Alert.alert(
-            'Reservation has been removed',
-            '',
-            [
-              {
-                text: 'OK',
-                style: 'cancel',
-                onPress: () => {this.props.navigation.goBack()}
-              },
-            ],
-          );
+
+        const data = {
+            id : String(member_id),
+            reservation_id : String(reservation_id)
+        }
+
+        deleteReservation = async (data) => {
+            response = await fetch ('http://192.168.1.100:3000/deleteReservation', {
+              method : 'post', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                Alert.alert("Reservation has been Removed")
+            })
+        }
+        deleteReservation()
+
+
+
+
+        // Alert.alert(
+        //     'Reservation has been removed',
+        //     '',
+        //     [
+        //       {
+        //         text: 'OK',
+        //         style: 'cancel',
+        //         onPress: () => {this.props.navigation.goBack()}
+        //       },
+        //     ],
+        //   );
     }
 
-    delete_alert = () => {
+    delete_alert = (member_id, reservation_id) => {
         Alert.alert(
             'Are you sure you want to remove this reservation?',
             '',
@@ -55,7 +102,7 @@ export default class Menu extends Component {
                 text: 'Cancel',
                 style: 'cancel',
               },
-              {text: 'Remove', onPress: () => this.delete()},
+              {text: 'Remove', onPress: () => this.delete(member_id, reservation_id)},
             ],
           );
     }
@@ -123,11 +170,11 @@ export default class Menu extends Component {
                 </View> 
 
                 {pending ?
-                    <TouchableOpacity onPress={() => this.confirm()} style={{flexDirection: 'row', paddingVertical: 0.03*width, width:0.9*width, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey'}}>
+                    <TouchableOpacity onPress={() => this.confirm(info.member_id, info.reservation_id)} style={{flexDirection: 'row', paddingVertical: 0.03*width, width:0.9*width, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey'}}>
                         <Text style={{flex: 1, textAlign:'center', color: '#0C60FB', fontSize: 0.045*width}}> Confirm Reservation </Text>
                     </TouchableOpacity> : null
                 }
-                <TouchableOpacity onPress={() => this.delete_alert()} style={{flexDirection: 'row',paddingVertical: 0.03*width, width:0.9*width, borderBottomWidth: StyleSheet.hairlineWidth, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey'}}>
+                <TouchableOpacity onPress={() => this.delete_alert(info.member_id, info.reservation_id)} style={{flexDirection: 'row',paddingVertical: 0.03*width, width:0.9*width, borderBottomWidth: StyleSheet.hairlineWidth, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey'}}>
                     <Text style={{ flex: 1, textAlign:'center', color: '#FC2632', fontSize: 0.045*width}}> Remove Reservation </Text>
                 </TouchableOpacity>
                 

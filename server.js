@@ -24,6 +24,59 @@ app.get('/login', function (req, res){
 
 app.listen(port, () => console.log(`example app listening on port ${port}!`))
 
+app.post('/confirmReservation', function(req, res){
+    console.log("Confirming the reservation")
+    user_id = req.body.id,
+    reservation_id = req.body.reservation_id
+
+    ID = user_id+"_"+reservation_id
+    console.log(ID)
+
+    var reservation_detail = db.collection('reservation_details').doc(ID);
+    var document = reservation_detail.get().then(doc => {
+
+            const new_data = {
+                menu : doc.data().menu,
+                instructions : doc.data().instructions,
+                end_time: doc.data().end_time,
+                start_time: doc.data().start_time,
+                member_id : doc.data().member_id,
+                date: doc.data().date,
+                reservation_id : doc.data().reservation_id,
+                timestamp : doc.data().timestamp,
+                timeSince : doc.data().timeSince,
+                venue : doc.data().venue,
+                status : 'confirmed'
+            }
+
+            var setDoc = db.collection('reservation_details').doc(ID).set(doc.data());
+            const response_data = {
+                response: "done"
+            }
+            res.send(JSON.stringify(response_data))
+        })
+})
+
+app.post('/deleteReservation', function(req, res){
+    console.log("Confirming the reservation")
+    user_id = req.body.id,
+    reservation_id = req.body.reservation_id
+
+    ID = user_id+"_"+reservation_id
+    console.log(ID)
+
+    var reservation_detail = db.collection('reservation_details').doc(ID);
+    var document = reservation_detail.get()
+        .then(doc => {
+            doc.data().status = "removed"
+            var setDoc = db.collection('reservation_details').doc(ID).set(doc.data());
+            const response_data = {
+                response: "done"
+            }
+            res.send(JSON.stringify(response_data))
+        })
+})
+
 
 app.post('/change_password', function (req, res) {
     console.log("change password")
