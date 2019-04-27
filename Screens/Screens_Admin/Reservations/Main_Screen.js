@@ -46,19 +46,19 @@ reservations = {
                         instructions: "Birthday Decorations",
                         status: "unconfirmed",
                         menu : {
-                            0 :  
+                            "Karahi" :  
                                 {
                                     name: "Karahi",
                                     price: 800,
                                     category: 'Desi',
                                 },
-                            1 :  
+                            "Biryani" :  
                                 {
                                     name: "Biryani",
                                     price: 850,
                                     category: 'Desi',
                                 },
-                            2 :  
+                            "Naan" :  
                                 {
                                     name: "Naan",
                                     price: 20,
@@ -168,11 +168,11 @@ class Confirmed extends Component {
                 r_confirmed.push(
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('View', {pending: 0, info: reservations[i]})} style={{padding: 10, borderRadius: 10, backgroundColor: 'white', marginBottom: 0.04*width}}>
                         <View style={[styles.reservation_bar, {borderBottomWidth: StyleSheet.hairlineWidth, borderColor: 'grey', paddingBottom: 0.015*width, marginBottom: 0.03*width}]}>
-                            <Text style={{paddingRight: 0.01*width, fontSize: 0.035*width, fontFamily: "simple-line-icons"}}></Text>
+                            <Text style={{color: 'black', paddingRight: 0.01*width, fontSize: 0.035*width, fontFamily: "simple-line-icons"}}></Text>
                             <Text style={{color: 'black', fontSize: 0.035*width}}> {reservations[i].member_id} </Text>
                         </View>
                         <View style={[styles.reservation_bar, {justifyContent: 'center',}]}>
-                            <Text style={{paddingRight: 0.01*width, fontSize: 0.04*width, fontFamily: "Font Awesome 5 Free"}}></Text>
+                            <Text style={{color: 'black', paddingRight: 0.01*width, fontSize: 0.04*width, fontFamily: "Font Awesome 5 Free"}}></Text>
                             <Text style={{fontWeight: 'bold', color: 'black', fontSize: 0.04*width}}> {reservations[i].date} </Text>
                         </View>
                         <View style={[styles.reservation_bar, {paddingBottom: 5}]}>
@@ -212,7 +212,7 @@ export default class Menu extends Component {
 
     static navigationOptions = ({navigation}) => ({
         title: 'Reservations',
-        headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}> 
+        headerRight: <TouchableOpacity onPress={() => {console.log(1, navigation); navigation.navigate('Add', {nav: navigation})}}> 
                 <Image source={require('../../plus.png')} style={{width:17, height:17, marginRight: 20}} />
             </TouchableOpacity>,
         headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
