@@ -8,6 +8,19 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
+Date.prototype.yyyymmdd = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+  
+    return [this.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd
+           ].join('-');
+  };
+  
+//   var date = new Date();
+//   date.yyyymmdd();
+
 const options = ['Cancel', "Banquet", "TV Room", "Lawn 1", "Lawn 2"]
 const options_banquet = ["Cancel","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]  // 15-40 banquet limit 
 const options_lawn = ["Cancel","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"] // 10-25 lawns limit
@@ -24,6 +37,9 @@ var venue = 'Banquet';
 var timing = 0;
 var guestnumber = 1;
 var date = null;
+var disabled_global  = {}
+
+
 var menu = {
     "Karahi" :  
         {
@@ -45,25 +61,97 @@ var menu = {
         }
 };
 
+class Page_Instructions extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {instructions: ''}
+    };
+
+    removeMenuItem = (key) => {
+        delete menu[key]
+        this.forceUpdate()
+    }
+
+    submit = () => {
+        Alert.alert("yay imma upload")
+    }
+
+    submitalert = () => {
+        Alert.alert(
+            'Confirm Reservation',
+            'You won\'t be able to make later changes after confirming your reservation',
+            [
+              {text: 'Cancel', style: 'cancel',
+              },
+              {text: 'Confirm', onPress: () => this.submit()},
+            ],
+          );
+    }
+
+    render() {
+        var items = []
+        for (const i in menu) {
+            items.push(
+                <View style={[styles.list, {flexDirection: 'row'}]}>
+                    <View style={{flex: 8.5}}>
+                        <Text style={styles.listitem1}> {menu[i].name} </Text>
+                        <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                    </View>
+                    <TouchableOpacity onPress={() => this.removeMenuItem(i)}>
+                        <Text style={{fontFamily: 'EvilIcons', paddingTop: 0.02*width, fontSize: 0.05*width, flex: 1.5, textAlign: 'right', color: '#424242'}}>  </Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+
+        return (
+            <View style={styles.container}>
+                    <Text style={styles.title}> Enter Any Additional Instructions </Text>
+
+                    <View style={{width: 0.9*width}}>
+                        <View style={{width: 0.9*width, alignItems: 'center', paddingBottom: 0.2*width, marginBottom: 0.2*width, marginTop: 0.02*width}}>
+                        <TextInput
+                            style={{paddingTop: 0.05*width, padding: 0.05*width, width: 0.7*width, height: width, color: 'black', fontSize: 0.04*width, borderWidth: 1, borderRadius: 5, borderColor:'#D6D6D6'}}
+                            multiline = {true}
+                            numberOfLines = {4}
+                            onChangeText={(instructions) => this.setState({instructions})}
+                            value={this.state.instructions}
+                        />
+                        <TouchableOpacity
+                            style={styles.signinbutton}
+                            onPress={() => this.submitalert()}
+                        >
+                        <Text style={{color: 'white', fontSize: 0.038*width, fontFamily: 'Calibri', fontWeight: 'bold'}}> CONFIRM </Text>
+                        </TouchableOpacity>
+                        </View>
+                    </View>
+            </View>
+        );
+    }
+}
+
 class Page_Menu extends Component {
     constructor(props) {
         super(props);
     };
 
+    removeMenuItem = (key) => {
+        delete menu[key]
+        this.forceUpdate()
+    }
+
     render() {
-        // var { navigation } = this.props;
-        // console.log('navnav', navigation)
-        // if (navigation !== undefined) {
-        //     const menuItem = navigation.getParam('menuItem');
-        //     console.log('adil', menuItem);
-        // }
-        // console.log('adildumbo');
         var items = []
-        for (i in menu) {
+        for (const i in menu) {
             items.push(
-                <View style={styles.list}>
-                    <Text style={styles.listitem1}> {menu[i].name} </Text>
-                    <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                <View style={[styles.list, {flexDirection: 'row'}]}>
+                    <View style={{flex: 8.5}}>
+                        <Text style={styles.listitem1}> {menu[i].name} </Text>
+                        <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                    </View>
+                    <TouchableOpacity onPress={() => this.removeMenuItem(i)}>
+                        <Text style={{fontFamily: 'EvilIcons', paddingTop: 0.02*width, fontSize: 0.05*width, flex: 1.5, textAlign: 'right', color: '#424242'}}>  </Text>
+                    </TouchableOpacity>
                 </View>
             )
         }
@@ -73,13 +161,13 @@ class Page_Menu extends Component {
                     <Text style={styles.title}> Select Your Menu </Text>
 
                     <View style={{width: 0.9*width}}>
-                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', marginBottom: 0.2*width}}>
+                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', paddingBottom: 0.2*width, marginBottom: 0.2*width, marginTop: 0.02*width}}>
                             {items}
                         </ScrollView>
                     </View>
 
-                    <TouchableOpacity style={{width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu', {nav})}>
-                        <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0.05*width, bottom: 0.05*width, backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
+                    <TouchableOpacity style={{position: 'absolute', right: 0.05*width, bottom: 0.05*width, width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu', {nav})}>
+                        <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
                             <Text style={{flex: 1, color: 'white', fontSize: 0.09*width}}> + </Text>
                         </View>
                     </TouchableOpacity>
@@ -114,7 +202,7 @@ class Page_VenueTimePeople extends Component {
         super(props);
         this.state = { venue: 'Banquet',
                        guests : 15,
-                       styles: [{backgroundColor: '#D2D2E1', borderColor: '#211965'}, {}, {}]
+                       styles: [{backgroundColor: '#D2D2E1', borderColor: '#D2D2E1'}, {}, {}]
                      };
     };
 
@@ -179,7 +267,48 @@ class Page_VenueTimePeople extends Component {
         timing = index
         timing_styles = [{}, {}, {}]
         timing_styles[index] = {backgroundColor: '#D2D2E1', borderColor: '#211965'}
+        this.updateCalender()
         this.setState({styles: timing_styles})
+    }
+
+    updateCalender(){
+        console.log("update calender called")
+        const data = {
+            my_venue : venue,
+            my_timing: timing
+        }
+
+        get_dates_server = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/get_dates', {
+                method : 'post', 
+                headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+                },
+
+                body : JSON.stringify(data)
+
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                 console.log(responseJSON)
+                //  this.state.disabledDates = responseJSON
+                 let newDaysObject = {};
+
+                    responseJSON.forEach((day) => {
+                    newDaysObject = {
+                        ...newDaysObject,
+                        [day]: {
+                        disabled: true
+                        }
+                    };
+                    });
+                    disabled_global =  newDaysObject
+                    console.log("disabled global" , disabled_global) 
+                    this.forceUpdate()
+                })
+        }
+
+        get_dates_server(data)
     }
     
     render() {
@@ -216,7 +345,7 @@ class Page_VenueTimePeople extends Component {
         for (let index in timings) {
             items_timings.push(
                 <TouchableOpacity onPress={() => this.timingClick(index)}>
-                    <View style={[styles.input, {marginBottom: 0.05*width}, this.state.styles[index]]}>
+                    <View style={[styles.input, {marginBottom: 0.03*width}, this.state.styles[index]]}>
                         <Text style={styles.timing}>{timings[index].key}:  {timings[index].time}</Text>
                     </View>
                 </TouchableOpacity>
@@ -240,7 +369,8 @@ class Page_VenueTimePeople extends Component {
                                 <Picker
                                         style={{fontFamily: "Calibri", color: 'black', fontSize: 0.04*width}}
                                         selectedValue={this.state.venue}
-                                        onValueChange={(itemValue, itemIndex) => {venue = itemValue; this.setState({venue: itemValue})}}
+                                        onValueChange={(itemValue, itemIndex) => {venue = itemValue; this.setState({venue: itemValue});
+                                        this.updateCalender();}}
                                 >
                                     {items}
                                 </Picker>
@@ -290,6 +420,11 @@ class Page_Calendar extends Component {
         super(props);
         this.state = {};
         this.onDayPress = this.onDayPress.bind(this)
+        this.disabledDates = {}
+
+        
+
+        console.log("constructor called!!!!!!") 
     };
 
     onDayPress(day) {
@@ -299,8 +434,12 @@ class Page_Calendar extends Component {
         })
     }
 
-    render() {
 
+    render() {
+        console.log("render called for calender")
+        this.state.disabledDates = disabled_global
+        console.log("disabled dates " , this.state.disabledDates)
+    
         return (
             <View style={styles.container}>
                 <Text style={[styles.title, {margin: 0}]}> Select Date {date} </Text>
@@ -309,10 +448,12 @@ class Page_Calendar extends Component {
                     <Calendar
                             minDate={Date()}
                             onDayPress={this.onDayPress}
-                            markedDates={{[this.state.selected]: {selected:true}}}
-                            theme={{
+                            markedDates={Object.assign({[this.state.selected]: {selected:true}
+                            },this.state.disabledDates)}                 
+                             theme={{
                                 selectedDayBackgroundColor: '#D2D2E0',
                                 selectedDayTextColor: '#23186A',
+                                // markedDayTextColor: 'D42C08',
                                 calendarBackground: '#ffffff',
                                 textSectionTitleColor: '#23186A',
                                 textDisabledColor: '#d9e1e8',
@@ -336,7 +477,7 @@ class Page_Calendar extends Component {
 export default class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = { carousalItems: [{},{},{},{}],
+        this.state = { carousalItems: [{},{},{},{},{}],
                        activeSlide: 0,
                      };
         const { navigation } = this.props;
@@ -356,6 +497,8 @@ export default class Menu extends Component {
             return <Page_Calendar />
         } else if (index == 3) {
             return <Page_Menu/>
+        } else if (index == 4) {
+            return <Page_Instructions/>
         }   
     }
 
@@ -464,7 +607,7 @@ const styles = StyleSheet.create({
         paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
-        marginBottom: 0.15*width,
+        marginBottom: 0.1*width,
         borderColor: "#D9D8D9",
         borderWidth: 1,
         justifyContent: 'center',
@@ -492,13 +635,10 @@ const styles = StyleSheet.create({
     },
     list: {
         width: 0.7*width,
-        height: width*0.14,
         backgroundColor: 'white',
-        padding: 10,
-        borderColor: "#D9D8D9",
-        borderWidth: 1,
-        borderRadius: 10,
-        marginTop: 0.03*width,
+        borderColor: "grey",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        marginTop: 0.04*width,
     },
     listitem1: {
         fontFamily: "Calibri",
@@ -509,5 +649,17 @@ const styles = StyleSheet.create({
         fontFamily: "Calibri",
         fontSize: 0.035*width,
         color: '#424242',
+    },
+    signinbutton: {
+        position: 'absolute',
+        bottom: -0.1*width,
+        backgroundColor: "#23186A",
+        color: 'white',
+        width: 0.5*width,
+        height: 0.1*width,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 0.7*width,
+        borderRadius: 10
     },
 });
