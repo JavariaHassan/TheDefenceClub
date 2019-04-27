@@ -24,26 +24,6 @@ export default class LoginScreen extends Component {
         header: null
     }
 
-    componentDidMount(){
-        // Alert.alert("hello")
-        getData = async () => {
-            try {
-              const value = await AsyncStorage.getItem('@login')
-              if(value !== null) {
-                // value previously stored
-                Alert.alert("login credential found")
-              }
-              else{
-                Alert.alert("login credentials not found")
-              }
-            } catch(e) {
-              // error reading value
-            }
-          }
-         
-          getData()
-    }
-
     signinAnimation = () => {
         this.setState({load: 1})
         if (1) {
@@ -115,16 +95,21 @@ export default class LoginScreen extends Component {
 
                     storeData = async () => {
                         try {
-                          await AsyncStorage.setItem('@login', 'temp')
+                         var credentials = {
+                             username : this.state.Username,
+                             password : this.state.Password
+                         }  
+
+                         await AsyncStorage.setItem('@login', JSON.stringify(credentials))
+
                           Alert.alert("login credentials saved in local storage")
                         } catch (e) {
                           // saving error
                         }
                       }
-
                       storeData()
 
-                }else{
+                } else{
                     this.setState({invalid: 1})
                     this.signoutAnimation()
                 }
