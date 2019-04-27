@@ -37,6 +37,9 @@ var venue = 'Banquet';
 var timing = 0;
 var guestnumber = 1;
 var date = null;
+var disabled_global  = {}
+
+
 var menu = {
     "Karahi" :  
         {
@@ -192,7 +195,47 @@ class Page_VenueTimePeople extends Component {
         timing = index
         timing_styles = [{}, {}, {}]
         timing_styles[index] = {backgroundColor: '#D2D2E1', borderColor: '#211965'}
+        this.updateCalender()
         this.setState({styles: timing_styles})
+    }
+
+    updateCalender(){
+        const data = {
+            my_venue : venue,
+            my_timing: timing
+        }
+
+        get_dates_server = async (data) => {
+            response = await fetch ('http://10.130.4.195:3000/get_dates', {
+                method : 'post', 
+                headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+                },
+
+                body : JSON.stringify(data)
+
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                 console.log(responseJSON)
+                //  this.state.disabledDates = responseJSON
+                 let newDaysObject = {};
+
+                    responseJSON.forEach((day) => {
+                    newDaysObject = {
+                        ...newDaysObject,
+                        [day]: {
+                        disabled: true
+                        }
+                    };
+                    });
+                    disabled_global =  newDaysObject
+                    console.log("disabled global" , disabled_global) 
+                    this.forceUpdate()
+                })
+        }
+
+        get_dates_server(data)
     }
     
     render() {
@@ -253,7 +296,8 @@ class Page_VenueTimePeople extends Component {
                                 <Picker
                                         style={{fontFamily: "Calibri", color: 'black', fontSize: 0.04*width}}
                                         selectedValue={this.state.venue}
-                                        onValueChange={(itemValue, itemIndex) => {venue = itemValue; this.setState({venue: itemValue})}}
+                                        onValueChange={(itemValue, itemIndex) => {venue = itemValue; this.setState({venue: itemValue});
+                                        this.updateCalender();}}
                                 >
                                     {items}
                                 </Picker>
@@ -303,7 +347,11 @@ class Page_Calendar extends Component {
         super(props);
         this.state = {};
         this.onDayPress = this.onDayPress.bind(this)
-        this.disabledDates = []
+        this.disabledDates = {}
+
+        
+
+        console.log("constructor called!!!!!!") 
     };
 
     onDayPress(day) {
@@ -313,48 +361,22 @@ class Page_Calendar extends Component {
         })
     }
 
-    render() {
 
+    render() {
+        console.log("render called for calender")
+        this.state.disabledDates = disabled_global
+        console.log("disabled dates " , this.state.disabledDates)
+    
         return (
             <View style={styles.container}>
-            <NavigationEvents onDidFocus={(() => {
-                Alert.alert("event called")
-                const data = {
-                    my_venue : venue,
-                    my_timing: timing
-                }
-                get_dates_server = async (data) => {
-                    response = await fetch ('http://10.130.4.195:3000/get_dates', {
-                        method : 'post', 
-                        headers : {
-                        Accept: 'application/json',
-                        'Content-Type' : 'application/json'
-                        },
-
-                        body : JSON.stringify(data)
-
-                    }).then((response) => response.json())
-                    .then((responseJSON) => {
-                          this.setState({
-                            disabledDates : responseJSON
-                          })
-                        })
-                }
-
-                  get_dates_server(data)
-                 })
-                }
-                
-                />
                 <Text style={[styles.title, {margin: 0}]}> Select Date {date} </Text>
 
                 <View style={{width: 0.8*width, marginTop: 0.02*width}}>
                     <Calendar
                             minDate={Date()}
                             onDayPress={this.onDayPress}
-                            markedDates={{[this.state.selected]: {selected:true}, 
-                            [this.state.disabledDates] : {disabled: true}
-                            }}                 
+                            markedDates={Object.assign({[this.state.selected]: {selected:true}
+                            },this.state.disabledDates)}                 
                              theme={{
                                 selectedDayBackgroundColor: '#D2D2E0',
                                 selectedDayTextColor: '#23186A',
