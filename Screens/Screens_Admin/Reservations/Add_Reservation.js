@@ -12,8 +12,6 @@ const options = ['Cancel', "Banquet", "TV Room", "Lawn 1", "Lawn 2"]
 const options_banquet = ["Cancel","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]  // 15-40 banquet limit 
 const options_lawn = ["Cancel","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"] // 10-25 lawns limit
 const options_tv = ["Cancel","5","6","7","8","9","10","11","12","13","14","15"] // 5-15 tv room limit
-// const options_banquet = ["Cancel","5","6","7","8","9","10","11","12","13","14","15"] // 5-15 tv room limit
-// const options_lawn = ["Cancel","5","6","7","8","9","10","11","12","13","14","15"] // 5-15 tv room limit
 
 var timings = [{index: 0, key: 'Breakfast', time: '09:00 - 11:00'},
                {index: 1, key: 'Lunch', time: '12:30 - 15:00'},
@@ -25,6 +23,66 @@ var venue = 'Banquet';
 var timing = 0;
 var guestnumber = 1;
 var date = null;
+var menu = {
+    "Karahi" :  
+        {
+            name: "Karahi",
+            price: 800,
+            category: 'Desi',
+        },
+    "Biryani" :  
+        {
+            name: "Biryani",
+            price: 850,
+            category: 'Desi',
+        },
+    "Naan" :  
+        {
+            name: "Naan",
+            price: 20,
+            category: 'Desi',
+        }
+};
+
+class Page_Menu extends Component {
+    constructor(props) {
+        super(props);
+    };
+
+    onPress2 = () => {
+        this.props.navi.navigate('Menu')
+    }
+
+    render() {
+        var items = []
+        for (i in menu) {
+            items.push(
+                <View style={styles.list}>
+                    <Text style={styles.listitem1}> {menu[i].name} </Text>
+                    <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                </View>
+            )
+        }
+
+        return (
+            <View style={styles.container}>
+                    <Text style={styles.title}> Select Your Menu </Text>
+
+                    <View style={{width: 0.9*width}}>
+                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', marginBottom: 0.2*width}}>
+                            {items}
+                        </ScrollView>
+                    </View>
+
+                    <TouchableOpacity onPress={this.onPress2}>
+                        <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0.05*width, bottom: 0.05*width, backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
+                            <Text style={{flex: 1, color: 'white', fontSize: 0.09*width}}> + </Text>
+                        </View>
+                    </TouchableOpacity>
+            </View>
+        );
+    }
+}
 
 class Page_MemberID extends Component {
     constructor(props) {
@@ -34,16 +92,14 @@ class Page_MemberID extends Component {
     render() {
 
         return (
-            <View style={[styles.subcontainer, {justifyContent: 'flex-start'}]}>
-                <View style={[styles.backbox, {flex: null}]}>
+            <View style={styles.container}>
                     <Text style={styles.title}> Member ID </Text>
                     <TextInput
                         style={styles.input}
                         autoCorrect={false}
                         placeholderTextColor="#5E5E5E"
                         onChangeText={(id) => memberID = id}
-                    /> 
-                </View>
+                    />
             </View>
         );
     }
@@ -53,7 +109,7 @@ class Page_VenueTimePeople extends Component {
     constructor(props) {
         super(props);
         this.state = { venue: 'Banquet',
-                       guests : 5,
+                       guests : 15,
                        styles: [{backgroundColor: '#D2D2E1', borderColor: '#211965'}, {}, {}]
                      };
     };
@@ -65,9 +121,24 @@ class Page_VenueTimePeople extends Component {
                 cancelButtonIndex: 0,
             },
             (buttonIndex) => {
+                venue = options[buttonIndex]
+
                 if (buttonIndex != 0) {
-                    venue = options[buttonIndex]
+                    var array_2 = []
+                    
+                    if(venue == 'Banquet'){
+                        array_2 = options_banquet
+                    }
+                    if(venue == 'TV Room'){
+                        array_2 = options_tv
+                    }
+                    if(venue == 'Lawn 1' || venue == 'Lawn 2'){
+                        array_2 = options_lawn
+                    }
+
                     this.setState({venue: options[buttonIndex]})
+                    this.setState({guests: array_2[1]})
+
                 }
             },
         );
@@ -92,8 +163,8 @@ class Page_VenueTimePeople extends Component {
             },
             (buttonIndex) => {
                 if (buttonIndex != 0) {
-                    guestnumber = options[buttonIndex]
-                    this.setState({guests: options[buttonIndex]})
+                    guestnumber = array_2[buttonIndex]
+                    this.setState({guests: array_2[buttonIndex]})
                 }
             },
         );
@@ -149,8 +220,7 @@ class Page_VenueTimePeople extends Component {
         }
 
         return (
-            <View style={[styles.subcontainer, {justifyContent: 'flex-start'}]}>
-                <View style={[styles.backbox, {flex: null}]}>
+            <View style={styles.container}>
                     <Text style={styles.title}> Venue </Text>
                     {
                         Platform.OS == 'ios' ?
@@ -206,7 +276,6 @@ class Page_VenueTimePeople extends Component {
                         
                     <Text style={styles.title}> Timing </Text>
                     {items_timings}
-                </View>
             </View>
         );
     }
@@ -229,12 +298,10 @@ class Page_Calendar extends Component {
     render() {
 
         return (
-            <View style={[styles.subcontainer, {justifyContent: 'flex-start'}]}>
-                <View style={styles.date_title}>
-                    <Text style={[styles.title, {margin: 0}]}> Select Date </Text>
-                </View>
+            <View style={styles.container}>
+                <Text style={[styles.title, {margin: 0}]}> Select Date </Text>
 
-                <View style={[styles.backbox, {flex: null, padding: 10}]}>
+                <View style={{width: 0.8*width, marginTop: 0.02*width}}>
                     <Calendar
                             minDate={Date()}
                             onDayPress={this.onDayPress}
@@ -268,21 +335,24 @@ export default class Menu extends Component {
         this.state = { carousalItems: [{},{},{},{}],
                        activeSlide: 0,
                      };
+        const { navigation } = this.props;
+        this.nav = navigation.getParam('nav');
     };
 
     static navigationOptions = ({navigation}) => ({
         title: 'Add Reservation'
     })
 
-    _renderItem({item, index}) {
+    _renderItem = ({item, index}) => {
         if (index == 0) {
             return <Page_MemberID />
         } else if (index == 1) {
             return <Page_VenueTimePeople />
         } else if (index == 2) {
             return <Page_Calendar />
-        }
-            
+        } else if (index == 3) {
+            return <Page_Menu navi={this.nav}/>
+        }   
     }
 
     get pagination () {
@@ -310,10 +380,8 @@ export default class Menu extends Component {
     }
     
     render() {
-
         return (
-
-            <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
+            <ImageBackground source={require('../../BG_3.png')} style={{flex: 1}}>
             
                     <Carousel
                         onSnapToItem={(index) => this.setState({ activeSlide: index }) }
@@ -336,21 +404,13 @@ export default class Menu extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        marginVertical: 0.1*width,
+        marginHorizontal: 0.05*width,
+        padding: 0.1*width,
+        borderRadius: 20,
+        backgroundColor: 'white',
         flex: 1,
-        alignItems: 'center',
-    },
-    subcontainer: {
-        flex: 1, 
-        justifyContent: 'center', 
         alignItems: 'center'
-    },
-    backbox: {
-        flex: 1, 
-        width: 0.9*width, 
-        marginVertical: 0.05*width, 
-        backgroundColor: 'white', 
-        borderRadius: 20, 
-        padding: width*0.1
     },
     date_title: {
         width: 0.9*width, 
@@ -418,5 +478,25 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 0.04*width,
 
+    },
+    list: {
+        width: 0.7*width,
+        height: width*0.14,
+        backgroundColor: 'white',
+        padding: 10,
+        borderColor: "#D9D8D9",
+        borderWidth: 1,
+        borderRadius: 10,
+        marginTop: 0.03*width,
+    },
+    listitem1: {
+        fontFamily: "Calibri",
+        fontSize: 0.04*width,
+        color: 'black',
+    },
+    listitem2: {
+        fontFamily: "Calibri",
+        fontSize: 0.035*width,
+        color: '#424242',
     },
 });

@@ -4,12 +4,14 @@ import { fromRight } from 'react-navigation-transitions';
 import Main_Screen from './Main_Screen';
 import Add_Screen from './Add_Reservation';
 import RDetails_Screen from './Reservation_Details';
+import Menu_Screen from './Menu_Screen';
 
 const MainNavigator = createStackNavigator(
     {
         Main:   {screen: Main_Screen},
         Add: {screen: Add_Screen},
         View: {screen: RDetails_Screen},
+        Menu: {screen: Menu_Screen},
     },
     {
         transitionConfig: () => fromRight(),
