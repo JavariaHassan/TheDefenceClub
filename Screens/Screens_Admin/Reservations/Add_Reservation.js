@@ -18,6 +18,7 @@ var timings = [{index: 0, key: 'Breakfast', time: '09:00 - 11:00'},
                {index: 2, key: 'Dinner', time: '19:30 - 22:00'},
               ]
 
+var nav;
 var memberID = null;
 var venue = 'Banquet';
 var timing = 0;
@@ -49,10 +50,6 @@ class Page_Menu extends Component {
         super(props);
     };
 
-    onPress2 = () => {
-        this.props.navi.navigate('Menu')
-    }
-
     render() {
         var items = []
         for (i in menu) {
@@ -74,7 +71,7 @@ class Page_Menu extends Component {
                         </ScrollView>
                     </View>
 
-                    <TouchableOpacity onPress={this.onPress2}>
+                    <TouchableOpacity style={{width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu')}>
                         <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0.05*width, bottom: 0.05*width, backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
                             <Text style={{flex: 1, color: 'white', fontSize: 0.09*width}}> + </Text>
                         </View>
@@ -336,7 +333,7 @@ export default class Menu extends Component {
                        activeSlide: 0,
                      };
         const { navigation } = this.props;
-        this.nav = navigation.getParam('nav');
+        nav = navigation.getParam('nav');
     };
 
     static navigationOptions = ({navigation}) => ({
@@ -351,7 +348,7 @@ export default class Menu extends Component {
         } else if (index == 2) {
             return <Page_Calendar />
         } else if (index == 3) {
-            return <Page_Menu navi={this.nav}/>
+            return <Page_Menu/>
         }   
     }
 
