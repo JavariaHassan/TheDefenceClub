@@ -227,9 +227,8 @@ app.listen(port, () => console.log(`example app listening on port ${port}!`))
 
 
 app.get('/get_confirmed_reservations', function (req, res) {
-
-    console.log("in function")
-
+    
+    console.log("Confirmed reservations")
     var reservationRef = db.collection('reservation_details').where('status', '==', "confirmed");
     var AllReservations = reservationRef.get()
         .then(snapshot => {
@@ -276,14 +275,10 @@ app.get('/get_confirmed_reservations', function (req, res) {
                 }
                 return 0
             }
-
             new_data = new_data.filter(filterit)
-            console.log(new_data)
-
+            // console.log(new_data)
             res.send(JSON.stringify(new_data));
-
         })
-        
         .catch(err => {
             console.log('Error getting documents', err);
             new_data = {
@@ -310,7 +305,7 @@ app.get('/get_confirmed_reservations', function (req, res) {
 
 app.get('/get_unconfirmed_reservations', function (req, res) {
 
-    console.log("in function")
+    console.log("Get Unconfirmed Reservations")
 
     var reservationRef = db.collection('reservation_details').where('status', '==', "unconfirmed");
     var AllReservations = reservationRef.get()
@@ -337,7 +332,7 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
             });
             res.send(JSON.stringify(new_data));
 
-            console.log(new_data)
+            // console.log(new_data)
 
         })
 
