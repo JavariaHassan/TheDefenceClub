@@ -45,6 +45,75 @@ var menu = {
         }
 };
 
+class Page_Instructions extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {instructions: ''}
+    };
+
+    removeMenuItem = (key) => {
+        delete menu[key]
+        this.forceUpdate()
+    }
+
+    submit = () => {
+        Alert.alert("yay imma upload")
+    }
+
+    submitalert = () => {
+        Alert.alert(
+            'Confirm Reservation',
+            'You won\'t be able to make later changes after confirming your reservation',
+            [
+              {text: 'Cancel', style: 'cancel',
+              },
+              {text: 'Confirm', onPress: () => this.submit()},
+            ],
+          );
+    }
+
+    render() {
+        var items = []
+        for (const i in menu) {
+            items.push(
+                <View style={[styles.list, {flexDirection: 'row'}]}>
+                    <View style={{flex: 8.5}}>
+                        <Text style={styles.listitem1}> {menu[i].name} </Text>
+                        <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
+                    </View>
+                    <TouchableOpacity onPress={() => this.removeMenuItem(i)}>
+                        <Text style={{fontFamily: 'EvilIcons', paddingTop: 0.02*width, fontSize: 0.05*width, flex: 1.5, textAlign: 'right', color: '#424242'}}>  </Text>
+                    </TouchableOpacity>
+                </View>
+            )
+        }
+
+        return (
+            <View style={styles.container}>
+                    <Text style={styles.title}> Enter Any Additional Instructions </Text>
+
+                    <View style={{width: 0.9*width}}>
+                        <View style={{width: 0.9*width, alignItems: 'center', paddingBottom: 0.2*width, marginBottom: 0.2*width, marginTop: 0.02*width}}>
+                        <TextInput
+                            style={{paddingTop: 0.05*width, padding: 0.05*width, width: 0.7*width, height: width, color: 'black', fontSize: 0.04*width, borderWidth: 1, borderRadius: 5, borderColor:'#D6D6D6'}}
+                            multiline = {true}
+                            numberOfLines = {4}
+                            onChangeText={(instructions) => this.setState({instructions})}
+                            value={this.state.instructions}
+                        />
+                        <TouchableOpacity
+                            style={styles.signinbutton}
+                            onPress={() => this.submitalert()}
+                        >
+                        <Text style={{color: 'white', fontSize: 0.038*width, fontFamily: 'Calibri', fontWeight: 'bold'}}> CONFIRM </Text>
+                        </TouchableOpacity>
+                        </View>
+                    </View>
+            </View>
+        );
+    }
+}
+
 class Page_Menu extends Component {
     constructor(props) {
         super(props);
@@ -65,7 +134,7 @@ class Page_Menu extends Component {
                         <Text style={styles.listitem2}> {menu[i].category}  |  PKR {menu[i].price} </Text>
                     </View>
                     <TouchableOpacity onPress={() => this.removeMenuItem(i)}>
-                        <Text style={{fontFamily: 'EvilIcons', paddingTop: 0.03*width, fontSize: 0.05*width, flex: 1.5, textAlign: 'right', color: '#424242'}}>  </Text>
+                        <Text style={{fontFamily: 'EvilIcons', paddingTop: 0.02*width, fontSize: 0.05*width, flex: 1.5, textAlign: 'right', color: '#424242'}}>  </Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -76,7 +145,7 @@ class Page_Menu extends Component {
                     <Text style={styles.title}> Select Your Menu </Text>
 
                     <View style={{width: 0.9*width}}>
-                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', marginBottom: 0.2*width, marginTop: 0.02*width}}>
+                        <ScrollView contentContainerStyle={{width: 0.9*width, alignItems: 'center', paddingBottom: 0.2*width, marginBottom: 0.2*width, marginTop: 0.02*width}}>
                             {items}
                         </ScrollView>
                     </View>
@@ -117,7 +186,7 @@ class Page_VenueTimePeople extends Component {
         super(props);
         this.state = { venue: 'Banquet',
                        guests : 15,
-                       styles: [{backgroundColor: '#D2D2E1', borderColor: '#211965'}, {}, {}]
+                       styles: [{backgroundColor: '#D2D2E1', borderColor: '#D2D2E1'}, {}, {}]
                      };
     };
 
@@ -181,7 +250,7 @@ class Page_VenueTimePeople extends Component {
     timingClick(index) {
         timing = index
         timing_styles = [{}, {}, {}]
-        timing_styles[index] = {backgroundColor: '#D2D2E1', borderColor: '#211965'}
+        timing_styles[index] = {backgroundColor: '#D2D2E1', borderColor: '#D2D2E1'}
         this.setState({styles: timing_styles})
     }
     
@@ -219,7 +288,7 @@ class Page_VenueTimePeople extends Component {
         for (let index in timings) {
             items_timings.push(
                 <TouchableOpacity onPress={() => this.timingClick(index)}>
-                    <View style={[styles.input, {marginBottom: 0.05*width}, this.state.styles[index]]}>
+                    <View style={[styles.input, {marginBottom: 0.03*width}, this.state.styles[index]]}>
                         <Text style={styles.timing}>{timings[index].key}:  {timings[index].time}</Text>
                     </View>
                 </TouchableOpacity>
@@ -339,7 +408,7 @@ class Page_Calendar extends Component {
 export default class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = { carousalItems: [{},{},{},{}],
+        this.state = { carousalItems: [{},{},{},{},{}],
                        activeSlide: 0,
                      };
         const { navigation } = this.props;
@@ -359,6 +428,8 @@ export default class Menu extends Component {
             return <Page_Calendar />
         } else if (index == 3) {
             return <Page_Menu/>
+        } else if (index == 4) {
+            return <Page_Instructions/>
         }   
     }
 
@@ -467,7 +538,7 @@ const styles = StyleSheet.create({
         paddingVertical: 0.01*height,
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
-        marginBottom: 0.15*width,
+        marginBottom: 0.1*width,
         borderColor: "#D9D8D9",
         borderWidth: 1,
         justifyContent: 'center',
@@ -496,9 +567,9 @@ const styles = StyleSheet.create({
     list: {
         width: 0.7*width,
         backgroundColor: 'white',
-        borderColor: "#D9D8D9",
-        borderBottomWidth: 1,
-        marginTop: 0.03*width,
+        borderColor: "grey",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        marginTop: 0.04*width,
     },
     listitem1: {
         fontFamily: "Calibri",
@@ -509,5 +580,17 @@ const styles = StyleSheet.create({
         fontFamily: "Calibri",
         fontSize: 0.035*width,
         color: '#424242',
+    },
+    signinbutton: {
+        position: 'absolute',
+        bottom: -0.1*width,
+        backgroundColor: "#23186A",
+        color: 'white',
+        width: 0.5*width,
+        height: 0.1*width,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 0.7*width,
+        borderRadius: 10
     },
 });
