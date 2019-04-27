@@ -22,6 +22,9 @@ app.get('/login', function (req, res){
     res.send('"Hello World')
 });
 
+app.listen(port, () => console.log(`example app listening on port ${port}!`))
+
+
 app.post('/change_password', function (req, res) {
     console.log("change password")
 
@@ -223,13 +226,11 @@ app.post('/login', function(req, res){
 });
 
 
-app.listen(port, () => console.log(`example app listening on port ${port}!`))
 
 
 app.get('/get_confirmed_reservations', function (req, res) {
-
-    console.log("in function")
-
+    
+    console.log("Confirmed reservations")
     var reservationRef = db.collection('reservation_details').where('status', '==', "confirmed");
     var AllReservations = reservationRef.get()
         .then(snapshot => {
@@ -276,14 +277,10 @@ app.get('/get_confirmed_reservations', function (req, res) {
                 }
                 return 0
             }
-
             new_data = new_data.filter(filterit)
-            console.log(new_data)
-
+            // console.log(new_data)
             res.send(JSON.stringify(new_data));
-
         })
-        
         .catch(err => {
             console.log('Error getting documents', err);
             new_data = {
@@ -302,7 +299,7 @@ app.get('/get_confirmed_reservations', function (req, res) {
             }
         }
         
-        // res.send(JSON.stringify(newdata));
+        res.send(JSON.stringify(new_data));
     });
 
     // res.send(JSON.stringify(new_data));
@@ -310,7 +307,7 @@ app.get('/get_confirmed_reservations', function (req, res) {
 
 app.get('/get_unconfirmed_reservations', function (req, res) {
 
-    console.log("in function")
+    console.log("Get Unconfirmed Reservations")
 
     var reservationRef = db.collection('reservation_details').where('status', '==', "unconfirmed");
     var AllReservations = reservationRef.get()
@@ -328,6 +325,69 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
                         end_time: doc.data().end_time,
                         instructions: doc.data().instructions,
                         status: "unconfirmed",
+                        menu: doc.data().menu,
+                        venue: doc.data().venue,
+                        timeSince: doc.data().timeSince
+
+                    }
+                x += 1
+            });
+            res.send(JSON.stringify(new_data));
+
+            // console.log(new_data)
+
+        })
+
+        .catch(err => {
+            console.log('Error getting documents', err);
+            new_data = {
+                "error":
+                {
+                    member_id: "error",
+                    reservation_id: "error",
+                    timestamp: "error",
+                    date: "error",
+                    start_time: "error",
+                    end_time: "error",
+                    instructions: "error",
+                    status: "error",
+                    menu: "error",
+                    venue: "error"
+                }
+            }
+
+            // res.send(JSON.stringify(newdata));
+        });
+
+    // res.send(JSON.stringify(reservation_list));
+});
+
+
+app.post('/get_reservations4User', function (req, res) {
+
+    console.log("in function")
+
+    // un-comment following line after implementing its client side
+    var reservation_memberID = req.body.member_id
+
+
+    // var reservation_memberID = "20100170";
+    var reservationRef = db.collection('reservation_details').where('member_id', '==', reservation_memberID);
+    var AllReservations = reservationRef.get()
+        .then(snapshot => {
+            new_data = []
+            x = 0
+            snapshot.forEach(doc => {
+                new_data[x] =
+                    {
+                        member_id: doc.data().member_id,
+                        reservation_id: doc.data().reservation_id,
+                        timestamp: doc.data().timestamp,
+                        date: doc.data().date,
+                        start_time: doc.data().start_time,
+                        end_time: doc.data().end_time,
+                        instructions: doc.data().instructions,
+                        status: doc.data().status,
                         menu: doc.data().menu,
                         venue: doc.data().venue,
                         timeSince: doc.data().timeSince
@@ -359,8 +419,8 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
                 }
             }
 
-            // res.send(JSON.stringify(newdata));
+            res.send(JSON.stringify(new_data));
         });
 
-    // res.send(JSON.stringify(reservation_list));
 });
+

@@ -1,120 +1,18 @@
 import React, {Component} from 'react';
-import {Keyboard, Dimensions, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, ScrollView} from 'react-native';
+import {Keyboard, Dimensions, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import { fromBottom } from 'react-navigation-transitions';
+import {NavigationEvents} from 'react-navigation';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-reservations = {
-                    "20100180_10" :
-                    {   member_id: "20100180",
-                        reservation_id: 10,
-                        timestamp : '12:24',
-                        date : '04 July 2019',
-                        start_time : '12:00',
-                        end_time: '02:00',
-                        instructions: "",
-                        status: "unconfirmed",
-                        menu : {
-                            0 :  
-                                {
-                                    name: "Karahi",
-                                    price: 800,
-                                    category: 'Desi',
-                                },
-                            1 :  
-                                {
-                                    name: "Naan",
-                                    price: 20,
-                                    category: 'Desi',
-                                }
-                        },
-                        venue: 
-                        {
-                            name: "Banquet Hall",
-                            price: 10000,
-                            per_hour_surcharge: 2000,
-                        }
-                    },
-                    "20100058_10" :
-                    {   member_id: "20100058",
-                        reservation_id: 10,
-                        timestamp : '02:30',
-                        date : '11 July 2019',
-                        start_time : '13:00',
-                        end_time: '15:00',
-                        instructions: "Birthday Decorations",
-                        status: "unconfirmed",
-                        menu : {
-                            "Karahi" :  
-                                {
-                                    name: "Karahi",
-                                    price: 800,
-                                    category: 'Desi',
-                                },
-                            "Biryani" :  
-                                {
-                                    name: "Biryani",
-                                    price: 850,
-                                    category: 'Desi',
-                                },
-                            "Naan" :  
-                                {
-                                    name: "Naan",
-                                    price: 20,
-                                    category: 'Desi',
-                                }
-                        },
-                        venue: 
-                        {
-                            name: "Lawn",
-                            price: 10000,
-                            per_hour_surcharge: 2000,
-                        }
-                    },
-                    "20100125_10" :
-                    {   member_id: "20100125",
-                        reservation_id: 10,
-                        timestamp : '13:30',
-                        date : '20 September 2019',
-                        start_time : '13:00',
-                        end_time: '15:00',
-                        instructions: "",
-                        status: "confirmed",
-                        menu : {
-                            0 :  
-                                {
-                                    name: "Coffee",
-                                    price: 320,
-                                    category: 'Drinks',
-                                },
-                            1 :  
-                                {
-                                    name: "More Coffee",
-                                    price: 320,
-                                    category: 'Drinks',
-                                },
-                            2 :  
-                                {
-                                    name: "Diet Coke",
-                                    price: 50,
-                                    category: 'Drinks',
-                                }
-                        },
-                        venue: 
-                        {
-                            name: "Lawn",
-                            price: 10000,
-                            per_hour_surcharge: 2000,
-                        }
-                    },
-                }
+var reservations = {}
 
 class Pending extends Component {
     constructor(props) {
-        super(props);
-    };
-
+        super(props); 
+    };        
+    
     render() {
         var r_pending = [];
         for (const i in reservations) {
@@ -239,6 +137,56 @@ export default class Menu extends Component {
         return (
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                     <View style={{flexDirection: 'row'}}>
+
+                        <NavigationEvents onDidFocus={(() => fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
+                                lengthofresponse = responseJSON.length
+                                console.log(lengthofresponse)
+                                var i;
+                                for (i=0; i<lengthofresponse; i++){
+                                    console.log("Hello")
+                                    id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
+                                    reservations[id] = {}
+                                    reservations[id].member_id = responseJSON[i].member_id
+                                    reservations[id].reservation_id = responseJSON[i].reservation_id
+                                    reservations[id].timestamp = responseJSON[i].timestamp
+                                    reservations[id].date = responseJSON[i].date
+                                    reservations[id].start_time = responseJSON[i].start_time
+                                    reservations[id].end_time = responseJSON[i].end_time
+                                    reservations[id].instructions = responseJSON[i].instructions
+                                    reservations[id].status = responseJSON[i].status
+                                    reservations[id].menu = responseJSON[i].menu
+                                    reservations[id].venue = responseJSON[i].venue
+                                    reservations[id].timeSince = responseJSON[i].timeSince
+                                    console.log(reservations[id])
+                                }        
+                                this.forceUpdate()
+                            }))}/>
+
+                        <NavigationEvents onDidFocus={(() => fetch ('https://whispering-savannah-21440.herokuapp.com/get_confirmed_reservations').then((response) => response.json()).then((responseJSON) => {
+                                lengthofresponse = responseJSON.length
+                                console.log(lengthofresponse)
+                                var i;
+                                for (i=0; i<lengthofresponse; i++){
+                                    console.log("Hello")
+                                    id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
+                                    reservations[id] = {}
+                                    reservations[id].member_id = responseJSON[i].member_id
+                                    reservations[id].reservation_id = responseJSON[i].reservation_id
+                                    reservations[id].timestamp = responseJSON[i].timestamp
+                                    reservations[id].date = responseJSON[i].date
+                                    reservations[id].start_time = responseJSON[i].start_time
+                                    reservations[id].end_time = responseJSON[i].end_time
+                                    reservations[id].instructions = responseJSON[i].instructions
+                                    reservations[id].status = responseJSON[i].status
+                                    reservations[id].menu = responseJSON[i].menu
+                                    reservations[id].venue = responseJSON[i].venue
+                                    reservations[id].timeSince = responseJSON[i].timeSince
+                                    console.log(reservations[id])
+                                }        
+                            }))}/>
+
+
+                        
                         <TouchableOpacity
                             onPress={this.onPress1}
                         >
