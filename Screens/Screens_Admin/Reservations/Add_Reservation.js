@@ -49,6 +49,10 @@ class Page_Menu extends Component {
         super(props);
     };
 
+    onPress2 = () => {
+        this.props.navi.navigate('Menu')
+    }
+
     render() {
         var items = []
         for (i in menu) {
@@ -70,7 +74,7 @@ class Page_Menu extends Component {
                         </ScrollView>
                     </View>
 
-                    <TouchableOpacity onPress={() => this.props.navi.navigate('Menu')}>
+                    <TouchableOpacity onPress={this.onPress2}>
                         <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0.05*width, bottom: 0.05*width, backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
                             <Text style={{flex: 1, color: 'white', fontSize: 0.09*width}}> + </Text>
                         </View>
@@ -347,7 +351,6 @@ export default class Menu extends Component {
         } else if (index == 2) {
             return <Page_Calendar />
         } else if (index == 3) {
-            // this.nav.navigate('Main')
             return <Page_Menu navi={this.nav}/>
         }   
     }
