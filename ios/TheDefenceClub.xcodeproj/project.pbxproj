@@ -62,6 +62,7 @@
 		8BA10D6DA5C44B6F8F53B546 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8D2CD4FFDFFA4E77A3AE3245 /* EvilIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B24E99A52BC843F39E22ADA1 /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DE658CF8B974D138334DC66 /* libRNGestureHandler-tvOS.a */; };
+		BEFEEC1922748D0A005E875D /* ios in Resources */ = {isa = PBXBuildFile; fileRef = BEFEEBEE22748D0A005E875D /* ios */; };
 		D71A9D92EEFB4F8782C84005 /* Cookie.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AB0E9F0A11B4FD9B4905CFA /* Cookie.ttf */; };
 		E6B05EC4A4C04253B68E0ACD /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 149AE8AA758642FEBF80778B /* FontAwesome.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -429,6 +430,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		ADF26509D3B84B0AA88AC678 /* Calibri Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Calibri Regular.ttf"; path = "../assets/fonts/Calibri Regular.ttf"; sourceTree = "<group>"; };
 		BAB297375DB44A74BFDF84AB /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		BEFEEBEE22748D0A005E875D /* ios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ios; path = "../node_modules/@react-native-community/async-storage/ios"; sourceTree = "<group>"; };
 		C13A8EAAA27147569E4A3AA4 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		D45A85E97C6E4F1DBD5B6199 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		E69C4FE5D65E4B54AA4E52D8 /* Calibri Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Calibri Bold.ttf"; path = "../assets/fonts/Calibri Bold.ttf"; sourceTree = "<group>"; };
@@ -678,6 +680,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BEFEEBEE22748D0A005E875D /* ios */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -1294,6 +1297,7 @@
 				27F68649276B4954B26F77EC /* Zocial.ttf in Resources */,
 				58D827A1898C4404964F13B7 /* Calibri Bold Italic.ttf in Resources */,
 				856895CF0C8A437CB4FC83B7 /* Calibri Bold.ttf in Resources */,
+				BEFEEC1922748D0A005E875D /* ios in Resources */,
 				7DD1BAD982614493B946AC1C /* Calibri Italic.ttf in Resources */,
 				3D5EA2A3456F4CEE8EF7C948 /* Calibri Light Italic.ttf in Resources */,
 				033E0F9CC0954001B38537DF /* Calibri Light.ttf in Resources */,
