@@ -296,7 +296,7 @@ class Page_Calendar extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={[styles.title, {margin: 0}]}> Select Date </Text>
+                <Text style={[styles.title, {margin: 0}]}> Select Date {date} </Text>
 
                 <View style={{width: 0.8*width, marginTop: 0.02*width}}>
                     <Calendar
