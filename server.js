@@ -407,30 +407,6 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
                 x += 1
 
             });
-
-            var d = new Date();
-            current_timestamp = d.getTime();
-            current_date = d.getDate();
-            timestamp_aftermonth = current_timestamp + 2600000000
-
-
-            new_data.sort(function (a, b) {
-                if (a.timeSince < b.timeSince) {
-                    return -1;
-                }
-                else {
-                    return 1;
-                }
-            })
-
-            function filterit(a) {
-                if ((a.timeSince > current_timestamp) && (a.timeSince < timestamp_aftermonth)) {
-                    return 1
-                }
-                return 0
-            }
-            new_data = new_data.filter(filterit)
-            // console.log(new_data)
             res.send(JSON.stringify(new_data));
         })
         .catch(err => {
@@ -453,8 +429,6 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
 
             res.send(JSON.stringify(new_data));
         });
-
-    // res.send(JSON.stringify(new_data));
 });
 
 

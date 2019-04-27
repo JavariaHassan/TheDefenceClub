@@ -182,7 +182,8 @@ export default class Menu extends Component {
                                     reservations[id].venue = responseJSON[i].venue
                                     reservations[id].timeSince = responseJSON[i].timeSince
                                     console.log(reservations[id])
-                                }        
+                                } 
+                                this.forceUpdate()       
                             }))}/>
 
 
