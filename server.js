@@ -99,6 +99,7 @@ app.get('/get_menu', function (req, res){
 
 app.post('/get_dates', function (req, res){ // return the available dates for a given month,year.. venue and time
     // assuming i get month, year, venue, time(breakfast, lunch, dinner)
+    console.log("get_dates called")
     venue = req.body.my_venue
     timing = req.body.my_timing
     if(venue == "Banquet"){

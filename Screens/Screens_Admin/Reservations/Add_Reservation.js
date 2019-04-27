@@ -203,13 +203,14 @@ class Page_VenueTimePeople extends Component {
     }
 
     updateCalender(){
+        console.log("update calender called")
         const data = {
             my_venue : venue,
             my_timing: timing
         }
 
         get_dates_server = async (data) => {
-            response = await fetch ('http://10.130.4.195:3000/get_dates', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/get_dates', {
                 method : 'post', 
                 headers : {
                 Accept: 'application/json',
