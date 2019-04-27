@@ -266,12 +266,8 @@ class Page_VenueTimePeople extends Component {
     timingClick(index) {
         timing = index
         timing_styles = [{}, {}, {}]
-<<<<<<< HEAD
-        timing_styles[index] = {backgroundColor: '#D2D2E1', borderColor: '#D2D2E1'}
-=======
         timing_styles[index] = {backgroundColor: '#D2D2E1', borderColor: '#211965'}
         this.updateCalender()
->>>>>>> 5bbcf1729df0442a73f8936022db0a2fd6a247c1
         this.setState({styles: timing_styles})
     }
 
