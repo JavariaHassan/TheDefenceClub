@@ -19,7 +19,7 @@ export default class AddMenu extends Component {
     static navigationOptions = {
         title: "Add Menu Item",
     };
-    
+     
     onPress = () => {
         const data = {
             Name : this.state.Name,
