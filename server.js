@@ -94,24 +94,42 @@ app.get('/get_menu', function (req, res){
 });
 
 
-app.get('/get_dates', function (req, res){ // return the available dates for a given month,year.. venue and time
+app.post('/get_dates', function (req, res){ // return the available dates for a given month,year.. venue and time
     // assuming i get month, year, venue, time(breakfast, lunch, dinner)
-    month = 4
-    year = 2019
-    time = "dinner"
-    venue = 'banquet' // lawn_1, lawn_2, tv_room
-    unavailable_dates = {}
-    var resRef = db.collection('reservation_availability').
-    where('year', '==', year);
+    venue = req.body.my_venue
+    timing = req.body.my_timing
+    if(venue == "Banquet"){
+        venue = "banquet"
+    } if(venue == "TV Room"){
+        venue = "tv_room"
+    } if(venue == "Lawn 1"){
+        venue = "lawn_1"
+    } if(venue == "Lawn 2"){
+        venue = "lawn_2"
+    } if(timing == 0){
+        time = "breakfast"
+    } if(timing == 1){
+        time = "lunch"
+    } if(timing == 2){
+        time = "dinner"
+    }
+
+    console.log("time: ", time)
+    console.log("venue ", venue)
+    // time = "dinner"
+    // venue = 'banquet' // lawn_1, lawn_2, tv_room
+    var unavailable_dates = []
+    var resRef = db.collection('reservation_availability')
     var allres = resRef.get()
     .then(snapshot => {
         snapshot.forEach(doc => {
         // newdata[doc.id] = doc.data()
         var x = doc.data()
-        if(x["month"] == month && x[venue][time] == "n"){
-            unavailable_dates[x["date"]] = "n"
+        if(x[venue][time] == "n"){ 
+            unavailable_dates.push(x["date_string"])
         }
         });
+        console.log(unavailable_dates)
         res.send(JSON.stringify(unavailable_dates));
     })
 
@@ -224,6 +242,9 @@ app.post('/login', function(req, res){
 
 
 app.listen(port, () => console.log(`example app listening on port ${port}!`))
+
+
+
 
 
 app.get('/get_confirmed_reservations', function (req, res) {

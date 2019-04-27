@@ -8,6 +8,19 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
+Date.prototype.yyyymmdd = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+  
+    return [this.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd
+           ].join('-');
+  };
+  
+//   var date = new Date();
+//   date.yyyymmdd();
+
 const options = ['Cancel', "Banquet", "TV Room", "Lawn 1", "Lawn 2"]
 const options_banquet = ["Cancel","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]  // 15-40 banquet limit 
 const options_lawn = ["Cancel","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25"] // 10-25 lawns limit
@@ -283,6 +296,7 @@ class Page_Calendar extends Component {
         super(props);
         this.state = {};
         this.onDayPress = this.onDayPress.bind(this)
+        this.disabledDates = []
     };
 
     onDayPress(day) {
@@ -296,16 +310,48 @@ class Page_Calendar extends Component {
 
         return (
             <View style={styles.container}>
+            <NavigationEvents onDidFocus={(() => {
+                Alert.alert("event called")
+                const data = {
+                    my_venue : venue,
+                    my_timing: timing
+                }
+                get_dates_server = async (data) => {
+                    response = await fetch ('http://10.130.4.195:3000/get_dates', {
+                        method : 'post', 
+                        headers : {
+                        Accept: 'application/json',
+                        'Content-Type' : 'application/json'
+                        },
+
+                        body : JSON.stringify(data)
+
+                    }).then((response) => response.json())
+                    .then((responseJSON) => {
+                          this.setState({
+                            disabledDates : responseJSON
+                          })
+                        })
+                }
+
+                  get_dates_server(data)
+                 })
+                }
+                
+                />
                 <Text style={[styles.title, {margin: 0}]}> Select Date {date} </Text>
 
                 <View style={{width: 0.8*width, marginTop: 0.02*width}}>
                     <Calendar
                             minDate={Date()}
                             onDayPress={this.onDayPress}
-                            markedDates={{[this.state.selected]: {selected:true}}}
-                            theme={{
+                            markedDates={{[this.state.selected]: {selected:true}, 
+                            [this.state.disabledDates] : {disabled: true}
+                            }}                 
+                             theme={{
                                 selectedDayBackgroundColor: '#D2D2E0',
                                 selectedDayTextColor: '#23186A',
+                                // markedDayTextColor: 'D42C08',
                                 calendarBackground: '#ffffff',
                                 textSectionTitleColor: '#23186A',
                                 textDisabledColor: '#d9e1e8',
