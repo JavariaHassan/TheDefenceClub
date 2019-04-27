@@ -25,7 +25,7 @@ export default class Menu extends Component {
               {
                 text: 'OK',
                 style: 'cancel',
-                onPress: () => {this.props.navigation.goBack()}
+                onPress: () => {this.props.navigation.navigate}
               },
             ],
           );

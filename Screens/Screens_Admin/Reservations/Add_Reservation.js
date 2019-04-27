@@ -51,6 +51,13 @@ class Page_Menu extends Component {
     };
 
     render() {
+        // var { navigation } = this.props;
+        // console.log('navnav', navigation)
+        // if (navigation !== undefined) {
+        //     const menuItem = navigation.getParam('menuItem');
+        //     console.log('adil', menuItem);
+        // }
+        // console.log('adildumbo');
         var items = []
         for (i in menu) {
             items.push(
@@ -71,7 +78,7 @@ class Page_Menu extends Component {
                         </ScrollView>
                     </View>
 
-                    <TouchableOpacity style={{width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu')}>
+                    <TouchableOpacity style={{width: 0.12*width, height: 0.12*width}} onPress={() => nav.navigate('Menu', {nav})}>
                         <View style={{alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 0.05*width, bottom: 0.05*width, backgroundColor: '#23186A', width: 0.12*width, height: 0.12*width, borderRadius: 0.12*width}}>
                             <Text style={{flex: 1, color: 'white', fontSize: 0.09*width}}> + </Text>
                         </View>
@@ -296,7 +303,7 @@ class Page_Calendar extends Component {
 
         return (
             <View style={styles.container}>
-                <Text style={[styles.title, {margin: 0}]}> Select Date </Text>
+                <Text style={[styles.title, {margin: 0}]}> Select Date {date} </Text>
 
                 <View style={{width: 0.8*width, marginTop: 0.02*width}}>
                     <Calendar
@@ -377,6 +384,13 @@ export default class Menu extends Component {
     }
     
     render() {
+        var { navigation } = this.props;
+        console.log('navnav', navigation)
+        if (navigation !== undefined && navigation.getParam('menuItem') !== undefined) {
+            menuItem = navigation.getParam('menuItem');
+            menu[menuItem.Name] = {name: menuItem.Name, price: menuItem.Price, category: menuItem.Category}
+        }
+
         return (
             <ImageBackground source={require('../../BG_3.png')} style={{flex: 1}}>
             
