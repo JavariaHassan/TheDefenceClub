@@ -13,8 +13,9 @@ class Pending extends Component {
         super(props); 
     };        
 
-    componentWillMount(){
+    componentDidMount(){
         // reservations = {}
+
 
         unconfirmed = () => {
             fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
@@ -97,9 +98,8 @@ class Confirmed extends Component {
         super(props);
     };
 
-    componentWillMount(){
+    componentDidMount(){
         // reservations = {}
-
         confirmed = () => {
             fetch ('https://whispering-savannah-21440.herokuapp.com/get_confirmed_reservations').then((response) => response.json()).then((responseJSON) => {
             reservations = {}

@@ -37,16 +37,16 @@ export default class Menu extends Component {
             .then((responseJSON) => {
                 // Alert.alert("Reservation has been confirmed")
                 Alert.alert(
-                    'Reservation has been confirmed',
+                    'Reservation has been confirmeds',
                     '',
                     [
-                      {
+                    {
                         text: 'OK',
                         style: 'cancel',
-                        onPress: () => {this.props.navigation.navigate}
-                      },
+                        onPress: () => {this.props.navigation.goBack()}
+                    },
                     ],
-                  );
+                );
             })
         }
         ConfirmReservation(data)
