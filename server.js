@@ -49,7 +49,7 @@ app.post('/confirmReservation', function(req, res){
                 status : 'confirmed'
             }
 
-            var setDoc = db.collection('reservation_details').doc(ID).set(doc.data());
+            var setDoc = db.collection('reservation_details').doc(ID).set(new_data);
             const response_data = {
                 response: "done"
             }
@@ -58,7 +58,7 @@ app.post('/confirmReservation', function(req, res){
 })
 
 app.post('/deleteReservation', function(req, res){
-    console.log("Confirming the reservation")
+    console.log("Deleting the reservation")
     user_id = req.body.id,
     reservation_id = req.body.reservation_id
 
@@ -68,8 +68,21 @@ app.post('/deleteReservation', function(req, res){
     var reservation_detail = db.collection('reservation_details').doc(ID);
     var document = reservation_detail.get()
         .then(doc => {
-            doc.data().status = "removed"
-            var setDoc = db.collection('reservation_details').doc(ID).set(doc.data());
+            const new_data = {
+                menu : doc.data().menu,
+                instructions : doc.data().instructions,
+                end_time: doc.data().end_time,
+                start_time: doc.data().start_time,
+                member_id : doc.data().member_id,
+                date: doc.data().date,
+                reservation_id : doc.data().reservation_id,
+                timestamp : doc.data().timestamp,
+                timeSince : doc.data().timeSince,
+                venue : doc.data().venue,
+                status : 'removed'
+            }
+
+            var setDoc = db.collection('reservation_details').doc(ID).set(new_data);
             const response_data = {
                 response: "done"
             }

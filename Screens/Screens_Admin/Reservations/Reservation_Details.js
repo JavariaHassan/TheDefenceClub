@@ -23,10 +23,10 @@ export default class Menu extends Component {
             reservation_id : String(reservation_id)
         }
 
-        Alert.alert(String(data.id), String(data.reservation_id))
+        // Alert.alert(String(data.id), String(data.reservation_id))
 
         ConfirmReservation = async (data) => {
-            response = await fetch ('http://192.168.1.100:3000/confirmReservation', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/confirmReservation', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
@@ -35,23 +35,24 @@ export default class Menu extends Component {
               body : JSON.stringify(data)
             }).then((response) => response.json())
             .then((responseJSON) => {
-                Alert.alert("Reservation has been confirmed")
+                // Alert.alert("Reservation has been confirmed")
+                Alert.alert(
+                    'Reservation has been confirmed',
+                    '',
+                    [
+                      {
+                        text: 'OK',
+                        style: 'cancel',
+                        onPress: () => {this.props.navigation.navigate}
+                      },
+                    ],
+                  );
             })
         }
         ConfirmReservation(data)
 
         //write confirm code here
-        // Alert.alert(
-        //     'Reservation has been confirmed',
-        //     '',
-        //     [
-        //       {
-        //         text: 'OK',
-        //         style: 'cancel',
-        //         onPress: () => {this.props.navigation.navigate}
-        //       },
-        //     ],
-        //   );
+        
     }
 
     delete = (member_id, reservation_id) => {
@@ -62,8 +63,10 @@ export default class Menu extends Component {
             reservation_id : String(reservation_id)
         }
 
+        // Alert.alert(String(data.id), String(data.reservation_id))
+
         deleteReservation = async (data) => {
-            response = await fetch ('http://192.168.1.100:3000/deleteReservation', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/deleteReservation', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
@@ -72,25 +75,23 @@ export default class Menu extends Component {
               body : JSON.stringify(data)
             }).then((response) => response.json())
             .then((responseJSON) => {
-                Alert.alert("Reservation has been Removed")
+                // Alert.alert("Reservation has been Removed")
+                
+                Alert.alert(
+                    'Reservation has been removed',
+                    '',
+                    [
+                    {
+                        text: 'OK',
+                        style: 'cancel',
+                        onPress: () => {this.props.navigation.goBack()}
+                    },
+                    ],
+                );
             })
         }
-        deleteReservation()
+        deleteReservation(data)
 
-
-
-
-        // Alert.alert(
-        //     'Reservation has been removed',
-        //     '',
-        //     [
-        //       {
-        //         text: 'OK',
-        //         style: 'cancel',
-        //         onPress: () => {this.props.navigation.goBack()}
-        //       },
-        //     ],
-        //   );
     }
 
     delete_alert = (member_id, reservation_id) => {
