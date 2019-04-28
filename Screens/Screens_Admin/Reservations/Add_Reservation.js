@@ -111,7 +111,7 @@ class Page_Instructions extends Component {
                     <View style={{width: 0.9*width}}>
                         <View style={{width: 0.9*width, alignItems: 'center', paddingBottom: 0.2*width, marginBottom: 0.2*width, marginTop: 0.02*width}}>
                         <TextInput
-                            style={{paddingTop: 0.05*width, padding: 0.05*width, width: 0.7*width, height: width, color: 'black', fontSize: 0.04*width, borderWidth: 1, borderRadius: 5, borderColor:'#D6D6D6'}}
+                            style={{paddingTop: 0.05*width, padding: 0.05*width, width: 0.7*width, height: 0.35*height, color: 'black', fontSize: 0.04*width, borderWidth: 1, borderRadius: 5, borderColor:'#D6D6D6'}}
                             multiline = {true}
                             numberOfLines = {4}
                             onChangeText={(instructions) => this.setState({instructions})}
@@ -652,7 +652,7 @@ const styles = StyleSheet.create({
     },
     signinbutton: {
         position: 'absolute',
-        bottom: -0.1*width,
+        bottom: 0,
         backgroundColor: "#23186A",
         color: 'white',
         width: 0.5*width,
