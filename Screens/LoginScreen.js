@@ -85,7 +85,7 @@ export default class LoginScreen extends Component {
                         Name : responseJSON.Name
                     }, function (){
                         if (responseJSON.Admin == 0){
-                            this.props.navigation.navigate('DrawerNavigator_member')
+                            this.props.navigation.navigate('DrawerNavigator_member', {Name: this.state.Name, Username: this.state.Username})
                         }
                         else{
                             this.props.navigation.navigate('DrawerNavigator_admin', {Name: this.state.Name, Username: this.state.Username})

@@ -206,27 +206,6 @@ class Page_Menu extends Component {
     }
 }
 
-class Page_MemberID extends Component {
-    constructor(props) {
-        super(props);
-    };
-
-    render() {
-
-        return (
-            <View style={styles.container}>
-                    <Text style={styles.title}> Member ID </Text>
-                    <TextInput
-                        style={styles.input}
-                        autoCorrect={false}
-                        placeholderTextColor="#5E5E5E"
-                        onChangeText={(id) => memberID = id}
-                    />
-            </View>
-        );
-    }
-}
-
 class Page_VenueTimePeople extends Component {
     constructor(props) {
         super(props);
@@ -506,7 +485,7 @@ class Page_Calendar extends Component {
 export default class Menu extends Component {
     constructor(props) {
         super(props);
-        this.state = { carousalItems: [{},{},{},{},{}],
+        this.state = { carousalItems: [{},{},{},{}],
                        activeSlide: 0,
                      };
         const { navigation } = this.props;
@@ -519,16 +498,14 @@ export default class Menu extends Component {
 
     _renderItem = ({item, index}) => {
         if (index == 0) {
-            return <Page_MemberID />
-        } else if (index == 1) {
             return <Page_VenueTimePeople />
-        } else if (index == 2) {
+        } else if (index == 1) {
             return <Page_Calendar />
-        } else if (index == 3) {
+        } else if (index == 2) {
             return <Page_Menu/>
-        } else if (index == 4) {
+        } else if (index == 3) {
             return <Page_Instructions/>
-        }   
+        }
     }
 
     get pagination () {

@@ -169,15 +169,6 @@ export default class Menu extends Component {
                         {info.instructions} 
                     </Text>
                 </View> 
-
-                {pending ?
-                    <TouchableOpacity onPress={() => this.confirm(info.member_id, info.reservation_id)} style={{flexDirection: 'row', paddingVertical: 0.03*width, width:0.9*width, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey'}}>
-                        <Text style={{flex: 1, textAlign:'center', color: '#0C60FB', fontSize: 0.045*width}}> Confirm Reservation </Text>
-                    </TouchableOpacity> : null
-                }
-                <TouchableOpacity onPress={() => this.delete_alert(info.member_id, info.reservation_id)} style={{flexDirection: 'row',paddingVertical: 0.03*width, width:0.9*width, borderBottomWidth: StyleSheet.hairlineWidth, borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey'}}>
-                    <Text style={{ flex: 1, textAlign:'center', color: '#FC2632', fontSize: 0.045*width}}> Remove Reservation </Text>
-                </TouchableOpacity>
                 
             </ScrollView>
             

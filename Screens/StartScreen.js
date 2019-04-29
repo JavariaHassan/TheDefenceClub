@@ -49,7 +49,7 @@ export default class LoginScreen extends Component {
                                 Name : responseJSON.Name
                             }, function (){
                                 if (responseJSON.Admin == 0){
-                                    this.props.navigation.navigate('DrawerNavigator_member')
+                                    this.props.navigation.navigate('DrawerNavigator_member', {Name: this.state.Name, Username: credentials.username})
                                 }
                                 else{
                                     this.props.navigation.navigate('DrawerNavigator_admin', {Name: this.state.Name, Username: credentials.username})
@@ -70,6 +70,7 @@ export default class LoginScreen extends Component {
             } catch(e) {
                 Alert.alert("Error")  
               // error reading value
+                this.props.navigation.navigate('Login')
             }
           }
 
@@ -83,7 +84,7 @@ export default class LoginScreen extends Component {
                 <View style={styles.backbox}>
                     <Image source={require('./logo.png')} style={styles.logo}/>
                     <Text style={styles.welcome}>Welcome</Text> 
-                    <ActivityIndicator size="large" color="white" />
+                    <ActivityIndicator size="small" color="grey" />
                 </View>
             </ImageBackground>
         );

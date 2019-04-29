@@ -3,8 +3,6 @@ import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, Vie
 import Swipeout from 'react-native-swipeout';
 import {NavigationEvents} from 'react-navigation';
 
-import Add_Screen from './Add_Menu';
-
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
@@ -42,11 +40,8 @@ export default class Menu extends Component {
 
     static navigationOptions = ({navigation}) => ({
         title: 'Menu',
-        headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}> 
-                <Image source={require('../../plus.png')} style={{width:17, height:17, marginRight: 20}} />
-            </TouchableOpacity>,
         headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
-                <Image source={require('../../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
+                <Image source={require('../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
             </TouchableOpacity>,
     })
 
@@ -137,40 +132,22 @@ export default class Menu extends Component {
     }
     
     render() {
-        var swipeoutBtns = [
-            {
-                component: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontFamily: 'FontAwesome', fontSize: width*0.065, color: 'white'}}>  </Text>
-                            </View>,
-                backgroundColor: '#FC2632',
-                fontFamily: "Calibri",
-                onPress : this.onPress
-            }
-        ]
 
         var items = [];
         for (let key in this.state.data) {
             items.push(
-                <Swipeout style={styles.wipeout} right={swipeoutBtns}
-                    autoClose={true}
-                    onOpen={() => {
-                        this.setState({
-                            fooditem: key,
-                        })
-                    }}
-                >
-
+                <View style={styles.wipeout}>
                     <View style={styles.list}>
                         <Text style={styles.listitem1}> {this.state.data[key]['Name']} </Text>
                         <Text style={styles.listitem2}> {this.state.data[key]['Category']}  |  Pkr {this.state.data[key]['Price']}</Text>
                     </View>
-                </Swipeout>
+                </View>
             )
         }
 
         return (
 
-            <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
+            <ImageBackground source={require('../BG_3.png')} style={styles.container}>
                 <View style={styles.backbox}>
                     <NavigationEvents onDidFocus={(() => fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
                         .then((response) => response.json())
@@ -197,7 +174,7 @@ export default class Menu extends Component {
                             onChangeText={(Search) => this.onChange(Search)}
                         />
                         <View style={{borderTopRightRadius: 10, borderBottomRightRadius: 10, width: width*0.19, height: width*0.16, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
-                            <Image source={require('../../search.png')} style={{width: width*0.05, height: width*0.05}}/>
+                            <Image source={require('../search.png')} style={{width: width*0.05, height: width*0.05}}/>
                         </View>
                     </View>
 
@@ -242,8 +219,6 @@ const styles = StyleSheet.create({
         width: width*0.90,
         backgroundColor: 'transparent',
         marginBottom: 5,
-        backgroundColor: '#FC2632',
-        borderRadius: 10,
     },
     list: {
         height: width*0.16,

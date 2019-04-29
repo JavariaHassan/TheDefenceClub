@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert} from 'react-native';
-import Swipeout from 'react-native-swipeout';
 import {NavigationEvents} from 'react-navigation';
-
-import Add_Screen from './Add_Menu';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -11,6 +8,8 @@ var height = Dimensions.get('window').height;
 var MenuObj = {
     
 }
+
+var nav = null;
 
 export default class Menu extends Component {
     constructor(props) {
@@ -22,6 +21,9 @@ export default class Menu extends Component {
     }
 
     componentDidMount(){
+        const { navigation } = this.props;
+        nav = navigation.getParam('nav');
+
         return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
           .then((response) => response.json())
           .then((responseJson) => {
@@ -41,13 +43,7 @@ export default class Menu extends Component {
       }
 
     static navigationOptions = ({navigation}) => ({
-        title: 'Menu',
-        headerRight: <TouchableOpacity onPress={() => navigation.navigate('Add')}> 
-                <Image source={require('../../plus.png')} style={{width:17, height:17, marginRight: 20}} />
-            </TouchableOpacity>,
-        headerLeft: <TouchableOpacity onPress={() => navigation.openDrawer()}> 
-                <Image source={require('../../hamburger.png')} style={{width:20, height:17, marginLeft: 20}} />
-            </TouchableOpacity>,
+        title: '',
     })
 
     onChange = Search => {
@@ -135,42 +131,38 @@ export default class Menu extends Component {
         }
         remove_menu_server(datatemp)
     }
+
+    menuPickAdd = key => {
+        nav.navigate('Add', {menuItem: key})
+    }
+
+    menuPick = key => {
+        Alert.alert(
+            "Add "+key['Name']+" to Menu?",
+            '',
+            [
+                {text: 'Cancel', style: 'cancel'},
+                {text: 'Add', onPress: () => this.menuPickAdd(key)},
+            ],
+          );
+    }
     
     render() {
-        var swipeoutBtns = [
-            {
-                component: <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                                <Text style={{fontFamily: 'FontAwesome', fontSize: width*0.065, color: 'white'}}>  </Text>
-                            </View>,
-                backgroundColor: '#FC2632',
-                fontFamily: "Calibri",
-                onPress : this.onPress
-            }
-        ]
-
         var items = [];
-        for (let key in this.state.data) {
+        for (const key in this.state.data) {
             items.push(
-                <Swipeout style={styles.wipeout} right={swipeoutBtns}
-                    autoClose={true}
-                    onOpen={() => {
-                        this.setState({
-                            fooditem: key,
-                        })
-                    }}
-                >
-
+                <TouchableOpacity onPress={() => this.menuPick(this.state.data[key])} style={styles.wipeout}>
                     <View style={styles.list}>
                         <Text style={styles.listitem1}> {this.state.data[key]['Name']} </Text>
                         <Text style={styles.listitem2}> {this.state.data[key]['Category']}  |  Pkr {this.state.data[key]['Price']}</Text>
                     </View>
-                </Swipeout>
+                </TouchableOpacity>
             )
         }
 
         return (
 
-            <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.backbox}>
                     <NavigationEvents onDidFocus={(() => fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
                         .then((response) => response.json())
@@ -189,25 +181,25 @@ export default class Menu extends Component {
                 
                     />
 
-                    <View style={{width: width*0.9, height: width*0.16, marginBottom: 5, flexDirection: 'row', backgroundColor: 'white', borderColor: "#D9D8D9", borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={{width: width*0.9, height: width*0.12, marginBottom: 10, flexDirection: 'row', backgroundColor: '#EEEEEE', borderColor: "#EEEEEE", borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
                         <TextInput
                             style={styles.input}
                             placeholder="Search"
-                            placeholderTextColor="#23186A"
+                            placeholderTextColor="grey"
                             onChangeText={(Search) => this.onChange(Search)}
                         />
-                        <View style={{borderTopRightRadius: 10, borderBottomRightRadius: 10, width: width*0.19, height: width*0.16, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={{borderTopRightRadius: 10, borderBottomRightRadius: 10, width: width*0.19, height: width*0.12, backgroundColor: "#23186A", justifyContent: 'center', alignItems: 'center'}}>
                             <Image source={require('../../search.png')} style={{width: width*0.05, height: width*0.05}}/>
                         </View>
                     </View>
 
-                    <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center', paddingBottom: 50}}
+                    <ScrollView contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
                                 style={styles.scrollview}>
                         {items}
                     </ScrollView>
     
                 </View>
-            </ImageBackground>
+            </View>
         );
     }
 }
@@ -228,10 +220,9 @@ const styles = StyleSheet.create({
         height: width*0.12,
         width: (width*0.9) - (width*0.19),
         fontFamily: "Calibri",
-        fontWeight: "bold",
         padding: 10,
         paddingLeft: 16,
-        color: "#23186A",
+        color: "grey",
         fontSize: 17,
     },
     scrollview: {
@@ -250,9 +241,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 10,
         borderColor: "#D9D8D9",
-        borderWidth: 1,
-        borderRightWidth: 0,
-        borderRadius: 10,
+        borderBottomWidth: 1,
     },
     listitem1: {
         fontFamily: "Calibri",
