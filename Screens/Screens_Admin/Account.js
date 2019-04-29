@@ -26,7 +26,8 @@ class Member_Comp extends Component {
                 ID : this.state.ID,
                 Email : this.state.Email,
                 Password : this.state.Password,
-                Admin: 0
+                Admin: 0,
+                reservation : 0
             }
             Authenticate = async (data) => {
                 response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_member', {
@@ -123,7 +124,8 @@ class Admin_Comp extends Component {
                 ID : this.state.ID,
                 Email : this.state.Email,
                 Password : this.state.Password,
-                Admin: 0
+                Admin: 0,
+                reservation : 0
             }
             Authenticate = async (data) => {
                 response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_admin', {
