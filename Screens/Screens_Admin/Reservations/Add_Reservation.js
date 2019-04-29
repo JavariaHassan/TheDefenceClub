@@ -8,18 +8,8 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-Date.prototype.yyyymmdd = function() {
-    var mm = this.getMonth() + 1; // getMonth() is zero-based
-    var dd = this.getDate();
-  
-    return [this.getFullYear(),
-            (mm>9 ? '' : '0') + mm,
-            (dd>9 ? '' : '0') + dd
-           ].join('-');
-  };
-  
-//   var date = new Date();
-//   date.yyyymmdd();
+
+
 
 const options = ['Cancel', "Banquet", "TV Room", "Lawn 1", "Lawn 2"]
 const options_banquet = ["Cancel","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]  // 15-40 banquet limit 
@@ -32,34 +22,17 @@ var timings = [{index: 0, key: 'Breakfast', time: '09:00 - 11:00'},
               ]
 
 var nav;
-var memberID = null;
-var venue = 'Banquet';
-var timing = 0;
-var guestnumber = 1;
-var date = null;
+var memberID = null; // send this
+var venue = 'Banquet'; // send this
+var timing = 0; 
+var guestnumber = 1; // send this
+var date = null; // send this
 var disabled_global  = {}
+var instructions_global = "" // send this
+var end_time = "" // send this
+var start_time = "" // send this
 
-
-var menu = {
-    "Karahi" :  
-        {
-            name: "Karahi",
-            price: 800,
-            category: 'Desi',
-        },
-    "Biryani" :  
-        {
-            name: "Biryani",
-            price: 850,
-            category: 'Desi',
-        },
-    "Naan" :  
-        {
-            name: "Naan",
-            price: 20,
-            category: 'Desi',
-        }
-};
+var menu = {}; // send this
 
 class Page_Instructions extends Component {
     constructor(props) {
@@ -73,7 +46,62 @@ class Page_Instructions extends Component {
     }
 
     submit = () => {
-        Alert.alert("yay imma upload")
+        if(timing ==0){
+            start_time = "09:00"
+            end_time = "11:30"
+        } if (timing == 1){
+            start_time = "13:00"
+            end_time = "16:00"
+        } if (timing == 2) {
+            start_time = "18:00"
+            end_time = "21:00"
+        }
+        // Alert.alert("yay imma upload")
+        console.log(menu)
+        console.log(instructions_global)
+        console.log(end_time)
+        console.log(start_time)
+        console.log(memberID)
+        console.log(date)
+        console.log(venue)
+        console.log(guestnumber)
+        const r_data = {
+            menu : menu,
+            instructions: instructions_global,
+            end_time : end_time,
+            start_time : start_time,
+            memberID : memberID,
+            date : date,
+            venue: venue,
+            guestnumber : guestnumber
+        }
+
+        add_res_server = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/addReservation', {
+                method : 'post', 
+                headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+                },
+
+                body : JSON.stringify(data)
+
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                 console.log(responseJSON)
+                 if(responseJSON.response == "Done"){
+                     Alert.alert("Reservation Submitted")
+                     this.props.navigation.goBack()
+                 } else {
+                     Alert.alert("Error, try again!")
+                 }
+
+                })
+        }
+
+        add_res_server(r_data)
+
+
     }
 
     submitalert = () => {
@@ -114,7 +142,9 @@ class Page_Instructions extends Component {
                             style={{paddingTop: 0.05*width, padding: 0.05*width, width: 0.7*width, height: 0.35*height, color: 'black', fontSize: 0.04*width, borderWidth: 1, borderRadius: 5, borderColor:'#D6D6D6'}}
                             multiline = {true}
                             numberOfLines = {4}
-                            onChangeText={(instructions) => this.setState({instructions})}
+                            onChangeText={(instructions) => {this.setState({instructions});
+                            instructions_global = instructions;
+                        }}
                             value={this.state.instructions}
                         />
                         <TouchableOpacity
@@ -424,7 +454,6 @@ class Page_Calendar extends Component {
 
         
 
-        console.log("constructor called!!!!!!") 
     };
 
     onDayPress(day) {

@@ -5,6 +5,17 @@ var port = process.env.PORT || 3000;
 bodyParser = require('body-parser');
 app.use(bodyParser.json())
 
+Date.prototype.yyyymmdd = function() {
+    var mm = this.getMonth() + 1; // getMonth() is zero-based
+    var dd = this.getDate();
+  
+    return [this.getFullYear(),
+            (mm>9 ? '' : '0') + mm,
+            (dd>9 ? '' : '0') + dd
+           ].join('-');
+};
+
+  
 
 var admin = require("firebase-admin");
 var serviceAccount = require("./defenceclub-team5-firebase-adminsdk-88zof-941202010e.json");
@@ -48,13 +59,89 @@ app.post('/confirmReservation', function(req, res){
                 venue : doc.data().venue,
                 status : 'confirmed'
             }
-
+            // guests
             var setDoc = db.collection('reservation_details').doc(ID).set(new_data);
             const response_data = {
                 response: "done"
             }
             res.send(JSON.stringify(response_data))
         })
+})
+
+app.post('/addReservation', function(req, res){
+    console.log("Adding the reservation")
+
+    const r_data = {
+        menu : req.body.menu,
+        instructions: req.body.instructions,
+        end_time : req.body.end_time,
+        start_time : req.body.start_time,
+        member_id : req.body.memberID,
+        date : req.body.date,
+        venue: {
+            name : req.body.venue,
+            per_hour_surcharge : 2000,
+            price : 10000
+        },
+        guestnumber : req.body.guestnumber,
+        timestamp : "",
+        timeSince : 0,
+        reservation_id : 0,
+        status: 'unconfirmed'
+    }
+
+    var date = new Date();
+    r_data.timestamp = date.yyyymmdd();
+    r_data.timeSince = date.getTime();
+
+    var r_number = 0
+
+    var user_info = db.collection('user_login').doc(req.body.memberID);
+    var getDoc = user_info.get()
+    .then(doc => {
+        if (!doc.exists) {
+            console.log('No such document!');
+            new_data = {
+                response : "no doc"
+            }
+            res.send(JSON.stringify(new_data))
+        } else {
+            docFound = true
+            r_number = doc.data().reservation
+            r_number = r_number + 1
+            r_data.reservation_id = r_number
+            id_str = r_number.toString()
+            key = r_data.member_id + "_" + id_str
+            console.log(key)
+            console.log(r_data) 
+            var setDoc = db.collection('reservation_details').doc(key).set(r_data);
+            new_data = {
+                response : "Done"
+            }
+            res.send(JSON.stringify(new_data))  
+
+            // incrementing reservation number by a user
+            var rnum_ref = db.collection("user_login").doc(req.body.memberID);
+
+            return rnum_ref.update({
+                reservation: r_number
+            })
+            .then(function() {
+                console.log("Document successfully updated!");
+            })
+            .catch(function(error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+
+            
+
+
+        }
+    })
+    .catch(err => {
+        console.log('Error getting document', err);
+    });
 })
 
 app.post('/deleteReservation', function(req, res){
