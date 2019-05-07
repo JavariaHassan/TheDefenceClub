@@ -78,7 +78,7 @@ class Page_Instructions extends Component {
         }
 
         add_res_server = async (data) => {
-            response = await fetch ('http://10.130.18.47:3000/addReservation', {
+            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/addReservation', {
                 method : 'post', 
                 headers : {
                 Accept: 'application/json',

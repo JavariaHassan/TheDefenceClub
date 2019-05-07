@@ -7,6 +7,9 @@ var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
 var reservations = {}
+var data2 = {
+    member_id : values.user
+}
 
 class Pending extends Component {
 
@@ -15,14 +18,11 @@ class Pending extends Component {
     };        
 
     componentDidMount(){
-    
-        const data = {
-            member_id : values.user
-        }
+
 
         AskCurrentReservation = async (data) => {
-            Alert.alert(data.member_id)
-            response = await fetch ('http://192.168.1.101:3000/get_reservations4UserRecent', {
+            // Alert.alert(data.member_id)
+            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
               method : 'POST', 
               headers : {
                 Accept: 'application/json',
@@ -54,12 +54,12 @@ class Pending extends Component {
                 }        
                 this.forceUpdate()
         })}
-        AskCurrentReservation(data)
+        AskCurrentReservation(data2)
 
 
         AskPassedReservation = async (data) => {
-            Alert.alert("Hello")
-            response = await fetch ('http://192.168.1.101:3000/get_reservations4UserPassed', {
+            // Alert.alert("Hello")
+            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
               method : 'POST', 
               headers : {
                 Accept: 'application/json',
@@ -69,7 +69,7 @@ class Pending extends Component {
             }).then((response) => response.json())
             .then((responseJSON) => {
                 lengthofresponse = responseJSON.length
-                Alert.alert("passed reservation")
+                // Alert.alert("passed reservation")
                 var i;
                 for (i=0; i<lengthofresponse; i++){
                     console.log("Hello")
@@ -91,71 +91,9 @@ class Pending extends Component {
                 }        
                 this.forceUpdate()
         })}
-        AskPassedReservation(data)
+        AskPassedReservation(data2)
 
     }
-
-    //     confirmed = () => {
-
-    //         fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4User').then((response) => response.json()).then((responseJSON) => {
-    //         lengthofresponse = responseJSON.length
-    //         // console.log(lengthofresponse)
-    //         var i;
-    //         for (i=0; i<lengthofresponse; i++){
-    //             console.log("Hello")
-    //             id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
-    //             reservations[id] = {}
-    //             reservations[id].member_id = responseJSON[i].member_id
-    //             reservations[id].reservation_id = responseJSON[i].reservation_id
-    //             reservations[id].timestamp = responseJSON[i].timestamp
-    //             reservations[id].date = responseJSON[i].date
-    //             reservations[id].start_time = responseJSON[i].start_time
-    //             reservations[id].end_time = responseJSON[i].end_time
-    //             reservations[id].instructions = responseJSON[i].instructions
-    //             reservations[id].status = responseJSON[i].status
-    //             reservations[id].menu = responseJSON[i].menu
-    //             reservations[id].venue = responseJSON[i].venue
-    //             reservations[id].timeSince = responseJSON[i].timeSince
-    //             console.log(reservations[id])
-    //         }        
-    //         this.forceUpdate()
-    //     })}
-    //     confirmed()
-
-    //     unconfirmed = () => {
-    //         fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
-    //         reservations = {}
-    //         lengthofresponse = responseJSON.length
-    //         console.log(lengthofresponse)
-    //         var i;
-    //         for (i=0; i<lengthofresponse; i++){
-    //             console.log("Hello")
-    //             id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
-    //             reservations[id] = {}
-    //             reservations[id].member_id = responseJSON[i].member_id
-    //             reservations[id].reservation_id = responseJSON[i].reservation_id
-    //             reservations[id].timestamp = responseJSON[i].timestamp
-    //             reservations[id].date = responseJSON[i].date
-    //             reservations[id].start_time = responseJSON[i].start_time
-    //             reservations[id].end_time = responseJSON[i].end_time
-    //             reservations[id].instructions = responseJSON[i].instructions
-    //             reservations[id].status = responseJSON[i].status
-    //             reservations[id].menu = responseJSON[i].menu
-    //             reservations[id].venue = responseJSON[i].venue
-    //             reservations[id].timeSince = responseJSON[i].timeSince
-    //             console.log(reservations[id])
-    //         }        
-    //         this.forceUpdate()
-    //     })}
-    //     unconfirmed()
-    //     // this.forceUpdate();
-    // }
-    
-    // componentDidMount(){
-    // //     // reservations = {}
-    //     Alert.alert("hello2")
-    // //     // this.forceUpdate();
-    // }
 
     render() {
         var r_pending = [];
@@ -203,63 +141,86 @@ class Confirmed extends Component {
         super(props);
     };
 
-    // componentDidMount(){
-    //     // reservations = {}
-    //     confirmed = () => {
-    //         fetch ('https://whispering-savannah-21440.herokuapp.com/get_confirmed_reservations').then((response) => response.json()).then((responseJSON) => {
-    //         reservations = {}
-    //         lengthofresponse = responseJSON.length
-    //         // console.log(lengthofresponse)
-    //         var i;
-    //         for (i=0; i<lengthofresponse; i++){
-    //             console.log("Hello")
-    //             id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
-    //             reservations[id] = {}
-    //             reservations[id].member_id = responseJSON[i].member_id
-    //             reservations[id].reservation_id = responseJSON[i].reservation_id
-    //             reservations[id].timestamp = responseJSON[i].timestamp
-    //             reservations[id].date = responseJSON[i].date
-    //             reservations[id].start_time = responseJSON[i].start_time
-    //             reservations[id].end_time = responseJSON[i].end_time
-    //             reservations[id].instructions = responseJSON[i].instructions
-    //             reservations[id].status = responseJSON[i].status
-    //             reservations[id].menu = responseJSON[i].menu
-    //             reservations[id].venue = responseJSON[i].venue
-    //             reservations[id].timeSince = responseJSON[i].timeSince
-    //             console.log(reservations[id])
-    //         }        
-    //         this.forceUpdate()
-    //     })}
-    //     confirmed()
+    componentDidMount(){
+    
+        // const data = {
+        //     member_id : values.user
+        // }
 
-    //     unconfirmed = () => {
-    //         fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
-    //         lengthofresponse = responseJSON.length
-    //         console.log(lengthofresponse)
-    //         var i;
-    //         for (i=0; i<lengthofresponse; i++){
-    //             console.log("Hello")
-    //             id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
-    //             reservations[id] = {}
-    //             reservations[id].member_id = responseJSON[i].member_id
-    //             reservations[id].reservation_id = responseJSON[i].reservation_id
-    //             reservations[id].timestamp = responseJSON[i].timestamp
-    //             reservations[id].date = responseJSON[i].date
-    //             reservations[id].start_time = responseJSON[i].start_time
-    //             reservations[id].end_time = responseJSON[i].end_time
-    //             reservations[id].instructions = responseJSON[i].instructions
-    //             reservations[id].status = responseJSON[i].status
-    //             reservations[id].menu = responseJSON[i].menu
-    //             reservations[id].venue = responseJSON[i].venue
-    //             reservations[id].timeSince = responseJSON[i].timeSince
-    //             console.log(reservations[id])
-    //         }        
-    //         this.forceUpdate()
-    //     })}
-    //     unconfirmed()
-    //     // this.forceUpdate();
-    // }
+        AskCurrentReservation = async (data) => {
+            // Alert.alert(data.member_id)
+            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
+              method : 'POST', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                lengthofresponse = responseJSON.length
+                // Alert.alert(lengthofresponse)
+                var i;
+                for (i=0; i<lengthofresponse; i++){
+                    console.log("Hello")
+                    id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
+                    reservations[id] = {}
+                    reservations[id].member_id = responseJSON[i].member_id
+                    reservations[id].reservation_id = responseJSON[i].reservation_id
+                    reservations[id].timestamp = responseJSON[i].timestamp
+                    reservations[id].date = responseJSON[i].date
+                    reservations[id].start_time = responseJSON[i].start_time
+                    reservations[id].end_time = responseJSON[i].end_time
+                    reservations[id].instructions = responseJSON[i].instructions
+                    reservations[id].status = responseJSON[i].status
+                    reservations[id].menu = responseJSON[i].menu
+                    reservations[id].venue = responseJSON[i].venue
+                    reservations[id].timeSince = responseJSON[i].timeSince
+                    reservations[id].passed = "false"
+                    console.log(reservations[id])
+                }        
+                this.forceUpdate()
+        })}
+        AskCurrentReservation(data2)
 
+
+        AskPassedReservation = async (data) => {
+            // Alert.alert("Hello")
+            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
+              method : 'POST', 
+              headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+              }, 
+              body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                lengthofresponse = responseJSON.length
+                // Alert.alert("passed reservation")
+                var i;
+                for (i=0; i<lengthofresponse; i++){
+                    console.log("Hello")
+                    id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
+                    reservations[id] = {}
+                    reservations[id].member_id = responseJSON[i].member_id
+                    reservations[id].reservation_id = responseJSON[i].reservation_id
+                    reservations[id].timestamp = responseJSON[i].timestamp
+                    reservations[id].date = responseJSON[i].date
+                    reservations[id].start_time = responseJSON[i].start_time
+                    reservations[id].end_time = responseJSON[i].end_time
+                    reservations[id].instructions = responseJSON[i].instructions
+                    reservations[id].status = responseJSON[i].status
+                    reservations[id].menu = responseJSON[i].menu
+                    reservations[id].venue = responseJSON[i].venue
+                    reservations[id].timeSince = responseJSON[i].timeSince
+                    reservations[id].passed = "true"
+                    console.log(reservations[id])
+                }        
+                this.forceUpdate()
+        })}
+        AskPassedReservation(data2)
+
+    }
 
     render() {
         var r_confirmed = [];
@@ -339,11 +300,53 @@ export default class Menu extends Component {
         return (
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                     <View style={{flexDirection: 'row'}}>
+ 
+                        <NavigationEvents onDidFocus={(() => 
+                                response = fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
+                                    method : 'POST', 
+                                    headers : {
+                                      Accept: 'application/json',
+                                      'Content-Type' : 'application/json'
+                                    }, 
+                                    body : JSON.stringify(data2)
+                                  }).then((response) => response.json())
+                                  .then((responseJSON) => {
+                                      lengthofresponse = responseJSON.length
+                                      // Alert.alert(lengthofresponse)
+                                      var i;
+                                      for (i=0; i<lengthofresponse; i++){
+                                          console.log("Hello")
+                                          id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
+                                          reservations[id] = {}
+                                          reservations[id].member_id = responseJSON[i].member_id
+                                          reservations[id].reservation_id = responseJSON[i].reservation_id
+                                          reservations[id].timestamp = responseJSON[i].timestamp
+                                          reservations[id].date = responseJSON[i].date
+                                          reservations[id].start_time = responseJSON[i].start_time
+                                          reservations[id].end_time = responseJSON[i].end_time
+                                          reservations[id].instructions = responseJSON[i].instructions
+                                          reservations[id].status = responseJSON[i].status
+                                          reservations[id].menu = responseJSON[i].menu
+                                          reservations[id].venue = responseJSON[i].venue
+                                          reservations[id].timeSince = responseJSON[i].timeSince
+                                          reservations[id].passed = "false"
+                                          console.log(reservations[id])
+                                      }        
+                                      this.forceUpdate()
+                            }))}/>
 
-                        {/* <NavigationEvents onDidFocus={(() => fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
-                                reservations = {}
+                        <NavigationEvents onDidFocus={(() => 
+                            response = fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
+                                method : 'POST', 
+                                headers : {
+                                Accept: 'application/json',
+                                'Content-Type' : 'application/json'
+                                }, 
+                                body : JSON.stringify(data2)
+                            }).then((response) => response.json())
+                            .then((responseJSON) => {
                                 lengthofresponse = responseJSON.length
-                                console.log(lengthofresponse)
+                                // Alert.alert("passed reservation")
                                 var i;
                                 for (i=0; i<lengthofresponse; i++){
                                     console.log("Hello")
@@ -360,35 +363,12 @@ export default class Menu extends Component {
                                     reservations[id].menu = responseJSON[i].menu
                                     reservations[id].venue = responseJSON[i].venue
                                     reservations[id].timeSince = responseJSON[i].timeSince
+                                    reservations[id].passed = "true"
                                     console.log(reservations[id])
                                 }        
                                 this.forceUpdate()
                             }))}/>
 
-                        <NavigationEvents onDidFocus={(() => fetch ('https://whispering-savannah-21440.herokuapp.com/get_confirmed_reservations').then((response) => response.json()).then((responseJSON) => {
-                                lengthofresponse = responseJSON.length
-                                console.log(lengthofresponse)
-                                var i;
-                                for (i=0; i<lengthofresponse; i++){
-                                    console.log("Hello")
-                                    id = responseJSON[i].member_id + "_" + String(responseJSON[i].reservation_id)
-                                    reservations[id] = {}
-                                    reservations[id].member_id = responseJSON[i].member_id
-                                    reservations[id].reservation_id = responseJSON[i].reservation_id
-                                    reservations[id].timestamp = responseJSON[i].timestamp
-                                    reservations[id].date = responseJSON[i].date
-                                    reservations[id].start_time = responseJSON[i].start_time
-                                    reservations[id].end_time = responseJSON[i].end_time
-                                    reservations[id].instructions = responseJSON[i].instructions
-                                    reservations[id].status = responseJSON[i].status
-                                    reservations[id].menu = responseJSON[i].menu
-                                    reservations[id].venue = responseJSON[i].venue
-                                    reservations[id].timeSince = responseJSON[i].timeSince
-                                    console.log(reservations[id])
-                                } 
-                                this.forceUpdate()       
-                            }))}/>
- */}
 
                         
                         <TouchableOpacity

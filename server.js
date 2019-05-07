@@ -400,6 +400,7 @@ app.post('/login', function(req, res){
 app.post('/get_reservations4UserRecent', function (req, res) {
     console.log ("User recent")
     var reservation_memberID = req.body.member_id
+    console.log("user id is ", reservation_memberID)
 
     var reservationRef = db.collection('reservation_details').where('member_id', '==', reservation_memberID);
     var AllReservations = reservationRef.get()
@@ -630,6 +631,7 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
 app.post('/get_reservations4UserPassed', function (req, res) {
     console.log ("User Passed")
     var reservation_memberID = req.body.member_id
+    console.log("user id is ", reservation_memberID)
 
     var reservationRef = db.collection('reservation_details').where('member_id', '==', reservation_memberID);
     var AllReservations = reservationRef.get()
