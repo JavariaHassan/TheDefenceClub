@@ -70,7 +70,7 @@ app.post('/confirmReservation', function(req, res){
 
 app.post('/addReservation', function(req, res){
     console.log("Adding the reservation")
-
+    console.log(req.body.memberID)
     const r_data = {
         menu : req.body.menu,
         instructions: req.body.instructions,
@@ -397,10 +397,106 @@ app.post('/login', function(req, res){
     });
 });
 
+app.post('/get_reservations4UserRecent', function (req, res) {
+    console.log ("User recent")
+    var reservation_memberID = req.body.member_id
 
+    var reservationRef = db.collection('reservation_details').where('member_id', '==', reservation_memberID);
+    var AllReservations = reservationRef.get()
+        .then(snapshot => {
+            new_data = []
+            x = 0
+            snapshot.forEach(doc => {
+                new_data[x] =
+                    {
+                        member_id: doc.data().member_id,
+                        reservation_id: doc.data().reservation_id,
+                        timestamp: doc.data().timestamp,
+                        date: doc.data().date,
+                        start_time: doc.data().start_time,
+                        end_time: doc.data().end_time,
+                        instructions: doc.data().instructions,
+                        status: doc.data().status,
+                        menu: doc.data().menu,
+                        venue: doc.data().venue,
+                        timeSince: doc.data().timeSince,
+                        passed: "false"
+                    }
+                x += 1
+            });
 
+            var d = new Date();
+            current_timestamp = d.getTime();
+            current_date = d.getDate();
 
+            new_data.sort(function (a, b) {
+                if (a.timeSince < b.timeSince) {
+                    return -1;
+                }
+                else {
+                    return 1;
+                }
+            })
 
+            function parsedate(str){
+                new_str = str[8] + str[9]
+                console.log("date is", new_str)
+                return parseInt(new_str)
+            }
+
+            function parseyear(str){
+                new_str = str[0] + str[1] + str[2] + str[3]
+                console.log("year is", new_str)
+                return parseInt(new_str)
+            }
+
+            function parsemonth(str){
+                new_str = str[5] + str[6]
+                console.log("month is", new_str)
+                return parseInt(new_str)
+            }
+
+            function filterit(a) {
+                year = parseyear(a.date)
+                month = parsemonth(a.date)-1
+                date = parsedate(a.date)
+                d2 = new Date(year,month,date,0,0,0);
+                timestamp = d2.getTime()
+                if (timestamp > current_timestamp) {
+                    return 1
+                }
+                return 0
+            }
+            new_data = new_data.filter(filterit)
+
+            res.send(JSON.stringify(new_data));
+            console.log("recent")
+            console.log(new_data)
+
+        })
+
+        .catch(err => {
+            console.log('Error getting documents', err);
+            new_data = {
+                "error":
+                {
+                    member_id: "error",
+                    reservation_id: "error",
+                    timestamp: "error",
+                    date: "error",
+                    start_time: "error",
+                    end_time: "error",
+                    instructions: "error",
+                    status: "error",
+                    menu: "error",
+                    venue: "error"
+                }
+            }
+
+            res.send(JSON.stringify(new_data));
+        });
+
+});
 
 
 app.get('/get_confirmed_reservations', function (req, res) {
@@ -477,7 +573,6 @@ app.get('/get_confirmed_reservations', function (req, res) {
         res.send(JSON.stringify(new_data));
     });
 
-    // res.send(JSON.stringify(new_data));
 });
 
 app.get('/get_unconfirmed_reservations', function (req, res) {
@@ -532,16 +627,10 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
 });
 
 
-
-app.post('/get_reservations4User', function (req, res) {
-
-    console.log("in function")
-
-    // un-comment following line after implementing its client side
+app.post('/get_reservations4UserPassed', function (req, res) {
+    console.log ("User Passed")
     var reservation_memberID = req.body.member_id
 
-
-    // var reservation_memberID = "20100170";
     var reservationRef = db.collection('reservation_details').where('member_id', '==', reservation_memberID);
     var AllReservations = reservationRef.get()
         .then(snapshot => {
@@ -560,13 +649,66 @@ app.post('/get_reservations4User', function (req, res) {
                         status: doc.data().status,
                         menu: doc.data().menu,
                         venue: doc.data().venue,
-                        timeSince: doc.data().timeSince
-
+                        timeSince: doc.data().timeSince,
+                        passed: "true"
                     }
                 x += 1
             });
-            res.send(JSON.stringify(new_data));
 
+            var d = new Date();
+            current_timestamp = d.getTime();
+            current_date = d.getDate();
+
+            new_data.sort(function (a, b) {
+                if (a.timeSince < b.timeSince) {
+                    return -1;
+                }
+                else {
+                    return 1;
+                }
+            })
+
+            function parsedate(str){
+                new_str = str[8] + str[9]
+                console.log("date is", new_str)
+                return parseInt(new_str)
+            }
+
+            function parseyear(str){
+                new_str = str[0] + str[1] + str[2] + str[3]
+                console.log("year is", new_str)
+                return parseInt(new_str)
+            }
+
+            function parsemonth(str){
+                new_str = str[5] + str[6]
+                console.log("month is", new_str)
+                return parseInt(new_str)
+            }
+
+            function filterit(a) {
+                // console.log("date is ", a.date)
+                year = parseyear(a.date)
+                month = parsemonth(a.date)-1
+                date = parsedate(a.date)
+                d2 = new Date(year,month,date,0,0,0);
+                // console.log("month is ", d2.getMonth())
+                // console.log(d2.getTime())
+                timestamp = d2.getTime()
+                // console.log("event time stamp is ", timestamp)
+                // console.log("current timestamp is ", current_timestamp)
+                if (timestamp < current_timestamp) {
+                    return 1
+                }
+                return 0
+            }
+            console.log("before")
+            console.log(new_data)
+            
+            new_data = new_data.filter(filterit)
+
+            res.send(JSON.stringify(new_data));
+            console.log("passed data")
             console.log(new_data)
 
         })
@@ -593,4 +735,3 @@ app.post('/get_reservations4User', function (req, res) {
         });
 
 });
-
