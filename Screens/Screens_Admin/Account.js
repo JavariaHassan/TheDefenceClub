@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {ScrollView, Keyboard, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
+import * as EmailValidator from 'email-validator';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -12,7 +13,14 @@ class Member_Comp extends Component {
                        ID: '',
                        Email: '',
                        Password: '',
-                       ConfirmPass: '', };
+                       ConfirmPass: '', 
+                       Falsify: '',
+                       Check_Name: '#D9D8D9',
+                       Check_ID: '#D9D8D9',
+                       Check_Email: '#D9D8D9',
+                       Check_Password: '#D9D8D9',
+                       Check_ConfirmPass: '#D9D8D9'
+                    };
     }
 
     static navigationOptions = {
@@ -20,37 +28,81 @@ class Member_Comp extends Component {
     };
     
     onPress = () => {
-        if (this.state.Password == this.state.ConfirmPass){
-            const data = {
-                Name : this.state.Name,
-                ID : this.state.ID,
-                Email : this.state.Email,
-                Password : this.state.Password,
-                Admin: 0,
-                reservation : 0
+        if (this.state.Name == '' || this.state.ID == '' || this.state.Email == ''|| this.state.Password == ''|| this.state.ConfirmPass == '' )
+        {
+            this.setState({Falsify: 'Please Fill Out All Required Fields'})
+            if (this.state.Name == '') {
+                this.setState({Check_Name: 'red'})
+            } else {
+                this.setState({Check_Name: '#D9D8D9'})
             }
-            Authenticate = async (data) => {
-                response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_member', {
-                  method : 'post', 
-                  headers : {
-                    Accept: 'application/json',
-                    'Content-Type' : 'application/json'
-                  }, 
-                  body : JSON.stringify(data)
-                }).then((response) => response.json())
-                .then((responseJSON) => {
-                    if (responseJSON.response == "Done"){
-                        Alert.alert("Member added")
-                        // this.setState({invalid: 0})
-                        //     this.props.navigation.navigate('DrawerNavigator')
-                    }else{
-                        // this.setState({invalid: 1})
-                    }
-                    })
+            if (this.state.ID == '') {
+                this.setState({Check_ID: 'red'})
+            } else {
+                this.setState({Check_ID: '#D9D8D9'})
             }
-            Authenticate(data)
-        
+            if (this.state.Email == '') {
+                this.setState({Check_Email: 'red'})
+            } else {
+                this.setState({Check_Email: '#D9D8D9'})
+            }
+            if (this.state.Password == '') {
+                this.setState({Check_Password: 'red'})
+            } else {
+                this.setState({Check_Password: '#D9D8D9'})
+            }
+            if (this.state.ConfirmPass == '') {
+                this.setState({Check_ConfirmPass: 'red'})
+            } else {
+                this.setState({Check_ConfirmPass: '#D9D8D9'})
+            }
+            return
+
         }
+        this.setState({Check_Name: '#D9D8D9', Check_ID: '#D9D8D9', Check_Email: '#D9D8D9', Check_Password: '#D9D8D9', Check_ConfirmPass: '#D9D8D9'})
+        if (EmailValidator.validate(this.state.Email) == false)
+        {
+            this.setState({Falsify: 'Invalid Email'})
+            this.setState({Check_Email: 'red'})
+            return
+
+        }
+        if (this.state.Password != this.state.ConfirmPass){
+            this.setState({Check_Password: 'red'})
+            this.setState({Check_ConfirmPass: 'red'})
+            this.setState({Falsify: 'Password Mismatch'})
+            return
+        }
+        
+        const data = {
+            Name : this.state.Name,
+            ID : this.state.ID,
+            Email : this.state.Email,
+            Password : this.state.Password,
+            Admin: 0,
+            reservation : 0
+        }
+        Authenticate = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_member', {
+                method : 'post', 
+                headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+                }, 
+                body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                if (responseJSON.response == "Done"){
+                    Alert.alert("Member added")
+                    // this.setState({invalid: 0})
+                    //     this.props.navigation.navigate('DrawerNavigator')
+                }else{
+                    // this.setState({invalid: 1})
+                }
+                })
+        }
+        Authenticate(data)
+    
     }
     
     render() {
@@ -60,45 +112,48 @@ class Member_Comp extends Component {
                 <TextInput
                     placeholder="Name"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_Name}]}
                     onChangeText={(Name) => this.setState({Name})}
                 />
 
                 <TextInput
                     placeholder="Member ID"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_ID}]}
                     onChangeText={(ID) => this.setState({ID})}
                 />
 
                 <TextInput
                     placeholder="Email"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_Email}]}
                     onChangeText={(Email) => this.setState({Email})}
                 />
 
                 <TextInput
                     placeholder="Password"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_Password}]}
                     onChangeText={(Password) => this.setState({Password})}
                 />
 
                 <TextInput
                     placeholder="Confirm Password"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_ConfirmPass}]}
                     onChangeText={(ConfirmPass) => this.setState({ConfirmPass})}
                 />
-            
-                
+        
                 <TouchableOpacity
                     style={styles.signinbutton}
                     onPress={this.onPress}
                 >
                     <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> CONFIRM </Text>
                 </TouchableOpacity>
+
+                {this.state.Falsify != "" ?
+                    <Text style={styles.invalid}> {this.state.Falsify} </Text>
+                    : <Text style={[styles.invalid, {color: 'rgba(255,255, 255,0)'}]}>Valid</Text>}
 
             </View>
         );
@@ -113,42 +168,91 @@ class Admin_Comp extends Component {
                        ID: '',
                        Email: '',
                        Password: '',
-                       ConfirmPass: '', };
+                       ConfirmPass: '', 
+                       Falsify: '',
+                       Check_Name: '#D9D8D9',
+                       Check_ID: '#D9D8D9',
+                       Check_Email: '#D9D8D9',
+                       Check_Password: '#D9D8D9',
+                       Check_ConfirmPass: '#D9D8D9'
+                    };
     }
     
     onPress = () => {
+        if (this.state.Name == '' || this.state.ID == '' || this.state.Email == ''|| this.state.Password == ''|| this.state.ConfirmPass == '' )
+        {
+            this.setState({Falsify: 'Please Fill Out All Required Fields'})
+            if (this.state.Name == '') {
+                this.setState({Check_Name: 'red'})
+            } else {
+                this.setState({Check_Name: '#D9D8D9'})
+            }
+            if (this.state.ID == '') {
+                this.setState({Check_ID: 'red'})
+            } else {
+                this.setState({Check_ID: '#D9D8D9'})
+            }
+            if (this.state.Email == '') {
+                this.setState({Check_Email: 'red'})
+            } else {
+                this.setState({Check_Email: '#D9D8D9'})
+            }
+            if (this.state.Password == '') {
+                this.setState({Check_Password: 'red'})
+            } else {
+                this.setState({Check_Password: '#D9D8D9'})
+            }
+            if (this.state.ConfirmPass == '') {
+                this.setState({Check_ConfirmPass: 'red'})
+            } else {
+                this.setState({Check_ConfirmPass: '#D9D8D9'})
+            }
+            return
 
-        if (this.state.Password == this.state.ConfirmPass){
-            const data = {
-                Name : this.state.Name,
-                ID : this.state.ID,
-                Email : this.state.Email,
-                Password : this.state.Password,
-                Admin: 0,
-                reservation : 0
-            }
-            Authenticate = async (data) => {
-                response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_admin', {
-                  method : 'post', 
-                  headers : {
-                    Accept: 'application/json',
-                    'Content-Type' : 'application/json'
-                  }, 
-                  body : JSON.stringify(data)
-                }).then((response) => response.json())
-                .then((responseJSON) => {
-                    if (responseJSON.response == "Done"){
-                        Alert.alert("Admin added")
-                        // this.setState({invalid: 0})
-                        //     this.props.navigation.navigate('DrawerNavigator')
-                    }else{
-                        // this.setState({invalid: 1})
-                    }
-                    })
-            }
-            Authenticate(data)
-        
         }
+        this.setState({Check_Name: '#D9D8D9', Check_ID: '#D9D8D9', Check_Email: '#D9D8D9', Check_Password: '#D9D8D9', Check_ConfirmPass: '#D9D8D9'})
+        if (EmailValidator.validate(this.state.Email) == false)
+        {
+            this.setState({Falsify: 'Invalid Email'})
+            this.setState({Check_Email: 'red'})
+            return
+
+        }
+        if (this.state.Password != this.state.ConfirmPass){
+            this.setState({Check_Password: 'red'})
+            this.setState({Check_ConfirmPass: 'red'})
+            this.setState({Falsify: 'Password Mismatch'})
+            return
+        }
+
+        const data = {
+            Name : this.state.Name,
+            ID : this.state.ID,
+            Email : this.state.Email,
+            Password : this.state.Password,
+            Admin: 0,
+            reservation : 0
+        }
+        Authenticate = async (data) => {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/add_admin', {
+                method : 'post', 
+                headers : {
+                Accept: 'application/json',
+                'Content-Type' : 'application/json'
+                }, 
+                body : JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                if (responseJSON.response == "Done"){
+                    Alert.alert("Admin added")
+                    // this.setState({invalid: 0})
+                    //     this.props.navigation.navigate('DrawerNavigator')
+                }else{
+                    // this.setState({invalid: 1})
+                }
+                })
+        }
+        Authenticate(data)
     }
     
     render() {
@@ -158,45 +262,48 @@ class Admin_Comp extends Component {
                 <TextInput
                     placeholder="Name"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_Name}]}
                     onChangeText={(Name) => this.setState({Name})}
                 />
 
                 <TextInput
                     placeholder="Admin ID"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_ID}]}
                     onChangeText={(ID) => this.setState({ID})}
                 />
 
                 <TextInput
                     placeholder="Email"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_Email}]}
                     onChangeText={(Email) => this.setState({Email})}
                 />
 
                 <TextInput
                     placeholder="Password"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_Password}]}
                     onChangeText={(Password) => this.setState({Password})}
                 />
 
                 <TextInput
                     placeholder="Confirm Password"
                     placeholderTextColor="black"
-                    style={styles.input}
+                    style={[styles.input, {borderColor: this.state.Check_ConfirmPass}]}
                     onChangeText={(ConfirmPass) => this.setState({ConfirmPass})}
                 />
-            
-                
+        
                 <TouchableOpacity
                     style={styles.signinbutton}
                     onPress={this.onPress}
                 >
                     <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> CONFIRM </Text>
                 </TouchableOpacity>
+
+                {this.state.Falsify != "" ?
+                    <Text style={styles.invalid}> {this.state.Falsify} </Text>
+                    : <Text style={[styles.invalid, {color: 'rgba(255,255, 255,0)'}]}>Valid</Text>}
 
             </View>
         );
@@ -322,7 +429,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
         marginBottom: 0.06*width,
-        borderColor: "#D9D8D9",
         borderWidth: 1,
     },
     signinbutton: {
@@ -335,5 +441,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    invalid: {
+        fontFamily: "Calibri",
+        color: 'red',
+        width: 0.65*width,
+        fontSize: 0.035*width,
+        paddingHorizontal: 0.01*height,
+        marginTop: 0.02*width,
     },
 });
