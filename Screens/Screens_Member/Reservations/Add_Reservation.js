@@ -22,7 +22,7 @@ var timings = [{index: 0, key: 'Breakfast', time: '09:00 - 11:00'},
               ]
 
 var nav;
-var memberID = null; // send this
+// var memberID = values.user; // send this
 var venue = 'Banquet'; // send this
 var timing = 0; 
 var guestnumber = 1; // send this
@@ -61,23 +61,24 @@ class Page_Instructions extends Component {
         console.log(instructions_global)
         console.log(end_time)
         console.log(start_time)
-        console.log(memberID)
+        console.log(values.user)
         console.log(date)
         console.log(venue)
         console.log(guestnumber)
+        // Alert.alert(values.user)
         const r_data = {
             menu : menu,
             instructions: instructions_global,
             end_time : end_time,
             start_time : start_time,
-            memberID : memberID,
+            memberID : values.user,
             date : date,
             venue: venue,
             guestnumber : guestnumber
         }
 
         add_res_server = async (data) => {
-            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/addReservation', {
+            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/addReservation', {
                 method : 'post', 
                 headers : {
                 Accept: 'application/json',
