@@ -54,7 +54,7 @@ export default class LoginScreen extends Component {
                                 else{
                                     this.props.navigation.navigate('DrawerNavigator_admin', {Name: this.state.Name, Username: credentials.username})
                                 }
-                            });
+                            });  
                         }else{
                             this.props.navigation.navigate('Login')
                         }

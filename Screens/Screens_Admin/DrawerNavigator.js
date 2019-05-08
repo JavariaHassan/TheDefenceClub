@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
-import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
-import {Dimensions} from 'react-native';
+import {createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation'
 
 import Home_Screen from './HomeScreen.js';
 import Account_Screen from './Account.js'
@@ -9,13 +9,12 @@ import Password_Screen from './Password.js'//wth
 import Menu_Screen from './Menu/StackNavigator'
 import Reservations_Screen from './Reservations/StackNavigator'
 
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
-
 global.values = {
 	name : "",
 	user : ""
 }
+
+nav2 = null
 
 export default class Drawer extends Component {
 	constructor(props) {
@@ -27,7 +26,16 @@ export default class Drawer extends Component {
 		values.name = Nametosave
 		values.user = Usernametosave
 
-		// this.props.navigation.navigate('Home', {Name: values.name, Username: values.user})
+		nav2 = this.props.navigation
+		// this.props.navigation.dispatch(StackActions.reset({
+		// 	index: 0,
+		// 	actions: [
+		// 		NavigationActions.navigate({
+		// 			routeName: 'Login',
+		// 		}),
+		// 	],
+		// }))
+		// this.props.navigation.navigate('Login')
 	}
 
     static navigationOptions = {
@@ -42,7 +50,9 @@ export default class Drawer extends Component {
     }
 }
 
+
 const CustomeDrawerComponent = (props) => (
+	console.log("AAAAAAAH  ", nav2),
 	<SafeAreaView style = {{flex: 1}}>
 		<View style={{height: 150, backgroundColor: 'white', margin: 15, marginBottom: 50}}>
 			<Image source={require('./default_profile.png')} 
@@ -52,7 +62,38 @@ const CustomeDrawerComponent = (props) => (
 			 <Text style={{marginTop: 20}}> Member ID: {values.user} </Text>
 		</View>
 		<ScrollView>
-		<DrawerItems {...props} />
+		<DrawerItems {...props} 
+			onItemPress={(route) => {
+				console.log(route)
+				if (route.route.routeName !== "Logout") {
+				  	props.onItemPress(route);
+				  	return;
+				}
+				
+				Alert.alert(
+					'Are you sure you want to logout?',
+					'',
+					[
+						{
+							text: 'Cancel',
+							style: 'cancel',
+					  	},
+					  {
+							text: 'Logout', 
+							onPress: () => 
+								nav2.dispatch(StackActions.reset({
+									index: 0,
+									actions: [
+										NavigationActions.navigate({
+											routeName: 'Login',
+										}),
+									],
+								}))
+					  },
+					],
+				);
+			}}
+		/>
 		</ScrollView>
 	</SafeAreaView>
 )
@@ -148,16 +189,15 @@ const Password = createStackNavigator(
 	}
 );
 
-
 const MainNavigator = createDrawerNavigator({
-		// Home: {screen: ({Home}) => <Mystack screenProps = {drawerNavigation: navigation}/>},
 		Home : {screen: Home},
 		Reservations: {screen: Reservations},
 		Menu: {screen: Menu},
 		'Add Account': {screen: Account},
-		'Change Password': {screen: Password}
+		'Change Password': {screen: Password},
+		Logout: {screen: Home},
 }, {
-   		contentComponent: CustomeDrawerComponent,
+		contentComponent: CustomeDrawerComponent,
    		contentOptions: {
    			labelStyle: {
 				fontWeight: 'normal',
@@ -168,4 +208,3 @@ const MainNavigator = createDrawerNavigator({
 		},
 });
 
-const App = createAppContainer(MainNavigator);

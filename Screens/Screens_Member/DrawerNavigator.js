@@ -142,7 +142,8 @@ const MainNavigator = createDrawerNavigator({
 		Home : {screen: Home},
 		Reservations: {screen: Reservations},
 		Menu: {screen: Menu},
-		'Change Password': {screen: Password}
+		'Change Password': {screen: Password},
+		Logout: {screen: Home},
 }, {
    		contentComponent: CustomeDrawerComponent,
    		contentOptions: {
