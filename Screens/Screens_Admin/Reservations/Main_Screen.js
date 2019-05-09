@@ -10,7 +10,8 @@ var reservations = {}
 
 class Pending extends Component {
     constructor(props) {
-        super(props); 
+        super(props);
+        screen_name = ""
     };        
 
     componentDidMount(){
@@ -259,6 +260,7 @@ export default class Menu extends Component {
         return (
             <ImageBackground source={require('../../BG_3.png')} style={styles.container}>
                     <View style={{flexDirection: 'row'}}>
+                        <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
 
                         <NavigationEvents onDidFocus={(() => fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
                                 reservations = {}

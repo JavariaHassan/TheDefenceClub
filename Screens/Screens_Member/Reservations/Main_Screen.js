@@ -14,7 +14,8 @@ var data2 = {
 class Pending extends Component {
 
     constructor(props) {
-        super(props); 
+        super(props);
+        screen_name = ""
     };        
 
     componentDidMount(){
@@ -132,6 +133,7 @@ class Pending extends Component {
         } 
         return (
             <ScrollView contentContainerStyle = {{width: width, alignItems: 'center', paddingVertical: 0.09*width,}}>
+                <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
                 {r_pending}
             </ScrollView>
             
@@ -259,6 +261,7 @@ class Confirmed extends Component {
         } 
         return (
             <ScrollView contentContainerStyle = {{width: width, alignItems: 'center', paddingVertical: 0.09*width,}}>
+                <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                                
                 {r_confirmed}
             </ScrollView>
             

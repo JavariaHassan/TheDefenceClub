@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {ScrollView, Keyboard, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, Alert} from 'react-native';
 import * as EmailValidator from 'email-validator';
+import {NavigationEvents} from 'react-navigation';
+
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -21,6 +23,7 @@ class Member_Comp extends Component {
                        Check_Password: '#D9D8D9',
                        Check_ConfirmPass: '#D9D8D9'
                     };
+        screen_name = ""        
     }
 
     static navigationOptions = {
@@ -108,6 +111,7 @@ class Member_Comp extends Component {
     render() {
         return (
             <View style={styles.backbox_Admin}>
+                <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
 
                 <TextInput
                     maxLength={50}
@@ -267,6 +271,9 @@ class Admin_Comp extends Component {
     render() {
         return (
             <View style={styles.backbox_Admin}>
+
+                <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
+
 
                 <TextInput
                     maxLength={50}

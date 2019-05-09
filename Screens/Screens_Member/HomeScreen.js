@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert, BackHandler} from 'react-native';
+import {NavigationEvents} from 'react-navigation';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+global.screen_name = ""
 
 export default class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
+        // Alert.alert(JSON.stringify(this.props.navigation.state))
+        screen_name = this.props.navigation.state["routeName"]
+        // Alert.alert(screen_name)
     }
 
     // handleBackPress = () => {
@@ -15,13 +20,15 @@ export default class HomeScreen extends Component {
     //     return true;
     //   }
 
-    // componentWillMount(){
-    //     BackHandler.addEventListener('hardwareBackPress', function(){
-    //         this.props.navigation.goBack()
-    //         // this.props.navigation.navigate('DrawerNavigator_member', {Name: this.state.Name, Username: this.state.Username})
-    //         return true
-    //     })
-    // }
+    componentWillMount(){
+        BackHandler.addEventListener('hardwareBackPress',function(){
+            // Alert.alert(screen_name)
+            if (screen_name == "main"){
+                return true
+            }
+            return false
+        })
+    }
 
     // componentWillUnmount() {
     //     BackHandler.remove()
@@ -40,8 +47,18 @@ export default class HomeScreen extends Component {
 
     render() {
         return (
+
+            // <NavigationEvents onDidFocus={(() => {
+            //     screen_name = "main"
+            // })}/>
+
+
             <ImageBackground source={require('../BG_1.png')} style={styles.container}>
                 <View style={styles.backbox}>
+
+                    <NavigationEvents onDidFocus = { () => {screen_name = "main"}}/>
+
+
                     <ScrollView contentContainerStyle={styles.main}>
                         <View style={styles.header}>
                             <Image source={require('../logo.png')} style={styles.logo}/>

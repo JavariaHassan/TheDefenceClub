@@ -1,13 +1,26 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert, BackHandler} from 'react-native';
+import {NavigationEvents} from 'react-navigation';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
+global.screen_name = ""
+
 
 export default class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
+        screen_name = this.props.navigation.state["routeName"]        
+    }
+
+    componentWillMount(){
+        BackHandler.addEventListener('hardwareBackPress',function(){
+            if (screen_name == "main"){
+                return true
+            }
+            return false
+        })
     }
 
     static navigationOptions = ({navigation}) => ({
@@ -25,6 +38,7 @@ export default class HomeScreen extends Component {
         return (
             <ImageBackground source={require('../BG_1.png')} style={styles.container}>
                 <View style={styles.backbox}>
+                    <NavigationEvents onDidFocus = { () => {screen_name = "main"}}/>                
                     <ScrollView contentContainerStyle={styles.main}>
                         <View style={styles.header}>
                             <Image source={require('../logo.png')} style={styles.logo}/>

@@ -16,6 +16,8 @@ export default class LoginScreen extends Component {
                        oldPassword: '',
                        newPassword: '',
                        ConfirmNewPass: '', };
+        screen_name = ""
+        
     }
 
      static navigationOptions = ({navigation}) => ({
@@ -64,6 +66,8 @@ export default class LoginScreen extends Component {
         return (
             <ImageBackground source={require('../BG_1.png')} style={styles.container}>
                <View style={styles.backbox}>
+                    <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
+                    
                     
                         <TextInput 
                             style={styles.input}

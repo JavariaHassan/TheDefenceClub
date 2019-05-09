@@ -17,6 +17,8 @@ export default class Menu extends Component {
                         data: MenuObj,
                         fooditem: 0,    
                     };
+        screen_name = ""
+        
     }
 
 
@@ -149,6 +151,8 @@ export default class Menu extends Component {
         return (
 
             <ImageBackground source={require('../BG_3.png')} style={styles.container}>
+                <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
+
                 <View style={styles.backbox}>
                     <NavigationEvents onDidFocus={(() => fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
                         .then((response) => response.json())

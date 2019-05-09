@@ -19,6 +19,8 @@ export default class Menu extends Component {
                         data: MenuObj,
                         fooditem: 0,    
                     };
+        screen_name = ""
+        
     }
 
     componentDidMount(){
@@ -188,6 +190,9 @@ export default class Menu extends Component {
                     }
                 
                     />
+
+                    <NavigationEvents onDidFocus = { () => {screen_name = ""}}/>                
+
 
                     <View style={{width: width*0.9, height: width*0.16, marginBottom: 5, flexDirection: 'row', backgroundColor: 'white', borderColor: "#D9D8D9", borderWidth: 1, borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
                         <TextInput

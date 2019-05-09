@@ -17,7 +17,7 @@ export default class Menu extends Component {
         this.state = {     
                         data: MenuObj,
                         fooditem: 0,    
-                    };
+                    };        
     }
 
     componentDidMount(){

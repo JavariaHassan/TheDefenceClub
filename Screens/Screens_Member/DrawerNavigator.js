@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
-import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
+import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems, BackHandler} from 'react-navigation';
 import {Dimensions} from 'react-native';
 
 import Home_Screen from './HomeScreen.js'
@@ -28,6 +28,19 @@ export default class Drawer extends Component {
 
 		// this.props.navigation.navigate('Home', {Name: values.name, Username: values.user})
 	}
+
+	// check = () => {
+    //     return true
+	// }
+	
+    // componentWillMount(){
+    //     BackHandler.addEventListener('hardwareBackPress',function(){
+    //         if (screen_name == "main"){
+    //             return true
+    //         }
+    //         return false
+    //     })
+    // }
 
     static navigationOptions = {
         header: null
