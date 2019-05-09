@@ -13,9 +13,13 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-                       oldPassword: '',
-                       newPassword: '',
-                       ConfirmNewPass: '', };
+                        oldPassword: '',
+                        newPassword: '',
+                        ConfirmNewPass: '',
+                        Falsify: '',
+                        Check_old: '#D9D8D9',
+                        Check_new: '#D9D8D9',
+                        Check_confirm: '#D9D8D9'};
     }
 
      static navigationOptions = ({navigation}) => ({
@@ -26,38 +30,65 @@ export default class LoginScreen extends Component {
     })
     
     onPress = () => {
-        
-        if (this.state.newPassword == this.state.ConfirmNewPass){
-            const data =
-            {
-                ID: values.user,
-                oldPassword: this.state.oldPassword,
-                newPassword: this.state.newPassword,
+        if (this.state.oldPassword == '' || this.state.newPassword == '' || this.state.ConfirmNewPass == '')
+        {
+            this.setState({Falsify: 'Please Fill Out All Required Fields'})
+            if (this.state.oldPassword == '') {
+                this.setState({Check_old: 'red'})
+            } else {
+                this.setState({Check_old: '#D9D8D9'})
             }
-            
-            ChangePassword = async (data) => {
-                response = await fetch('https://whispering-savannah-21440.herokuapp.com/change_password', {
-                    method : 'post',
-                    headers : {
-                        Accept : 'application/json',
-                        'Content-Type' : 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                }).then((response) => response.json())
-                .then((responseJSON) => {
-                    Alert.alert(responseJSON.response)
-                    if (responseJSON.response == "done") {
-                        Alert.alert("Password Changed")
-                    } else if (responseJSON.response == "OldIdPass_invalid") {
-                        Alert.alert("Old Password Invalid")
-                    }
-                })
+            if (this.state.newPassword == '') {
+                this.setState({Check_new: 'red'})
+            } else {
+                this.setState({Check_new: '#D9D8D9'})
             }
-            ChangePassword(data)
-        }else{
-            Alert.alert("You have entered different password in both New password and confirm new password")
+            if (this.state.ConfirmNewPass == '') {
+                this.setState({Check_confirm: 'red'})
+            } else {
+                this.setState({Check_confirm: '#D9D8D9'})
+            }
+            return
+
+        }
+        this.setState({Check_old: '#D9D8D9', Check_new: '#D9D8D9', Check_confirm: '#D9D8D9'})
+        if (this.state.newPassword != this.state.ConfirmNewPass){
+            this.setState({Check_new: 'red'})
+            this.setState({Check_confirm: 'red'})
+            this.setState({Falsify: 'Password Mismatch'})
+            return
+        }
+
+        const data =
+        {
+            ID: values.user,
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword,
         }
         
+        ChangePassword = async (data) => {
+            response = await fetch('https://whispering-savannah-21440.herokuapp.com/change_password', {
+                method : 'post',
+                headers : {
+                    Accept : 'application/json',
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).then((response) => response.json())
+            .then((responseJSON) => {
+                if (responseJSON.response == "done") {
+                    Alert.alert(
+                        'Success',
+                        'Your password has been changed'
+                    )
+                } else if (responseJSON.response == "OldIdPass_invalid") {
+                    Alert.alert("Your old password is incorrect")
+                    this.setState({Falsify: ''})
+                    this.setState({Check_old: 'red'})
+                }
+            })
+        }
+        ChangePassword(data)
     }
     
     render() {
@@ -65,22 +96,31 @@ export default class LoginScreen extends Component {
             <ImageBackground source={require('../BG_1.png')} style={styles.container}>
                <View style={styles.backbox}>
                     
-                        <TextInput 
-                            style={styles.input}
+                        <TextInput
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                            maxLength={50}
+                            style={[styles.input, {borderColor: this.state.Check_old}]}
                             placeholder = "Old password"
                             placeholderTextColor = 'black'
                             onChangeText={(oldPassword) => this.setState({oldPassword})}
                         />
 
                         <TextInput
-                            style={styles.input}
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                            maxLength={50}
+                            style={[styles.input, {borderColor: this.state.Check_new}]}
                             placeholder= "New Password"
                             placeholderTextColor = 'black'
                             onChangeText={(newPassword) => this.setState({newPassword})}
                         />
 
                         <TextInput
-                            style={styles.input}
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                            maxLength={50}
+                            style={[styles.input, {borderColor: this.state.Check_confirm}]}
                             placeholder = "Confirm New Password"
                             placeholderTextColor = 'black'
                             onChangeText={(ConfirmNewPass) => this.setState({ConfirmNewPass})}
@@ -92,6 +132,9 @@ export default class LoginScreen extends Component {
                         >
                             <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> SUBMIT </Text>
                         </TouchableOpacity>
+                        {this.state.Falsify != "" ?
+                        <Text style={styles.invalid}> {this.state.Falsify} </Text>
+                        : <Text style={[styles.invalid, {color: 'rgba(255,255, 255,0)'}]}>Valid</Text>}
 
 
                </View>
@@ -136,7 +179,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
         marginBottom: 0.06*width,
-        borderColor: "#D9D8D9",
         borderWidth: 1,
     },
     signinbutton: {
@@ -150,6 +192,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    invalid: {
+        fontFamily: "Calibri",
+        color: 'red',
+        width: 0.65*width,
+        fontSize: 0.035*width,
+        paddingHorizontal: 0.01*height,
+        marginTop: 0.02*width,
     },
 });
 
