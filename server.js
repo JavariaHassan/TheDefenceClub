@@ -531,6 +531,7 @@ app.get('/get_confirmed_reservations', function (req, res) {
                 x += 1
                
             });
+            
 
             var d = new Date();
             current_timestamp = d.getTime();
@@ -547,14 +548,40 @@ app.get('/get_confirmed_reservations', function (req, res) {
                 }
             })
 
+            function parsedate(str){
+                new_str = str[8] + str[9]
+                console.log("date is", new_str)
+                return parseInt(new_str)
+            }
+
+            function parseyear(str){
+                new_str = str[0] + str[1] + str[2] + str[3]
+                console.log("year is", new_str)
+                return parseInt(new_str)
+            }
+
+            function parsemonth(str){
+                new_str = str[5] + str[6]
+                console.log("month is", new_str)
+                return parseInt(new_str)
+            }
+
             function filterit(a) {
-                if ((a.timeSince > current_timestamp) && (a.timeSince < timestamp_aftermonth)) {
+                year = parseyear(a.date)
+                month = parsemonth(a.date)-1
+                date = parsedate(a.date)
+                d2 = new Date(year,month,date,0,0,0);
+                // console.log("month is ", d2.getMonth())
+                // console.log(d2.getTime())
+                timestamp = d2.getTime()
+
+                if ((timestamp > current_timestamp) && (timestamp < timestamp_aftermonth)) {
                     return 1
                 }
                 return 0
             }
             new_data = new_data.filter(filterit)
-            // console.log(new_data)
+            console.log(new_data)
             res.send(JSON.stringify(new_data));
         })
         .catch(err => {

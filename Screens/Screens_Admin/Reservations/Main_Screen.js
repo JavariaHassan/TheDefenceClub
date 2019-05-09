@@ -44,7 +44,7 @@ class Pending extends Component {
 
         unconfirmed = () => {
             fetch ('https://whispering-savannah-21440.herokuapp.com/get_unconfirmed_reservations').then((response) => response.json()).then((responseJSON) => {
-            reservations = {}
+            // reservations = {}
             lengthofresponse = responseJSON.length
             console.log(lengthofresponse)
             var i;
