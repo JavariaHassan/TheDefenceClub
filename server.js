@@ -15,7 +15,7 @@ Date.prototype.yyyymmdd = function() {
            ].join('-');
 };
 
-  
+
 
 var admin = require("firebase-admin");
 var serviceAccount = require("./defenceclub-team5-firebase-adminsdk-88zof-941202010e.json");
@@ -133,9 +133,6 @@ app.post('/addReservation', function(req, res){
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
             });
-
-            
-
 
         }
     })
@@ -255,20 +252,22 @@ app.post('/get_dates', function (req, res){ // return the available dates for a 
     console.log("get_dates called")
     venue = req.body.my_venue
     timing = req.body.my_timing
-    if(venue == "Banquet"){
-        venue = "banquet"
-    } if(venue == "TV Room"){
-        venue = "tv_room"
-    } if(venue == "Lawn 1"){
-        venue = "lawn_1"
-    } if(venue == "Lawn 2"){
-        venue = "lawn_2"
-    } if(timing == 0){
-        time = "breakfast"
+    // if(venue == "Banquet"){
+    //     venue = "banquet"
+    // } if(venue == "TV Room"){
+    //     venue = "tv_room"
+    // } if(venue == "Lawn 1"){
+    //     venue = "lawn_1"
+    // } if(venue == "Lawn 2"){
+    //     venue = "lawn_2"
+    // }
+
+    if(timing == 0){
+        time = "09:00" 
     } if(timing == 1){
-        time = "lunch"
+        time = "13:00"
     } if(timing == 2){
-        time = "dinner"
+        time = "18:00"
     }
 
     console.log("time: ", time)
@@ -276,15 +275,20 @@ app.post('/get_dates', function (req, res){ // return the available dates for a 
     // time = "dinner"
     // venue = 'banquet' // lawn_1, lawn_2, tv_room
     var unavailable_dates = []
-    var resRef = db.collection('reservation_availability')
+    var resRef = db.collection('reservation_details')
     var allres = resRef.get()
     .then(snapshot => {
         snapshot.forEach(doc => {
         // newdata[doc.id] = doc.data()
         var x = doc.data()
-        if(x[venue][time] == "n"){ 
-            unavailable_dates.push(x["date_string"])
+        console.log(x)
+        if (x.start_time == time && x.venue.name == venue){
+            unavailable_dates.push(x.date)    
         }
+
+        // if(x[venue][time] == "n"){ 
+        //     unavailable_dates.push(x["date_string"])
+        // }
         });
         console.log(unavailable_dates)
         res.send(JSON.stringify(unavailable_dates));
