@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
-<<<<<<< HEAD
 import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems, BackHandler} from 'react-navigation';
-=======
-import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation'
->>>>>>> 6d988a2f6266a4742ccfeb4dde513e31933f124e
 import {Dimensions} from 'react-native';
 
 import Home_Screen from './HomeScreen.js'
