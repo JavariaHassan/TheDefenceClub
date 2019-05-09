@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
 import {createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Home_Screen from './HomeScreen.js';
 import Account_Screen from './Account.js'
@@ -80,7 +81,9 @@ const CustomeDrawerComponent = (props) => (
 					  	},
 					  {
 							text: 'Logout', 
-							onPress: () => 
+							onPress: () => {
+								AsyncStorage.clear();
+								// AsyncStorage.removeItem('@login')
 								nav2.dispatch(StackActions.reset({
 									index: 0,
 									actions: [
@@ -89,6 +92,7 @@ const CustomeDrawerComponent = (props) => (
 										}),
 									],
 								}))
+							}
 					  },
 					],
 				);
