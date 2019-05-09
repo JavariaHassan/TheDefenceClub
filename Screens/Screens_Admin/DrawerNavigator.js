@@ -52,7 +52,6 @@ export default class Drawer extends Component {
 
 
 const CustomeDrawerComponent = (props) => (
-	console.log("AAAAAAAH  ", nav2),
 	<SafeAreaView style = {{flex: 1}}>
 		<View style={{height: 150, backgroundColor: 'white', margin: 15, marginBottom: 50}}>
 			<Image source={require('./default_profile.png')} 
