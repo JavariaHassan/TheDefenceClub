@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert} from 'react-native';
+import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert, BackHandler} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;

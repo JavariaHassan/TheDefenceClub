@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert} from 'react-native';
+import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert, BackHandler} from 'react-native';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
@@ -9,6 +9,23 @@ export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
     }
+
+    // handleBackPress = () => {
+    //     this.goBack(); // works best when the goBack is async
+    //     return true;
+    //   }
+
+    // componentWillMount(){
+    //     BackHandler.addEventListener('hardwareBackPress', function(){
+    //         this.props.navigation.goBack()
+    //         // this.props.navigation.navigate('DrawerNavigator_member', {Name: this.state.Name, Username: this.state.Username})
+    //         return true
+    //     })
+    // }
+
+    // componentWillUnmount() {
+    //     BackHandler.remove()
+    //   }
 
     static navigationOptions = ({navigation}) => ({
         title: 'Home',

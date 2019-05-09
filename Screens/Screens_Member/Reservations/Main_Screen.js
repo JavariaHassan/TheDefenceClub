@@ -19,10 +19,13 @@ class Pending extends Component {
 
     componentDidMount(){
 
+        const data = {
+            member_id : values.user
+        }
 
         AskCurrentReservation = async (data) => {
             // Alert.alert(data.member_id)
-            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
               method : 'POST', 
               headers : {
                 Accept: 'application/json',
@@ -59,7 +62,7 @@ class Pending extends Component {
 
         AskPassedReservation = async (data) => {
             // Alert.alert("Hello")
-            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
               method : 'POST', 
               headers : {
                 Accept: 'application/json',
@@ -143,13 +146,13 @@ class Confirmed extends Component {
 
     componentDidMount(){
     
-        // const data = {
-        //     member_id : values.user
-        // }
+        const data = {
+            member_id : values.user
+        }
 
         AskCurrentReservation = async (data) => {
             // Alert.alert(data.member_id)
-            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
               method : 'POST', 
               headers : {
                 Accept: 'application/json',
@@ -181,12 +184,12 @@ class Confirmed extends Component {
                 }        
                 this.forceUpdate()
         })}
-        AskCurrentReservation(data2)
+        AskCurrentReservation(data)
 
 
         AskPassedReservation = async (data) => {
             // Alert.alert("Hello")
-            response = await fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
+            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
               method : 'POST', 
               headers : {
                 Accept: 'application/json',
@@ -218,7 +221,7 @@ class Confirmed extends Component {
                 }        
                 this.forceUpdate()
         })}
-        AskPassedReservation(data2)
+        AskPassedReservation(data)
 
     }
 
@@ -302,13 +305,15 @@ export default class Menu extends Component {
                     <View style={{flexDirection: 'row'}}>
  
                         <NavigationEvents onDidFocus={(() => 
-                                response = fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
+                                response = fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4UserRecent', {
                                     method : 'POST', 
                                     headers : {
                                       Accept: 'application/json',
                                       'Content-Type' : 'application/json'
                                     }, 
-                                    body : JSON.stringify(data2)
+                                    body : JSON.stringify({
+                                        member_id : values.user
+                                    })
                                   }).then((response) => response.json())
                                   .then((responseJSON) => {
                                       lengthofresponse = responseJSON.length
@@ -336,13 +341,15 @@ export default class Menu extends Component {
                             }))}/>
 
                         <NavigationEvents onDidFocus={(() => 
-                            response = fetch ('http://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
+                            response = fetch ('https://whispering-savannah-21440.herokuapp.com/get_reservations4UserPassed', {
                                 method : 'POST', 
                                 headers : {
                                 Accept: 'application/json',
                                 'Content-Type' : 'application/json'
                                 }, 
-                                body : JSON.stringify(data2)
+                                body : JSON.stringify({
+                                    member_id : values.user
+                                })
                             }).then((response) => response.json())
                             .then((responseJSON) => {
                                 lengthofresponse = responseJSON.length
