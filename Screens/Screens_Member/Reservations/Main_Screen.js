@@ -126,6 +126,9 @@ class Pending extends Component {
                                 <Text style={{color: 'black', flex: 1, paddingRight: 0.1*width, fontSize: 0.05*width, textAlign: 'right', fontWeight: 'bold'}}> {reservations[i].end_time} </Text>
                             </View>
                         </View>
+                        <View style={[styles.reservation_bar, {borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey', marginTop: 0.03*width, paddingTop: 0.015*width}]}>
+                            <Text style={{color: 'grey', fontSize: 0.035*width}}> {reservations[i].status} </Text>
+                        </View>
                     </TouchableOpacity>
                 )
             }
@@ -252,6 +255,9 @@ class Confirmed extends Component {
                                 <Text style={{fontFamily: 'Entypo', fontSize: 0.06*width, color: 'black'}}>  </Text>
                                 <Text style={{color: 'black', flex: 1, paddingRight: 0.1*width, fontSize: 0.05*width, textAlign: 'right', fontWeight: 'bold'}}> {reservations[i].end_time} </Text>
                             </View>
+                        </View>
+                        <View style={[styles.reservation_bar, {borderTopWidth: StyleSheet.hairlineWidth, borderColor: 'grey', marginTop: 0.03*width, paddingTop: 0.015*width}]}>
+                            <Text style={{color: 'grey', fontSize: 0.035*width}}> {reservations[i].status} </Text>
                         </View>
                     </TouchableOpacity>
                 )
