@@ -8,8 +8,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 
-
-
+goBackUsage = null;
 
 const options = ['Cancel', "Banquet", "TV Room", "Lawn 1", "Lawn 2"]
 const options_banquet = ["Cancel","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"]  // 15-40 banquet limit 
@@ -91,8 +90,15 @@ class Page_Instructions extends Component {
             .then((responseJSON) => {
                  console.log(responseJSON)
                  if(responseJSON.response == "Done"){
-                     Alert.alert("Reservation Submitted")
-                     this.props.navigation.goBack()
+                     Alert.alert(
+                        'Reservation Submitted',
+                        '',
+                        [{
+                                text: 'OK',
+                                style: 'cancel',
+                                onPress: () => {goBackUsage.goBack()}
+                        }],
+                    );
                  } else {
                      Alert.alert("Error, try again!")
                  }
@@ -101,7 +107,6 @@ class Page_Instructions extends Component {
         }
 
         add_res_server(r_data)
-
 
     }
 
@@ -540,6 +545,7 @@ export default class Menu extends Component {
             menuItem = navigation.getParam('menuItem');
             menu[menuItem.Name] = {name: menuItem.Name, price: menuItem.Price, category: menuItem.Category}
         }
+        goBackUsage = this.props.navigation;
 
         return (
             <ImageBackground source={require('../../BG_3.png')} style={{flex: 1}}>

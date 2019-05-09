@@ -102,7 +102,6 @@ class Member_Comp extends Component {
                 })
         }
         Authenticate(data)
-    
     }
     
     render() {

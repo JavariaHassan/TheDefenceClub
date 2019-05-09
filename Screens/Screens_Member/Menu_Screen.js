@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {Button, Keyboard, Platform, Dimensions, StyleSheet, Text, TextInput, View, Image, ImageBackground, TouchableOpacity, ScrollView, Alert, BackHandler} from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import {NavigationEvents} from 'react-navigation';
 
@@ -18,6 +18,7 @@ export default class Menu extends Component {
                         fooditem: 0,    
                     };
     }
+
 
     componentDidMount(){
         return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
