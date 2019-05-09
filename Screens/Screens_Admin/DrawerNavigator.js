@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
 import {createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
 import { NavigationActions, StackActions } from 'react-navigation'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Home_Screen from './HomeScreen.js';
 import Account_Screen from './Account.js'
@@ -52,7 +53,6 @@ export default class Drawer extends Component {
 
 
 const CustomeDrawerComponent = (props) => (
-	console.log("AAAAAAAH  ", nav2),
 	<SafeAreaView style = {{flex: 1}}>
 		<View style={{height: 150, backgroundColor: 'white', margin: 15, marginBottom: 50}}>
 			<Image source={require('./default_profile.png')} 
@@ -80,7 +80,9 @@ const CustomeDrawerComponent = (props) => (
 					  	},
 					  {
 							text: 'Logout', 
-							onPress: () => 
+							onPress: () => {
+								AsyncStorage.clear();
+								// AsyncStorage.removeItem('@login')
 								nav2.dispatch(StackActions.reset({
 									index: 0,
 									actions: [
@@ -89,6 +91,7 @@ const CustomeDrawerComponent = (props) => (
 										}),
 									],
 								}))
+							}
 					  },
 					],
 				);

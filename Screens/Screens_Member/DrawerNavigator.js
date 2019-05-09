@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {SafeAreaView, ScrollView, Image, View, Text, Alert} from 'react-native';
+<<<<<<< HEAD
 import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems, BackHandler} from 'react-navigation';
+=======
+import {DrawerNavigationItem, createDrawerNavigator, createStackNavigator, createAppContainer, DrawerItems} from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation'
+>>>>>>> 6d988a2f6266a4742ccfeb4dde513e31933f124e
 import {Dimensions} from 'react-native';
 
 import Home_Screen from './HomeScreen.js'
@@ -16,6 +21,8 @@ global.values = {
 	user : ""
 }
 
+nav2 = null
+
 export default class Drawer extends Component {
 	constructor(props) {
 		super(props)
@@ -25,6 +32,8 @@ export default class Drawer extends Component {
 
 		values.name = Nametosave
 		values.user = Usernametosave
+
+		nav2 = this.props.navigation
 
 		// this.props.navigation.navigate('Home', {Name: values.name, Username: values.user})
 	}
@@ -64,7 +73,38 @@ const CustomeDrawerComponent = (props) => (
 			 <Text style={{marginTop: 20}}> Member ID: {values.user} </Text>
 		</View>
 		<ScrollView>
-		<DrawerItems {...props} />
+		<DrawerItems {...props} 
+			onItemPress={(route) => {
+				console.log(route)
+				if (route.route.routeName !== "Logout") {
+				  	props.onItemPress(route);
+				  	return;
+				}
+				
+				Alert.alert(
+					'Are you sure you want to logout?',
+					'',
+					[
+						{
+							text: 'Cancel',
+							style: 'cancel',
+					  	},
+					  {
+							text: 'Logout', 
+							onPress: () => 
+								nav2.dispatch(StackActions.reset({
+									index: 0,
+									actions: [
+										NavigationActions.navigate({
+											routeName: 'Login',
+										}),
+									],
+								}))
+					  },
+					],
+				);
+			}}
+		/>
 		</ScrollView>
 	</SafeAreaView>
 )

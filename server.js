@@ -15,6 +15,30 @@ Date.prototype.yyyymmdd = function() {
            ].join('-');
 };
 
+setInterval(function(){
+    var reservationRef = db.collection('reservation_details').where('status', '==', "unconfirmed");
+    var AllReservations = reservationRef.get()
+        .then(snapshot => {
+            var d = new Date();
+            current_timestamp = d.getTime();
+            snapshot.forEach(doc => {
+                console.log(doc.data().timeSince + 86400000)
+                console.log(">")
+                console.log(current_timestamp)
+                if(doc.data().timeSince + 86400000 < current_timestamp){ 
+                    console.log("rejecting status ", doc.id)
+                    var rnum_ref = db.collection("reservation_details").doc(doc.id);
+                    return rnum_ref.update({
+                        status : "rejected"
+                    })
+                } 
+            });
+        })
+        .catch(err => {
+            console.log('Error getting documents', err);
+        });
+},3600000);
+
 
 
 var admin = require("firebase-admin");
@@ -163,7 +187,7 @@ app.post('/deleteReservation', function(req, res){
                 timestamp : doc.data().timestamp,
                 timeSince : doc.data().timeSince,
                 venue : doc.data().venue,
-                status : 'removed'
+                status : 'rejected'
             }
 
             var setDoc = db.collection('reservation_details').doc(ID).set(new_data);
@@ -610,13 +634,22 @@ app.get('/get_confirmed_reservations', function (req, res) {
 app.get('/get_unconfirmed_reservations', function (req, res) {
 
     console.log("Unconfirmed reservations")
+
     var reservationRef = db.collection('reservation_details').where('status', '==', "unconfirmed");
     var AllReservations = reservationRef.get()
         .then(snapshot => {
             new_data = []
             x = 0
+            var d = new Date();
+            current_timestamp = d.getTime();
+           
+            
             snapshot.forEach(doc => {
-                new_data[x] =
+                console.log(doc.data().timeSince + 123)
+                console.log(">")
+                console.log(current_timestamp)
+                if(doc.data().timeSince + 86400000 > current_timestamp){
+                    new_data[x] =
                     {
                         member_id: doc.data().member_id,
                         reservation_id: doc.data().reservation_id,
@@ -632,7 +665,15 @@ app.get('/get_unconfirmed_reservations', function (req, res) {
 
                     }
                 x += 1
-
+                }
+                else{    
+                    console.log("rejecting status ", doc.id)
+                    var rnum_ref = db.collection("reservation_details").doc(doc.id);
+                    return rnum_ref.update({
+                        status : "rejected"
+                    })
+                }
+                
             });
             res.send(JSON.stringify(new_data));
         })
