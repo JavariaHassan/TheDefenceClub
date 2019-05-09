@@ -96,7 +96,10 @@ export default class LoginScreen extends Component {
             <ImageBackground source={require('../BG_1.png')} style={styles.container}>
                <View style={styles.backbox}>
                     
-                        <TextInput 
+                        <TextInput
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                            maxLength={50}
                             style={[styles.input, {borderColor: this.state.Check_old}]}
                             placeholder = "Old password"
                             placeholderTextColor = 'black'
@@ -104,6 +107,9 @@ export default class LoginScreen extends Component {
                         />
 
                         <TextInput
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                            maxLength={50}
                             style={[styles.input, {borderColor: this.state.Check_new}]}
                             placeholder= "New Password"
                             placeholderTextColor = 'black'
@@ -111,6 +117,9 @@ export default class LoginScreen extends Component {
                         />
 
                         <TextInput
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                            maxLength={50}
                             style={[styles.input, {borderColor: this.state.Check_confirm}]}
                             placeholder = "Confirm New Password"
                             placeholderTextColor = 'black'

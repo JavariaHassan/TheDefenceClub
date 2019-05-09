@@ -37,7 +37,7 @@ export default class Menu extends Component {
             .then((responseJSON) => {
                 // Alert.alert("Reservation has been confirmed")
                 Alert.alert(
-                    'Reservation has been confirmeds',
+                    'Reservation has been confirmed',
                     '',
                     [
                     {

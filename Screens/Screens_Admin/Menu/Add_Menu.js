@@ -13,6 +13,10 @@ export default class AddMenu extends Component {
         this.state = { Name: '',
                        Price: '',
                        Category: 'Category',
+                       Falsify: '',
+                       Check_Name: '#D9D8D9',
+                       Check_Price: '#D9D8D9',
+                       Check_Category: '#D9D8D9',
                      };
     }
 
@@ -21,6 +25,29 @@ export default class AddMenu extends Component {
     };
      
     onPress = () => {
+        if (this.state.Name == '' || this.state.Price == '' || this.state.Category == 'Category')
+        {
+            this.setState({Falsify: 'Please Fill Out All Required Fields'})
+            if (this.state.Name == '') {
+                this.setState({Check_Name: 'red'})
+            } else {
+                this.setState({Check_Name: '#D9D8D9'})
+            }
+            if (this.state.Price == '') {
+                this.setState({Check_Price: 'red'})
+            } else {
+                this.setState({Check_Price: '#D9D8D9'})
+            }
+            if (this.state.Category == 'Category') {
+                this.setState({Check_Category: 'red'})
+            } else {
+                this.setState({Check_Category: '#D9D8D9'})
+            }
+            return
+
+        }
+        this.setState({Check_Name: '#D9D8D9', Check_Price: '#D9D8D9', Check_Category: '#D9D8D9', Falsify: ''})
+        
         const data = {
             Name : this.state.Name,
             Price : this.state.Price,
@@ -83,7 +110,7 @@ export default class AddMenu extends Component {
 
                     {
                         Platform.OS == 'ios' ?
-                            <View style={styles.input}>
+                            <View style={[styles.input, {borderColor: this.state.Check_Category}]}>
                                 <Text
                                     onPress={() => this.onClick()}>
                                     {this.state.Category}
@@ -91,7 +118,7 @@ export default class AddMenu extends Component {
                             </View>
                         
                         :  
-                            <View style={styles.input2}>
+                            <View style={[styles.input2, {borderColor: this.state.Check_Category}]}>
                                 <Picker
                                         selectedValue={this.state.Category}
                                         onValueChange={(itemValue, itemIndex) => this.setState({Category: itemValue})}
@@ -102,16 +129,18 @@ export default class AddMenu extends Component {
                     }
 
                     <TextInput
+                        maxLength={50}
                         placeholder="Name"
                         placeholderTextColor="black"
-                        style={styles.input}
+                        style={[styles.input, {borderColor: this.state.Check_Name}]}
                         onChangeText={(Name) => this.setState({Name})}
                     />
 
                     <TextInput
+                        maxLength={10}
                         placeholder="Price"
                         placeholderTextColor="black"
-                        style={styles.input}
+                        style={[styles.input, {borderColor: this.state.Check_Price}]}
                         onChangeText={(Price) => this.setState({Price})}
                     />
                     
@@ -121,6 +150,10 @@ export default class AddMenu extends Component {
                     >
                         <Text style={{color: 'white', fontSize: 0.04*width, fontFamily: "Calibri", fontWeight: "bold"}}> CONFIRM </Text>
                     </TouchableOpacity>
+
+                    {this.state.Falsify != "" ?
+                    <Text style={styles.invalid}> {this.state.Falsify} </Text>
+                    : <Text style={[styles.invalid, {color: 'rgba(255,255, 255,0)'}]}>Valid</Text>}
     
                 </View>
             </ImageBackground>
@@ -152,7 +185,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0.02*height,
         borderRadius: 10,
         marginBottom: 0.06*width,
-        borderColor: "#D9D8D9",
         borderWidth: 1,
         justifyContent: 'center',
     },
@@ -167,7 +199,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0.01*height,
         borderRadius: 10,
         marginBottom: 0.06*width,
-        borderColor: "#D9D8D9",
         borderWidth: 1,
         justifyContent: 'center',
     },
@@ -183,5 +214,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    invalid: {
+        fontFamily: "Calibri",
+        color: 'red',
+        width: 0.65*width,
+        fontSize: 0.035*width,
+        paddingHorizontal: 0.01*height,
+        marginTop: 0.02*width,
     },
 });

@@ -110,6 +110,7 @@ class Member_Comp extends Component {
             <View style={styles.backbox_Admin}>
 
                 <TextInput
+                    maxLength={50}
                     placeholder="Name"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Name}]}
@@ -117,6 +118,7 @@ class Member_Comp extends Component {
                 />
 
                 <TextInput
+                    maxLength={50}
                     placeholder="Member ID"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ID}]}
@@ -124,6 +126,7 @@ class Member_Comp extends Component {
                 />
 
                 <TextInput
+                    maxLength={50}
                     placeholder="Email"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Email}]}
@@ -131,6 +134,9 @@ class Member_Comp extends Component {
                 />
 
                 <TextInput
+                    secureTextEntry={true}
+                    autoCorrect={false}
+                    maxLength={50}
                     placeholder="Password"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Password}]}
@@ -138,6 +144,9 @@ class Member_Comp extends Component {
                 />
 
                 <TextInput
+                    secureTextEntry={true}
+                    autoCorrect={false}
+                    maxLength={50}
                     placeholder="Confirm Password"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ConfirmPass}]}
@@ -260,6 +269,7 @@ class Admin_Comp extends Component {
             <View style={styles.backbox_Admin}>
 
                 <TextInput
+                    maxLength={50}
                     placeholder="Name"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Name}]}
@@ -267,6 +277,7 @@ class Admin_Comp extends Component {
                 />
 
                 <TextInput
+                    maxLength={50}
                     placeholder="Admin ID"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ID}]}
@@ -274,6 +285,7 @@ class Admin_Comp extends Component {
                 />
 
                 <TextInput
+                    maxLength={50}
                     placeholder="Email"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Email}]}
@@ -281,6 +293,9 @@ class Admin_Comp extends Component {
                 />
 
                 <TextInput
+                    secureTextEntry={true}
+                    autoCorrect={false}
+                    maxLength={50}
                     placeholder="Password"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Password}]}
@@ -288,6 +303,9 @@ class Admin_Comp extends Component {
                 />
 
                 <TextInput
+                    secureTextEntry={true}
+                    autoCorrect={false}
+                    maxLength={50}
                     placeholder="Confirm Password"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ConfirmPass}]}
