@@ -69,20 +69,15 @@ export default class HomeScreen extends Component {
                         </View>
                         <Image style={styles.image} source={require('../BG_2.jpg')} />
 
-                        <Text style={styles.welcome}> WELCOME {values.name}! </Text>
-
-                        <View style={{marginTop: 0.03*width}}>
+                        <View style={styles.welcome}>
+                            <Text style={styles.welcome_text}> WELCOME {values.name.toUpperCase()}! </Text>
+                        </View>
+                        
+                        <View style={{position:  "absolute", bottom: 0.15*height}}>
                             <Text style={styles.question}>
                                     WHAT BOOKING WOULD YOU LIKE TO {"\n"}
                                     MAKE TODAY?
                             </Text>
-
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={this.onPress}
-                            >
-                                <Text style={{color: 'white', fontSize: 0.035*width}}> Make a Reservation </Text>
-                            </TouchableOpacity>
                         </View>
 
                     </ScrollView>
@@ -129,13 +124,10 @@ const styles = StyleSheet.create({
         height: 0.7*width,
     },
     welcome: {
-        fontFamily: 'Calibri',
-        fontWeight: 'bold',
         borderColor:'grey',
         borderBottomWidth: 2,
         borderRightWidth: 2,
         backgroundColor: 'white',
-        fontSize: 0.07*width,
         color: '#23186A',
         width: 0.9*width,
         height: 0.25*width,
@@ -143,6 +135,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRadius: 15,
         transform: [{translateY: -0.05*width}],
+    },
+    welcome_text: {
+        fontFamily: 'Calibri',
+        fontWeight: 'bold',
+        fontSize: 0.07*width,
+        color: '#23186A',
+        width: 0.9*width,
+        height: 0.25*width,
+        lineHeight: 0.25*width,
+        textAlign: 'center',
     },
     bottom: {
         width: width,

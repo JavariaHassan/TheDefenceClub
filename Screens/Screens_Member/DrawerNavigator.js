@@ -61,12 +61,12 @@ export default class Drawer extends Component {
 
 const CustomeDrawerComponent = (props) => (
 	<SafeAreaView style = {{flex: 1}}>
-		<View style={{height: 150, backgroundColor: 'white', margin: 15, marginBottom: 50}}>
-			<Image source={require('./default_profile.png')} 
-			 style={{height: 100, width: 100, borderRadius: 50}}
+		<View style={{padding: 10, paddingTop: 0.05*height, paddingBottom: 0.05*height}}>
+			<Image source={require('../logo.png')} 
+			 style={{height: 0.12*height, width: 0.1*height}}
 			 />
-			 <Text style={{marginTop: 20}}> {values.name} </Text>
-			 <Text style={{marginTop: 20}}> Member ID: {values.user} </Text>
+			 <Text style={{marginLeft: 0.01*height, marginTop: 20, fontWeight: 'bold'}}> {values.name} </Text>
+			 <Text style={{marginLeft: 0.01*height, marginTop: 8}}> Member ID: {values.user} </Text>
 		</View>
 		<ScrollView>
 		<DrawerItems {...props} 
@@ -199,8 +199,8 @@ const MainNavigator = createDrawerNavigator({
    			labelStyle: {
 				fontWeight: 'normal',
 			},
-			activeTintColor: '#23186A',
-			activeBackgroundColor: 'rgba(35, 24, 106, 0.15)',
+			activeTintColor: 'white',
+			activeBackgroundColor: '#23186A',
 			inactiveBackgroundColor: 'transparent',
 		},
 });
