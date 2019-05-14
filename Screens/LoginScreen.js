@@ -9,8 +9,8 @@ export default class LoginScreen extends Component {
     
     constructor(props) {
         super(props);
-        this.state = { Username: 'username',
-                       Password: 'password',
+        this.state = { Username: '',
+                       Password: '',
                        invalid: 0,
                        length:  new Animated.Value(0.5*width),
                        borderRadius:  new Animated.Value(10),
@@ -63,6 +63,12 @@ export default class LoginScreen extends Component {
     
     onPress = () => {
         Keyboard.dismiss();
+
+        if (this.state.Username == '' || this.state.Password ==  '') {
+            this.setState({invalid: 1})
+            return
+        }
+
         this.signinAnimation()
 
         const data = {
