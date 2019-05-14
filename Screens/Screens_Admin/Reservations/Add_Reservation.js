@@ -24,7 +24,7 @@ var nav;
 var memberID = null; // send this
 var venue = 'Banquet'; // send this
 var timing = 0; 
-var guestnumber = 1; // send this
+var guestnumber = 15; // send this
 var date = null; // send this
 var disabled_global  = {}
 var instructions_global = "" // send this
