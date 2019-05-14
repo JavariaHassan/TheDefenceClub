@@ -45,6 +45,10 @@ class Page_Instructions extends Component {
     }
 
     submit = () => {
+        if (memberID == null || date == null || JSON.stringify(menu) == "{}") {
+            this.submitalert2()
+            return
+        }
         if(timing ==0){
             start_time = "09:00"
             end_time = "11:30"
@@ -99,7 +103,10 @@ class Page_Instructions extends Component {
                         }],
                     );
                  } else {
-                     Alert.alert("Error, try again!")
+                    Alert.alert(
+                        'Error!',
+                        'Your Member ID is invalid. Please recheck and try again'
+                    );
                  }
 
                 })
@@ -110,10 +117,35 @@ class Page_Instructions extends Component {
 
     }
 
+    submitalert2 = () => {
+        var message = 'Missing Fields:'
+        if (memberID == null) {
+            message +=  ' Member ID'
+            if (date == null) {
+                message +=  ', Date'
+                if (JSON.stringify(menu) == "{}") {
+                    message +=  ', Menu'
+                }
+            }
+        } else if (date == null) {
+            message +=  ' Date'
+            if (JSON.stringify(menu) == "{}") {
+                message +=  ', Menu'
+            }
+        } else if (JSON.stringify(menu) == "{}") {
+            message +=  ' Menu'
+        }
+
+        Alert.alert(
+            'Make sure you have filled out all required fields',
+            message
+        );
+    }
+
     submitalert = () => {
         Alert.alert(
             'Confirm Reservation',
-            'You won\'t be able to make later changes after confirming your reservation',
+            'You won\'t be able to make changes after confirming your reservation',
             [
               {text: 'Cancel', style: 'cancel',
               },
@@ -457,9 +489,6 @@ class Page_Calendar extends Component {
         this.state = {};
         this.onDayPress = this.onDayPress.bind(this)
         this.disabledDates = {}
-
-        
-
     };
 
     onDayPress(day) {

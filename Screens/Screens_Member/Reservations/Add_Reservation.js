@@ -45,6 +45,10 @@ class Page_Instructions extends Component {
     }
 
     submit = () => {
+        if (date == null || JSON.stringify(menu) == "{}") {
+            this.submitalert2()
+            return
+        }
         if(timing ==0){
             start_time = "09:00"
             end_time = "11:30"
@@ -110,10 +114,27 @@ class Page_Instructions extends Component {
 
     }
 
+    submitalert2 = () => {
+        var message = 'Missing Fields:'
+        if (date == null) {
+            message +=  ' Date'
+            if (JSON.stringify(menu) == "{}") {
+                message +=  ', Menu'
+            }
+        } else if (JSON.stringify(menu) == "{}") {
+            message +=  ' Menu'
+        }
+
+        Alert.alert(
+            'Make sure you have filled out all required fields',
+            message
+        );
+    }
+
     submitalert = () => {
         Alert.alert(
             'Confirm Reservation',
-            'You won\'t be able to make later changes after confirming your reservation',
+            'You won\'t be able to make changes after confirming your reservation',
             [
               {text: 'Cancel', style: 'cancel',
               },
