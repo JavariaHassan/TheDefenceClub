@@ -77,7 +77,7 @@ export default class LoginScreen extends Component {
           }
         
         Authenticate = async (data) => {
-            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/login', {
+            return fetch ('https://whispering-savannah-21440.herokuapp.com/login', {
               method : 'post', 
               headers : {
                 Accept: 'application/json',
@@ -120,6 +120,12 @@ export default class LoginScreen extends Component {
                     this.signoutAnimation()
                 }
                 })
+                .catch((error) =>{
+                    Alert.alert("Please check your internet connection")
+                    // this.forceUpdate()
+                    // this.setState({invalid: 1})
+                    this.signoutAnimation()
+                });
         }
         Authenticate(data).catch(alert => {this.signoutAnimation()});
     }
