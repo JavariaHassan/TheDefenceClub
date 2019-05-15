@@ -83,6 +83,12 @@ export default class LoginScreen extends Component {
                         'Success',
                         'Your password has been changed'
                     )
+                    this.setState({
+                        oldPassword: '',
+                        newPassword: '',
+                        ConfirmNewPass: ''
+                    })
+                    this.forceUpdate()
                 } else if (responseJSON.response == "OldIdPass_invalid") {
                     Alert.alert("Your old password is incorrect")
                     this.setState({Falsify: ''})
@@ -108,6 +114,7 @@ export default class LoginScreen extends Component {
                             placeholder = "Old password"
                             placeholderTextColor = 'black'
                             onChangeText={(oldPassword) => this.setState({oldPassword})}
+                            value = {this.state.oldPassword}
                         />
 
                         <TextInput
@@ -118,6 +125,7 @@ export default class LoginScreen extends Component {
                             placeholder= "New Password"
                             placeholderTextColor = 'black'
                             onChangeText={(newPassword) => this.setState({newPassword})}
+                            value = {this.state.newPassword}
                         />
 
                         <TextInput
@@ -128,6 +136,7 @@ export default class LoginScreen extends Component {
                             placeholder = "Confirm New Password"
                             placeholderTextColor = 'black'
                             onChangeText={(ConfirmNewPass) => this.setState({ConfirmNewPass})}
+                            value = {this.state.ConfirmNewPass}
                         />
 
                         <TouchableOpacity
