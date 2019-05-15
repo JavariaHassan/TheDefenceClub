@@ -335,13 +335,19 @@ app.post('/get_dates', function (req, res){ // return the available dates for a 
 app.post('/add_admin', function(req, res){
     console.log("add admin")
     data = req.body
-    // console.log(data)
-    data.Admin = 1
-    var setDoc = db.collection('user_login').doc(data.ID).set(data);
-    new_data = {
-        response : "Done"
-    }
-    res.send(JSON.stringify(new_data))   
+    var login = db.collection('user_login').doc(data.ID);
+    var getDoc = login.get()
+        .then(doc => {
+            res.send(JSON.stringify({response : "Not Done"}))
+        })
+        .catch(err => {
+            data.Admin = 1
+            var setDoc = db.collection('user_login').doc(data.ID).set(data); 
+            new_data = {
+                response : "Done"
+            }
+            res.send(JSON.stringify(new_data))     
+        });   
 })
 
 app.post('/add_menu', function(req, res){
@@ -360,12 +366,19 @@ app.post('/add_menu', function(req, res){
 app.post('/add_member', function(req, res){
     console.log("add member")
     data = req.body
-    data.Admin = 0
-    var setDoc = db.collection('user_login').doc(data.ID).set(data); 
-    new_data = {
-        response : "Done"
-    }
-    res.send(JSON.stringify(new_data))     
+    var login = db.collection('user_login').doc(data.ID);
+    var getDoc = login.get()
+        .then(doc => {
+            res.send(JSON.stringify({response : "Not Done"}))
+        })
+        .catch(err => {
+            data.Admin = 0
+            var setDoc = db.collection('user_login').doc(data.ID).set(data); 
+            new_data = {
+                response : "Done"
+            }
+            res.send(JSON.stringify(new_data))     
+        });
 })
 
 

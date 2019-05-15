@@ -95,6 +95,9 @@ class Member_Comp extends Component {
                 body : JSON.stringify(data)
             }).then((response) => response.json())
             .then((responseJSON) => {
+                if (responseJSON.response == "Not Done"){
+                    Alert.alert("This ID already exists")
+                }
                 if (responseJSON.response == "Done"){
                     Alert.alert("Member added")
                     // this.setState({invalid: 0})
@@ -255,6 +258,9 @@ class Admin_Comp extends Component {
                 body : JSON.stringify(data)
             }).then((response) => response.json())
             .then((responseJSON) => {
+                if (responseJSON.response == "Not Done"){
+                    Alert.alert("This ID already exists")
+                }
                 if (responseJSON.response == "Done"){
                     Alert.alert("Admin added")
                     // this.setState({invalid: 0})
