@@ -37,8 +37,8 @@ export default class Menu extends Component {
            
           })
           .catch((error) =>{
-            console.error(error);
-            Alert.alert("No data received")
+            // console.error(error);
+            Alert.alert("Please check your internet connection")
           });
       }
 
@@ -115,8 +115,8 @@ export default class Menu extends Component {
                     
                     })
                     .catch((error) =>{
-                        console.error(error);
-                        Alert.alert("No data received")
+                        // console.error(error);
+                        Alert.alert("Please check your internet connection")
                     });
                 }
 
@@ -164,7 +164,9 @@ export default class Menu extends Component {
 
             <View style={styles.container}>
                 <View style={styles.backbox}>
-                    <NavigationEvents onDidFocus={(() => fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+                    
+                    <NavigationEvents onDidFocus={(() => 
+                        fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
                         .then((response) => response.json())
                         .then((responseJson) => {
                             console.log(responseJson);
@@ -174,8 +176,8 @@ export default class Menu extends Component {
                             });
                         })
                         .catch((error) => {
-                            console.error(error);
-                            Alert.alert("No data received");
+                            // console.error(error);
+                            Alert.alert("Please check your internet connection");
                         }))
                     }
                 

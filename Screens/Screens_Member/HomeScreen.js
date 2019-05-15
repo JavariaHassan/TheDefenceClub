@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert, BackHandler} from 'react-native';
+import {Platform, StyleSheet, Dimensions, Text, View, Button, Image, TouchableOpacity, ScrollView, ImageBackground, Alert, BackHandler, NetInfo} from 'react-native';
 import {NavigationEvents} from 'react-navigation';
 
 var width = Dimensions.get('window').width;
 var height = Dimensions.get('window').height;
 global.screen_name = ""
+global.online_status = 1
 
 export default class HomeScreen extends Component {
 
@@ -20,7 +21,28 @@ export default class HomeScreen extends Component {
     //     return true;
     //   }
 
+    
+   _handleConnectivityChange = (isConnected) => { 
+    if(isConnected == true)
+      {
+          Alert.alert("Connected")
+          online_status = 1
+      }
+      else
+      {
+        online_status = 0        
+        Alert.alert("You are disconnected, Please check your internet connection")
+      }
+  };
+
     componentWillMount(){
+
+        NetInfo.isConnected.addEventListener(
+            'connectionChange',
+            this._handleConnectivityChange
+     
+        );
+
         BackHandler.addEventListener('hardwareBackPress',function(){
             // Alert.alert(screen_name)
             if (screen_name == "main"){
@@ -30,9 +52,13 @@ export default class HomeScreen extends Component {
         })
     }
 
-    // componentWillUnmount() {
-    //     BackHandler.remove()
-    //   }
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener(
+            'connectionChange',
+            this._handleConnectivityChange
+     
+        );
+    }
 
     static navigationOptions = ({navigation}) => ({
         title: 'Home',
