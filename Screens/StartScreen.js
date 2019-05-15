@@ -68,7 +68,7 @@ export default class LoginScreen extends Component {
                 this.props.navigation.navigate('Login')
               }  
             } catch(e) {
-                Alert.alert("Error")  
+                // Alert.alert("Error")  
               // error reading value
                 this.props.navigation.navigate('Login')
             }
