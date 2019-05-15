@@ -30,6 +30,12 @@ class Member_Comp extends Component {
         title: "Add Member",
     };
     
+
+    textchanged (event) {
+        Alert.alert("hello")
+        event.preventDefault()
+    }
+
     onPress = () => {
         if (this.state.Name == '' || this.state.ID == '' || this.state.Email == ''|| this.state.Password == ''|| this.state.ConfirmPass == '' )
         {
@@ -99,6 +105,20 @@ class Member_Comp extends Component {
                     Alert.alert("This ID already exists")
                 }
                 if (responseJSON.response == "Done"){
+                    this.setState({
+                        Name : "",
+                        ID: '',
+                        Email: '',
+                        Password: '',
+                        ConfirmPass: '', 
+                        Falsify: '',
+                        Check_Name: '#D9D8D9',
+                        Check_ID: '#D9D8D9',
+                        Check_Email: '#D9D8D9',
+                        Check_Password: '#D9D8D9',
+                        Check_ConfirmPass: '#D9D8D9'
+                    })
+                    this.forceUpdate()
                     Alert.alert("Member added")
                     // this.setState({invalid: 0})
                     //     this.props.navigation.navigate('DrawerNavigator')
@@ -120,7 +140,8 @@ class Member_Comp extends Component {
                     placeholder="Name"
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Name}]}
-                    onChangeText={(Name) => this.setState({Name})}
+                    onChangeText={(Name) => {this.setState({Name})}}
+                    value = {this.state.Name}
                 />
 
                 <TextInput
@@ -129,6 +150,7 @@ class Member_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ID}]}
                     onChangeText={(ID) => this.setState({ID})}
+                    value = {this.state.ID}
                 />
 
                 <TextInput
@@ -137,6 +159,7 @@ class Member_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Email}]}
                     onChangeText={(Email) => this.setState({Email})}
+                    value = {this.state.Email}
                 />
 
                 <TextInput
@@ -147,6 +170,7 @@ class Member_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Password}]}
                     onChangeText={(Password) => this.setState({Password})}
+                    value = {this.state.Password}
                 />
 
                 <TextInput
@@ -157,6 +181,7 @@ class Member_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ConfirmPass}]}
                     onChangeText={(ConfirmPass) => this.setState({ConfirmPass})}
+                    value = {this.state.ConfirmPass}
                 />
         
                 <TouchableOpacity
@@ -263,6 +288,20 @@ class Admin_Comp extends Component {
                 }
                 if (responseJSON.response == "Done"){
                     Alert.alert("Admin added")
+                    this.setState({
+                        Name : '',
+                        ID: '',
+                        Email: '',
+                        Password: '',
+                        ConfirmPass: '', 
+                        Falsify: '',
+                        Check_Name: '#D9D8D9',
+                        Check_ID: '#D9D8D9',
+                        Check_Email: '#D9D8D9',
+                        Check_Password: '#D9D8D9',
+                        Check_ConfirmPass: '#D9D8D9'
+                    })
+                    this.forceUpdate()
                     // this.setState({invalid: 0})
                     //     this.props.navigation.navigate('DrawerNavigator')
                 }else{
@@ -286,6 +325,7 @@ class Admin_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Name}]}
                     onChangeText={(Name) => this.setState({Name})}
+                    value = {this.state.Name}
                 />
 
                 <TextInput
@@ -294,6 +334,7 @@ class Admin_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ID}]}
                     onChangeText={(ID) => this.setState({ID})}
+                    value = {this.state.ID}
                 />
 
                 <TextInput
@@ -302,6 +343,7 @@ class Admin_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Email}]}
                     onChangeText={(Email) => this.setState({Email})}
+                    value = {this.state.Email}
                 />
 
                 <TextInput
@@ -312,6 +354,7 @@ class Admin_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_Password}]}
                     onChangeText={(Password) => this.setState({Password})}
+                    value = {this.state.Password}
                 />
 
                 <TextInput
@@ -322,6 +365,7 @@ class Admin_Comp extends Component {
                     placeholderTextColor="black"
                     style={[styles.input, {borderColor: this.state.Check_ConfirmPass}]}
                     onChangeText={(ConfirmPass) => this.setState({ConfirmPass})}
+                    value = {this.state.ConfirmPass}
                 />
         
                 <TouchableOpacity

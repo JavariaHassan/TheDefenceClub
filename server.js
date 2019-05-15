@@ -338,16 +338,19 @@ app.post('/add_admin', function(req, res){
     var login = db.collection('user_login').doc(data.ID);
     var getDoc = login.get()
         .then(doc => {
-            res.send(JSON.stringify({response : "Not Done"}))
-        })
-        .catch(err => {
-            data.Admin = 1
-            var setDoc = db.collection('user_login').doc(data.ID).set(data); 
-            new_data = {
-                response : "Done"
+            if (!doc.exists){
+                data.Admin = 1
+                var setDoc = db.collection('user_login').doc(data.ID).set(data); 
+                new_data = {
+                    response : "Done"
+                }
+                res.send(JSON.stringify(new_data))
             }
-            res.send(JSON.stringify(new_data))     
-        });   
+            else{
+                console.log(doc.data())
+                res.send(JSON.stringify({response : "Not Done"}))
+            }
+        })
 })
 
 app.post('/add_menu', function(req, res){
@@ -369,16 +372,19 @@ app.post('/add_member', function(req, res){
     var login = db.collection('user_login').doc(data.ID);
     var getDoc = login.get()
         .then(doc => {
-            res.send(JSON.stringify({response : "Not Done"}))
-        })
-        .catch(err => {
-            data.Admin = 0
-            var setDoc = db.collection('user_login').doc(data.ID).set(data); 
-            new_data = {
-                response : "Done"
+            if (!doc.exists){
+                data.Admin = 0
+                var setDoc = db.collection('user_login').doc(data.ID).set(data); 
+                new_data = {
+                    response : "Done"
+                }
+                res.send(JSON.stringify(new_data))
             }
-            res.send(JSON.stringify(new_data))     
-        });
+            else{
+                console.log(doc.data())
+                res.send(JSON.stringify({response : "Not Done"}))
+            }
+        })
 })
 
 
