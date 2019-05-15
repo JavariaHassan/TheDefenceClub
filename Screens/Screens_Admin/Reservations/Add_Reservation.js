@@ -3,6 +3,7 @@ import {FlatList, Button, Keyboard, Platform, Dimensions, StyleSheet, Text, Text
 import {NavigationEvents} from 'react-navigation';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import {KeyboardAvoidingView} from 'react-native';
 
 
 var width = Dimensions.get('window').width;
@@ -184,6 +185,7 @@ class Page_Instructions extends Component {
                     <Text style={styles.title}> Enter Any Additional Instructions </Text>
 
                     <View style={{width: 0.9*width}}>
+                        
                         <View style={{width: 0.9*width, alignItems: 'center', paddingBottom: 0.2*width, marginBottom: 0.2*width, marginTop: 0.02*width}}>
                         <TextInput
                             style={{paddingTop: 0.05*width, padding: 0.05*width, width: 0.7*width, height: 0.35*height, color: 'black', fontSize: 0.04*width, borderWidth: 1, borderRadius: 5, borderColor:'#D6D6D6'}}

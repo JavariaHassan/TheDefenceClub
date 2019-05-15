@@ -46,6 +46,17 @@ export default class AddMenu extends Component {
             return
 
         }
+
+        var isnum = /^\d+$/.test(this.state.Price);
+
+        if(isnum == false)
+        {
+            this.setState({Falsify: 'Invalid Price, can be digits only'})
+            this.setState({Check_Price: 'red'})
+            return
+        }
+
+
         this.setState({Check_Name: '#D9D8D9', Check_Price: '#D9D8D9', Check_Category: '#D9D8D9', Falsify: ''})
         
         const data = {
