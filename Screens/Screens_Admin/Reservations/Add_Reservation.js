@@ -113,8 +113,17 @@ class Page_Instructions extends Component {
         }
 
         add_res_server(r_data)
-
-
+        
+        memberID = null; // send this
+        venue = 'Banquet'; // send this
+        timing = 0; 
+        guestnumber = 15; // send this
+        date = null; // send this
+        disabled_global  = {}
+        instructions_global = "" // send this
+        end_time = "" // send this
+        start_time = "" // send this
+        menu = {}; // send this
     }
 
     submitalert2 = () => {
