@@ -37,8 +37,8 @@ export default class Menu extends Component {
            
           })
           .catch((error) =>{
-            console.error(error);
-            Alert.alert("No data received")
+            // console.error(error);
+            Alert.alert("Please check your internet connection")
           });
       }
 
@@ -115,8 +115,8 @@ export default class Menu extends Component {
                     
                     })
                     .catch((error) =>{
-                        console.error(error);
-                        Alert.alert("No data received")
+                        // console.error(error);
+                        Alert.alert("Please check your internet connection")
                     });
                 }
 
@@ -174,8 +174,8 @@ export default class Menu extends Component {
                             });
                         })
                         .catch((error) => {
-                            console.error(error);
-                            Alert.alert("No data received");
+                            // console.error(error);
+                            Alert.alert("Please check your internet connection");
                         }))
                     }
                 

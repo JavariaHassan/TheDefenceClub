@@ -108,7 +108,7 @@ export default class LoginScreen extends Component {
 
                          await AsyncStorage.setItem('@login', JSON.stringify(credentials))
 
-                          Alert.alert("login credentials saved in local storage")
+                        //   Alert.alert("login credentials saved in local storage")
                         } catch (e) {
                           // saving error
                         }

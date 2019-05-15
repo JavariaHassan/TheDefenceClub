@@ -18,27 +18,31 @@ export default class Menu extends Component {
                         fooditem: 0,    
                     };
         screen_name = ""
-        
     }
 
-
     componentDidMount(){
-        return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
-          .then((response) => response.json())
-          .then((responseJson) => {
-           console.log(responseJson);
 
-           MenuObj = responseJson;
+        if (online_status === 1){
+            return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
+                .then((response) => response.json())
+                .then((responseJson) => {
+                console.log(responseJson);
 
-           this.setState({
-              data : responseJson 
-           });
-           
-          })
-          .catch((error) =>{
-            console.error(error);
-            Alert.alert("No data received")
-          });
+                MenuObj = responseJson;
+
+                this.setState({
+                    data : responseJson 
+                });
+                
+                })
+                .catch((error) =>{
+                    Alert.alert("Please check your internet connection")
+                });
+        }
+        if (online_status === 0){
+            Alert.alert("Please check your internet connection")
+        }
+        
       }
 
     static navigationOptions = ({navigation}) => ({
@@ -69,70 +73,6 @@ export default class Menu extends Component {
         }  
     }
     
-    onPress = () => {
-        // remove api called 
-        var datatemp = {
-            Name : "",
-            Price : "",
-            Category : ""
-        }
-
-        for (let key in this.state.data) {
-            if (key === this.state.fooditem)
-            {
-                datatemp = {
-                    Name : this.state.data[key]["Name"],
-                    Price : this.state.data[key]["Price"],
-                    Category : this.state.data[key]["Category"]
-                }
-                break;
-            }
-        }
-
-        remove_menu_server = async (data) => {
-            response = await fetch ('https://whispering-savannah-21440.herokuapp.com/remove_menu', {
-              method : 'post', 
-              headers : {
-                Accept: 'application/json',
-                'Content-Type' : 'application/json'
-              }, 
-              body : JSON.stringify(data)
-            }).then((response) => response.json())
-
-            .then((responseJSON) => {
-                if (responseJSON.response == "Done"){
-                    Alert.alert("Menu Item Removed Successfully")
-                    // this.setState({invalid: 0})
-                    //     this.props.navigation.navigate('DrawerNavigator')
-                    return fetch('https://whispering-savannah-21440.herokuapp.com/get_menu')
-                    .then((response) => response.json())
-                    .then((responseJson) => {
-                    console.log(responseJson);
-
-                    MenuObj = responseJson;
-
-                    this.setState({
-                        data : responseJson 
-                    });
-                    
-                    })
-                    .catch((error) =>{
-                        console.error(error);
-                        Alert.alert("No data received")
-                    });
-                }
-
-                if (responseJSON.response == "Nokey"){
-                    Alert.alert("No item selected")
-                }
-                else{
-                    // this.setState({invalid: 1})
-                }
-                })
-
-        }
-        remove_menu_server(datatemp)
-    }
     
     render() {
 
@@ -164,8 +104,7 @@ export default class Menu extends Component {
                             });
                         })
                         .catch((error) => {
-                            console.error(error);
-                            Alert.alert("No data received");
+                            Alert.alert("Please check your internet connection");
                         }))
                     }
                 
