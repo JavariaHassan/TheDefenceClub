@@ -12,7 +12,7 @@ export default class AddMenu extends Component {
         super(props);
         this.state = { Name: '',
                        Price: '',
-                       Category: 'Category',
+                       Category: 'Continental',
                        Falsify: '',
                        Check_Name: '#D9D8D9',
                        Check_Price: '#D9D8D9',
