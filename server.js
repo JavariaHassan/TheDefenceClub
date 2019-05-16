@@ -132,6 +132,7 @@ app.post('/addReservation', function(req, res){
         } else {
             docFound = true
             r_number = doc.data().reservation
+
             r_number = r_number + 1
             r_data.reservation_id = r_number
             id_str = r_number.toString()
@@ -216,7 +217,8 @@ app.post('/change_password', function (req, res) {
                     ID: doc.data().ID,
                     Admin : doc.data().Admin,
                     Password: newPassword,
-                    Email: doc.data().Email, 
+                    Email: doc.data().Email,
+                    reservation : doc.data().reservation 
 
                 }
 
@@ -225,7 +227,8 @@ app.post('/change_password', function (req, res) {
                     {
                         response: "done"
                     }
-                res.send(JSON.stringify(new_data))
+                res.
+                send(JSON.stringify(new_data))
             }
             else {
                 new_data =
